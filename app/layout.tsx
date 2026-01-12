@@ -1,14 +1,14 @@
 import type React from "react"
 import type { Metadata } from "next"
-import { Geist, Geist_Mono } from "next/font/google"
+import { Inter, Noto_Sans_JP } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
 import "./globals.css"
 
-const _geist = Geist({ subsets: ["latin"] })
-const _geistMono = Geist_Mono({ subsets: ["latin"] })
+const inter = Inter({ subsets: ["latin"], weight: ["400", "700", "900"] })
+const notoSansJP = Noto_Sans_JP({ subsets: ["latin"], weight: ["400", "700", "900"] })
 
 export const metadata: Metadata = {
-  title: "Unimoa - Space",
+  title: "Unimoa - Space (React Refined)",
   description: "Team collaboration and project management",
   generator: "v0.app",
   icons: {
@@ -44,7 +44,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ja" data-theme="light">
-      <body className={`font-sans antialiased`}>
+      <body className={`${inter.className} ${notoSansJP.className} antialiased h-screen flex flex-col overflow-hidden text-gray-800`}>
         {children}
         <Analytics />
       </body>
