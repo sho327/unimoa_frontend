@@ -13,6 +13,29 @@ body {
   background-color: oklch(var(--b2));
 }
 
+/* Auth specific styles */
+.auth-card {
+  background-color: #ffffff;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 1.5rem;
+}
+
+.input-minimal {
+  border: 1.5px solid #e5e7eb;
+  background-color: #ffffff;
+  border-radius: 0.75rem;
+  padding: 0.75rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  transition: all 0.2s;
+  outline: none;
+}
+
+.input-minimal:focus {
+  border-color: oklch(var(--p));
+  box-shadow: 0 0 0 1px oklch(var(--p));
+}
+
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }

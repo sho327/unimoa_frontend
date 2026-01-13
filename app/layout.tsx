@@ -44,7 +44,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ja" data-theme="light">
-      <body className={`${inter.className} ${notoSansJP.className} antialiased h-screen flex flex-col overflow-hidden text-gray-800`}>
+      <body className={`${inter.className} ${notoSansJP.className} antialiased`}>
         {children}
         <Analytics />
       </body>
