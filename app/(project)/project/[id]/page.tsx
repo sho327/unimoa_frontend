@@ -4,17 +4,9 @@ import React, { useState } from 'react';
 import { useLayoutContext } from "@/components/layout/clientMainLayout"
 
 export default function ProjectPage() {
-    const { activeSpace, setActiveSpace, spaces } = useLayoutContext();
+    const { activeSpace } = useLayoutContext();
     const [subView, setSubView] = useState('tasks');
     const [isSearchOpen, setIsSearchOpen] = useState(false);
-
-    // ドロップダウンを閉じるための共通処理
-    const closeDropdown = () => {
-        if (typeof document !== 'undefined') {
-            const elem = document.activeElement as HTMLElement;
-            if (elem) elem.blur();
-        }
-    };
 
     const tabs = [
         { id: 'tasks', label: 'タスク一覧' },
@@ -74,26 +66,6 @@ export default function ProjectPage() {
                             <span>{subView} View Content</span>
                         </div>
                     </main>
-
-                    {/* スマホ用チーム切替（下部フローティング） */}
-                    <div className="md:hidden fixed bottom-6 left-1/2 -translate-x-1/2 w-[90%] max-w-[400px] z-[110]">
-                        <div className="bg-white/80 backdrop-blur-xl border border-white/50 rounded-xl shadow-xl p-2 flex items-center justify-between gap-4">
-                            <div className="flex items-center gap-3 px-3 py-1 flex-1 min-w-0">
-                                <div className="w-8 h-8 bg-primary text-white rounded-lg flex items-center justify-center font-black text-[10px] shrink-0">
-                                    {activeSpace.name.substring(0, 2)}
-                                </div>
-                                <span className="font-black text-xs text-gray-700 truncate">{activeSpace.name}</span>
-                            </div>
-                            <div className="dropdown dropdown-top dropdown-end">
-                                <button tabIndex={0} className="btn btn-ghost btn-sm text-[10px] font-black text-primary bg-primary/5 rounded-xl">チーム切替</button>
-                                <ul tabIndex={0} className="dropdown-content menu p-2 shadow-2xl bg-white border border-gray-100 rounded-xl w-56 mb-4 font-bold">
-                                    {spaces.map(s => (
-                                        <li key={s.id}><a onClick={() => { setActiveSpace(s); closeDropdown(); }}>{s.name}</a></li>
-                                    ))}
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
 
                 </div>
             </div>
