@@ -1,11 +1,13 @@
+import ClientMainLayout from "@/components/layout/clientMainLayout";
+
 export default function MainLayout({
     children,
 }: Readonly<{
     children: React.ReactNode
 }>) {
     return (
-        <div className="h-screen flex flex-col overflow-hidden text-gray-800">
+        <ClientMainLayout withSidebar={true}>
             {children}
-        </div>
+        </ClientMainLayout>
     )
 }
