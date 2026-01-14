@@ -1,7 +1,6 @@
 "use client"
 
-import { useState } from "react"
-import { useLayoutContext } from "@/components/layout/clientMainLayout"
+import { useAppStore } from "@/store"
 
 type Space = {
     id: string
@@ -18,18 +17,15 @@ type Project = {
 
 export default function Dashboard() {
     const {
-        sidebarExpanded,
-        mobileMenuOpen,
-        setMobileMenuOpen,
         activeSpace,
-        setActiveSpace,
-        spaces: globalSpaces
-    } = useLayoutContext();
+        activeTab: subView, // Zustandにあわせるが、コード内ではsubView変数名で扱う
+        searchOpen,
+        searchQuery,
+        setSearchOpen,
+        setSearchQuery
+    } = useAppStore();
 
-    const [subView, setSubView] = useState<"projects" | "calendar" | "members">("projects")
-    const [searchOpen, setSearchOpen] = useState(false)
-    const [searchQuery, setSearchQuery] = useState("")
-
+    // サンプルデータ（本来はAPI等から取得するが、ここではactiveSpace.idに基づいてフィルタリング等する想定）
     const localSpaces: Space[] = [
         {
             id: "s1",
@@ -46,106 +42,7 @@ export default function Dashboard() {
 
     return (
         <div className="flex flex-1 overflow-hidden relative h-full">
-            {/* モバイルメニューオーバーレイ */}
-            {mobileMenuOpen && (
-                <div onClick={() => setMobileMenuOpen(false)} className="fixed inset-0 bg-black/40 z-[110] md:hidden" />
-            )}
-
-            {/* サイドメニュー */}
-            <aside
-                className={`bg-white border-r border-gray-100 flex-col overflow-y-auto shadow-sm transition-all duration-300 z-[110] fixed left-0 h-full md:relative md:translate-x-0 md:shadow-none ${mobileMenuOpen ? "translate-x-0" : "-translate-x-full"
-                    } ${sidebarExpanded || mobileMenuOpen ? "w-64 px-3" : "md:w-[72px] md:items-center md:px-2"}`}
-            >
-                <div className="flex flex-col h-full py-6 md:py-5">
-                    <div className="flex-1 flex flex-col gap-1 w-full">
-                        <div className="w-full space-y-1 px-3 md:px-1">
-                            {(sidebarExpanded || mobileMenuOpen) && (
-                                <div className="text-[10px] font-black text-gray-400 uppercase tracking-widest px-3 mb-4 md:mb-3">
-                                    Menu
-                                </div>
-                            )}
-
-                            {/* プロジェクト */}
-                            <button
-                                onClick={() => {
-                                    setSubView("projects")
-                                    setMobileMenuOpen(false)
-                                }}
-                                className={`flex items-center gap-3 w-full p-2.5 rounded-xl transition-all ${subView === "projects"
-                                    ? "bg-[oklch(0.73_0.11_162)] text-white shadow-md shadow-[oklch(0.73_0.11_162)]/30"
-                                    : "text-gray-500 hover:bg-gray-50 hover:text-gray-900"
-                                    } ${!sidebarExpanded && !mobileMenuOpen ? "md:justify-center md:px-0" : ""}`}
-                            >
-                                <div className="w-6 h-6 flex items-center justify-center shrink-0">
-                                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path
-                                            d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"
-                                            strokeWidth="2"
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                        />
-                                    </svg>
-                                </div>
-                                {(sidebarExpanded || mobileMenuOpen) && (
-                                    <span className="font-bold text-sm whitespace-nowrap">プロジェクト</span>
-                                )}
-                            </button>
-
-                            {/* カレンダー */}
-                            <button
-                                onClick={() => {
-                                    setSubView("calendar")
-                                    setMobileMenuOpen(false)
-                                }}
-                                className={`flex items-center gap-3 w-full p-2.5 rounded-xl transition-all ${subView === "calendar"
-                                    ? "bg-[oklch(0.73_0.11_162)] text-white shadow-md shadow-[oklch(0.73_0.11_162)]/30"
-                                    : "text-gray-500 hover:bg-gray-50 hover:text-gray-900"
-                                    } ${!sidebarExpanded && !mobileMenuOpen ? "md:justify-center md:px-0" : ""}`}
-                            >
-                                <div className="w-6 h-6 flex items-center justify-center shrink-0">
-                                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path
-                                            d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
-                                            strokeWidth="2"
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                        />
-                                    </svg>
-                                </div>
-                                {(sidebarExpanded || mobileMenuOpen) && (
-                                    <span className="font-bold text-sm whitespace-nowrap">カレンダー</span>
-                                )}
-                            </button>
-
-                            {/* メンバー */}
-                            <button
-                                onClick={() => {
-                                    setSubView("members")
-                                    setMobileMenuOpen(false)
-                                }}
-                                className={`flex items-center gap-3 w-full p-2.5 rounded-xl transition-all ${subView === "members"
-                                    ? "bg-[oklch(0.73_0.11_162)] text-white shadow-md shadow-[oklch(0.73_0.11_162)]/30"
-                                    : "text-gray-500 hover:bg-gray-50 hover:text-gray-900"
-                                    } ${!sidebarExpanded && !mobileMenuOpen ? "md:justify-center md:px-0" : ""}`}
-                            >
-                                <div className="w-6 h-6 flex items-center justify-center shrink-0">
-                                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path
-                                            d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"
-                                            strokeWidth="2"
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                        />
-                                    </svg>
-                                </div>
-                                {(sidebarExpanded || mobileMenuOpen) && (
-                                    <span className="font-bold text-sm whitespace-nowrap">メンバー</span>
-                                )}
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </aside>
+            {/* サイドバーは Layout 側でレンダリングされるためここでは削除 */}
 
             {/* メインエリア */}
             <div className="flex-1 flex flex-col min-w-0 bg-transparent overflow-hidden">

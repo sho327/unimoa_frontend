@@ -1,10 +1,10 @@
 "use client";
 
 import React, { useState } from 'react';
-import { useLayoutContext } from "@/components/layout/clientMainLayout"
+import { useAppStore } from "@/store";
 
 export default function ProjectPage() {
-    const { activeSpace } = useLayoutContext();
+    const { activeSpace } = useAppStore();
     const [subView, setSubView] = useState('tasks');
     const [isSearchOpen, setIsSearchOpen] = useState(false);
 
