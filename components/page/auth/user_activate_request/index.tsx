@@ -14,7 +14,7 @@ export default function UserActivateRequest() {
     };
 
     return (
-        <div className="w-full max-w-[400px] animate-in fade-in duration-700">
+        <div className="w-full max-w-[380px] animate-in fade-in duration-700">
             {/* ロゴセクション */}
             <div className="flex items-center justify-center gap-2.5 mb-8">
                 <div className="bg-primary text-white w-8 h-8 flex items-center justify-center rounded-lg shadow-sm">
@@ -43,8 +43,8 @@ export default function UserActivateRequest() {
             </div>
 
             {/* メインカード */}
-            <div className="auth-card p-10 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-200 text-center">
-                <div className="w-14 h-14 bg-primary/10 text-primary rounded-2xl flex items-center justify-center mx-auto mb-8">
+            <div className="auth-card p-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-200 text-center">
+                <div className="w-14 h-14 bg-primary/10 text-primary rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-sm shadow-primary/30">
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                     </svg>
