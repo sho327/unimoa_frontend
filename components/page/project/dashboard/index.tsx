@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { useAppStore } from "@/store";
 
-export default function ProjectPage() {
+export default function ProjectDashboard() {
     const { activeSpace } = useAppStore();
     const [subView, setSubView] = useState('tasks');
     const [isSearchOpen, setIsSearchOpen] = useState(false);
