@@ -58,18 +58,18 @@ export default function UserActivateRequest() {
                     アカウントを有効化してください。
                 </p>
 
-                <div className="space-y-4 pt-4 border-t border-gray-200">
+                <div className="space-y-3 pt-6 border-t border-gray-200">
                     <p className="text-[12px] font-black text-gray-400 uppercase tracking-widest">メールが届かない場合</p>
-                    <div className="flex flex-col gap-2">
+                    <div className="flex flex-col gap-2 pt-1">
                         <button
                             onClick={handleResendEmail}
-                            className="btn btn-ghost btn-sm normal-case font-bold text-primary hover:bg-primary/10 rounded-lg"
+                            className="btn btn-ghost btn-sm normal-case font-bold text-primary hover:bg-primary/10 rounded-lg text-sm"
                         >
                             確認メールを再送する
                         </button>
                         <button
                             onClick={handleChangeEmail}
-                            className="btn btn-ghost btn-sm normal-case font-bold text-gray-400 hover:bg-gray-100 rounded-lg"
+                            className="btn btn-ghost btn-sm normal-case font-bold text-gray-400 hover:bg-gray-100 rounded-lg text-sm"
                         >
                             メールアドレスを変更する
                         </button>
