@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 
-export default function Login() {
+export default function Signup() {
     const [isLoading, setIsLoading] = useState(false);
 
     const handleSubmit = (e: React.FormEvent) => {
@@ -43,7 +43,7 @@ export default function Login() {
             {/* メインカード */}
             <div className="auth-card p-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-200">
                 <h1 className="text-base font-black text-gray-900 mb-8 border-b border-gray-200 pb-4">
-                    ログイン
+                    新規登録
                 </h1>
 
                 <form className="space-y-5" onSubmit={handleSubmit}>
@@ -60,20 +60,24 @@ export default function Login() {
                     </div>
 
                     <div>
-                        <div className="flex justify-between items-center mb-2 px-1">
-                            <label className="block text-[12px] font-black text-gray-400 uppercase tracking-[0.15em]">
-                                パスワード
-                            </label>
-                            <a
-                                href="#"
-                                className="text-[12px] font-bold text-primary hover:underline transition-all tracking-tight"
-                            >
-                                パスワードを忘れた場合
-                            </a>
-                        </div>
+                        <label className="block text-[12px] font-black text-gray-400 uppercase tracking-[0.15em] mb-2 ml-1">
+                            パスワード
+                        </label>
                         <input
                             type="password"
-                            placeholder="••••••••"
+                            placeholder="8文字以上の英数字"
+                            className="w-full input-minimal text-gray-700 placeholder:text-gray-300"
+                            required
+                        />
+                    </div>
+
+                    <div>
+                        <label className="block text-[12px] font-black text-gray-400 uppercase tracking-[0.15em] mb-2 ml-1">
+                            パスワード（確認）
+                        </label>
+                        <input
+                            type="password"
+                            placeholder="もう一度入力してください"
                             className="w-full input-minimal text-gray-700 placeholder:text-gray-300"
                             required
                         />
@@ -84,7 +88,7 @@ export default function Login() {
                             }`}
                         disabled={isLoading}
                     >
-                        {isLoading ? "" : "ログイン"}
+                        {isLoading ? "" : "新規登録"}
                     </button>
                 </form>
 
@@ -128,24 +132,17 @@ export default function Login() {
             {/* 下部リンク */}
             <div className="mt-8 text-center">
                 <p className="text-[12px] font-bold text-gray-500">
-                    アカウントをお持ちでないですか？
-                    <a href="#" className="text-primary hover:underline ml-2">
-                        新規登録
+                    既にアカウントをお持ちですか？
+                    <a href="/login" className="text-primary hover:underline ml-2">
+                        ログイン
                     </a>
                 </p>
             </div>
 
-            <div className="flex justify-center gap-6 mt-12 text-[12px] font-black text-gray-400 uppercase tracking-[0.2em] opacity-80">
-                <a href="#" className="hover:text-primary transition-colors">
-                    サポート
-                </a>
-                <a href="#" className="hover:text-primary transition-colors">
-                    プライバシー
-                </a>
-                <a href="#" className="hover:text-primary transition-colors">
-                    利用規約
-                </a>
-            </div>
+            <p className="mt-8 text-[12px] text-center text-gray-500 leading-relaxed px-6">
+                登録することで、Unimoaの<a href="#" className="underline">利用規約</a>および<a href="#"
+                    className="underline">プライバシーポリシー</a>に同意したものとみなされます。
+            </p>
         </div>
     );
 }
