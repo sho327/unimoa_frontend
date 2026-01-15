@@ -100,7 +100,7 @@ export default function Login() {
 
                 {/* ソーシャルボタン */}
                 <div className="grid grid-cols-2 gap-3">
-                    <button className="btn btn-outline border-gray-300 bg-white hover:bg-gray-50 hover:border-gray-400 rounded-xl normal-case h-11 min-h-[44px] font-bold text-gray-600 transition-all border-[1.5px]">
+                    <button className="btn btn-outline border-gray-300 bg-white hover:bg-gray-100 hover:border-gray-400 hover:text-gray-800 rounded-xl normal-case h-11 min-h-[44px] font-bold text-gray-600 transition-all border-[1.5px]">
                         <svg className="w-4 h-4 mr-2" viewBox="0 0 24 24">
                             <path
                                 fill="#4285F4"
@@ -113,7 +113,7 @@ export default function Login() {
                         </svg>
                         Google
                     </button>
-                    <button className="btn btn-outline border-gray-300 bg-white hover:bg-gray-50 hover:border-gray-400 rounded-xl normal-case h-11 min-h-[44px] font-bold text-gray-600 transition-all border-[1.5px]">
+                    <button className="btn btn-outline border-gray-300 bg-white hover:bg-gray-100 hover:border-gray-400 hover:text-gray-800 rounded-xl normal-case h-11 min-h-[44px] font-bold text-gray-600 transition-all border-[1.5px]">
                         <svg
                             className="w-4 h-4 mr-2 fill-current text-gray-900"
                             viewBox="0 0 24 24"

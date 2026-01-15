@@ -63,13 +63,13 @@ export default function UserActivateRequest() {
                     <div className="flex flex-col gap-2 pt-1">
                         <button
                             onClick={handleResendEmail}
-                            className="btn btn-ghost btn-sm normal-case font-bold text-primary hover:bg-primary/10 rounded-lg text-sm"
+                            className="btn btn-primary w-full rounded-xl font-bold text-white shadow-sm shadow-primary/10 normal-case text-sm border-none"
                         >
                             確認メールを再送する
                         </button>
                         <button
                             onClick={handleChangeEmail}
-                            className="btn btn-ghost btn-sm normal-case font-bold text-gray-400 hover:bg-gray-100 rounded-lg text-sm"
+                            className="btn btn-outline border-gray-300 bg-white hover:bg-gray-100 hover:border-gray-400 hover:text-gray-800 rounded-xl normal-case font-bold text-gray-600 transition-all border-[1.5px] text-sm"
                         >
                             メールアドレスを変更する
                         </button>
