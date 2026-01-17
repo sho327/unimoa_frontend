@@ -97,59 +97,11 @@ export default function Dashboard() {
                     </div>
                 </div>
 
-                {/* メインコンテンツ */}
-                <main
-                    className="flex-1 overflow-y-auto p-6 sm:p-10"
-                    style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
-                >
-                    {subView === "projects" && (
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                            {currentLocalSpace.projects.map((project) => (
-                                <div key={project.id} className="card bg-white border border-gray-100 shadow-sm hover:shadow-md transition-all cursor-pointer group">
-                                    <div className="card-body p-6">
-                                        <div className="flex justify-between items-start mb-4">
-                                            <span className="badge badge-primary badge-outline text-xs font-bold">{project.category}</span>
-                                            <button className="btn btn-ghost btn-circle btn-xs text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity">
-                                                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" />
-                                                </svg>
-                                            </button>
-                                        </div>
-                                        <h3 className="card-title text-base font-black text-gray-800 mb-2">{project.title}</h3>
-                                        <div className="mt-auto pt-4 flex items-center justify-between text-xs text-gray-500">
-                                            <div className="flex -space-x-2">
-                                                <div className="w-6 h-6 rounded-full bg-gray-200 border-2 border-white"></div>
-                                                <div className="w-6 h-6 rounded-full bg-gray-300 border-2 border-white"></div>
-                                            </div>
-                                            <div className="flex items-center gap-1">
-                                                <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
-                                                </svg>
-                                                <span>{project.tasks.length} タスク</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            ))}
-                            {/* 新規作成カード */}
-                            <div className="card bg-gray-50 border-2 border-dashed border-gray-200 hover:border-[oklch(0.73_0.11_162)] hover:bg-[oklch(0.73_0.11_162)]/5 transition-all cursor-pointer flex items-center justify-center min-h-[180px]">
-                                <div className="flex flex-col items-center gap-2 text-gray-400">
-                                    <div className="w-10 h-10 rounded-full bg-white border border-gray-200 flex items-center justify-center shadow-sm">
-                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16m8-8H4" />
-                                        </svg>
-                                    </div>
-                                    <span className="text-xs font-bold">新規プロジェクト</span>
-                                </div>
-                            </div>
-                        </div>
-                    )}
-
-                    {subView !== "projects" && (
-                        <div className="h-full border-2 border-dashed border-gray-200 rounded-3xl flex items-center justify-center text-gray-300 font-black uppercase tracking-widest">
-                            {subView}
-                        </div>
-                    )}
+                {/* メインエリア */}
+                <main className="flex-1 overflow-y-auto no-scrollbar p-6 sm:p-10">
+                    <div className="h-full border-2 border-dashed border-gray-200 rounded-3xl flex items-center justify-center text-gray-300 font-black uppercase tracking-widest">
+                        <span>{subView} View Content</span>
+                    </div>
                 </main>
             </div>
         </div>
