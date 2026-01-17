@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import AuthCard from "@/components/auth/authCard";
 
 export default function Login() {
     const [isLoading, setIsLoading] = useState(false);
@@ -12,36 +13,8 @@ export default function Login() {
     };
 
     return (
-        <div className="w-full max-w-[380px] animate-in fade-in duration-700">
-            {/* ロゴセクション */}
-            <div className="flex items-center justify-center gap-2.5 mb-8">
-                <div className="bg-primary text-white w-8 h-8 flex items-center justify-center rounded-lg shadow-sm">
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="20"
-                        height="20"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2.5"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                    >
-                        <g transform="translate(3.5, 4) scale(0.7)">
-                            <circle cx="9" cy="7" r="4" />
-                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
-                            <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
-                            <path d="M17 3.13a4 4 0 0 1 0 7.75" />
-                        </g>
-                    </svg>
-                </div>
-                <span className="font-black text-2xl tracking-tighter text-gray-900">
-                    Unimoa
-                </span>
-            </div>
-
-            {/* メインカード */}
-            <div className="auth-card p-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-200">
+        <>
+            <AuthCard>
                 <h1 className="text-base font-black text-gray-900 mb-8 border-b border-gray-200 pb-4">
                     ログイン
                 </h1>
@@ -65,7 +38,7 @@ export default function Login() {
                                 パスワード
                             </label>
                             <a
-                                href="#"
+                                href="/password_reset_request"
                                 className="text-[12px] font-bold text-primary hover:underline transition-all tracking-tight"
                             >
                                 パスワードを忘れた場合
@@ -123,13 +96,13 @@ export default function Login() {
                         GitHub
                     </button>
                 </div>
-            </div>
+            </AuthCard>
 
             {/* 下部リンク */}
             <div className="mt-8 text-center">
                 <p className="text-[12px] font-bold text-gray-500">
                     アカウントをお持ちでないですか？
-                    <a href="#" className="text-primary hover:underline ml-2">
+                    <a href="/signup" className="text-primary hover:underline ml-2">
                         新規登録
                     </a>
                 </p>
@@ -146,6 +119,6 @@ export default function Login() {
                     利用規約
                 </a>
             </div>
-        </div>
+        </>
     );
 }

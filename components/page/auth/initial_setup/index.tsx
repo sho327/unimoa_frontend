@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
+import AuthCard from "@/components/auth/authCard";
 
 type PlanMode = "personal" | "shared-free" | "shared-pro" | "invite";
 
@@ -34,36 +35,8 @@ export default function InitialSetup() {
     };
 
     return (
-        <div className="w-full max-w-[420px] animate-in fade-in duration-700">
-            {/* ロゴセクション */}
-            <div className="flex items-center justify-center gap-2.5 mb-8">
-                <div className="bg-primary text-white w-8 h-8 flex items-center justify-center rounded-lg shadow-sm">
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="20"
-                        height="20"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2.5"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                    >
-                        <g transform="translate(3.5, 4) scale(0.7)">
-                            <circle cx="9" cy="7" r="4" />
-                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
-                            <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
-                            <path d="M17 3.13a4 4 0 0 1 0 7.75" />
-                        </g>
-                    </svg>
-                </div>
-                <span className="font-black text-2xl tracking-tighter text-gray-900">
-                    Unimoa
-                </span>
-            </div>
-
-            {/* メインカード */}
-            <div className="auth-card p-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)] border border-gray-200">
+        <>
+            <AuthCard>
                 {/* ステップインジケーター */}
                 <div className="flex justify-center gap-2 mb-8">
                     {[1, 2, 3].map((step) => (
@@ -309,11 +282,11 @@ export default function InitialSetup() {
                         </div>
                     </div>
                 )}
-            </div>
+            </AuthCard>
 
             <p className="mt-8 text-center text-[10px] font-bold text-gray-400 uppercase tracking-widest">
                 Unimoa Setup Wizard
             </p>
-        </div>
+        </>
     );
 }
