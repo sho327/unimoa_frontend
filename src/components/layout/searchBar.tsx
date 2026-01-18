@@ -1,19 +1,24 @@
 "use client";
 
+import React, { useRef } from "react";
 import { useAppStore } from "@/components/store";
+import { useClickOutside } from "@/components/hooks/useClickOutside";
 
 export default function SearchBar() {
     const { searchOpen, setSearchOpen, searchQuery, setSearchQuery } = useAppStore();
+    const searchRef = useRef<HTMLDivElement>(null);
+
+    useClickOutside(searchRef, () => setSearchOpen(false), searchOpen);
 
     return (
-        <div className="flex items-center">
+        <div className="flex items-center" ref={searchRef}>
             <div
-                className={`flex items-center rounded-full transition-all duration-300 px-1 ${searchOpen ? "w-48 sm:w-64 bg-white border border-gray-200" : "w-10 bg-transparent"
+                className={`flex items-center rounded-full transition-all duration-300 px-1 ${searchOpen ? "w-48 sm:w-64 bg-white border border-gray-200 shadow-sm" : "w-10 bg-transparent"
                     }`}
             >
                 <button
                     onClick={() => setSearchOpen(!searchOpen)}
-                    className="h-8 w-8 shrink-0 flex items-center justify-center rounded-full hover:bg-gray-100 text-gray-500 hover:text-[oklch(0.73_0.11_162)]"
+                    className="h-8 w-8 shrink-0 flex items-center justify-center rounded-full hover:bg-gray-100 text-gray-500 hover:text-[oklch(0.73_0.11_162)] transition-colors"
                 >
                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path
@@ -36,7 +41,7 @@ export default function SearchBar() {
                                 setSearchQuery("");
                             }
                         }}
-                        className="bg-transparent border-none outline-none text-sm w-full px-1 h-8 text-gray-800"
+                        className="bg-transparent border-none outline-none text-sm w-full px-1 h-8 text-gray-800 animate-in fade-in duration-200"
                         autoFocus
                     />
                 )}

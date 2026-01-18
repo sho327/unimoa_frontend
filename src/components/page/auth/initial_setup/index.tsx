@@ -199,7 +199,7 @@ export default function InitialSetup() {
                         </h1>
                         <p className="text-[12px] text-gray-500 mb-8 font-bold">
                             {selectedMode === "shared-free" || selectedMode === "shared-pro"
-                                ? "チームの名前とURLを決めてください"
+                                ? "スペースの名前とURLを決めてください"
                                 : selectedMode === "invite"
                                     ? "既存のゼミへの合流準備が整いました"
                                     : "自分だけのスペースを作成します"}

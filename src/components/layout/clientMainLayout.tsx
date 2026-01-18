@@ -4,7 +4,7 @@ import Sidebar from "@/components/layout/sidebar";
 import { useMobile } from "@/components/hooks/useMobile";
 import AppHeader from "./appHeader";
 import SearchBar from "./searchBar";
-import MobileTeamSwitcher from "./mobileTeamSwitcher";
+import MobileSpaceSwitcher from "./mobileSpaceSwitcher";
 import { useAppStore } from "@/components/store";
 
 export default function ClientMainLayout({
@@ -32,7 +32,7 @@ export default function ClientMainLayout({
                             <div className="flex items-center gap-3">
                                 <div className="flex flex-col min-w-0 min-h-[40px] justify-center px-1">
                                     <span className="text-[10px] font-black text-[oklch(0.73_0.11_162)]/70 uppercase tracking-widest leading-none mb-1">
-                                        チーム
+                                        スペース
                                     </span>
                                     <h2 className="text-sm font-black truncate text-gray-900 max-w-[150px] sm:max-w-xs">
                                         {activeSpace.name}
@@ -50,7 +50,7 @@ export default function ClientMainLayout({
                 </div>
             </div>
 
-            <MobileTeamSwitcher />
+            <MobileSpaceSwitcher />
         </div>
     );
 }
