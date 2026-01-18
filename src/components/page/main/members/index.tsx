@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useAppStore } from "@/store"
+import { useAppStore } from "@/components/store"
 
 type Space = {
     id: string

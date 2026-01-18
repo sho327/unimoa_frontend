@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from 'react';
-import { useAppStore } from "@/store";
+import { useAppStore } from "@/components/store";
 
 export default function ProjectDashboard() {
     const { activeSpace } = useAppStore();

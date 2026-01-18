@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { useAppStore } from "@/store";
+import { useAppStore } from "@/components/store";
 
 export default function Sidebar() {
     const {

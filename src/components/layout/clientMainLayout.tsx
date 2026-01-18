@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, ReactNode } from "react";
-import { useAppStore } from "@/store";
+import { useAppStore } from "@/components/store";
 import Sidebar from "@/components/layout/sidebar";
 
 export default function ClientMainLayout({
