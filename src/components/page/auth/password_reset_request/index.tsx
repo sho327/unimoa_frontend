@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import AuthCard from "@/components/auth/authCard";
+import AuthCard from "@/components/page/auth/authCard";
 
 export default function PasswordResetRequest() {
     const [sent, setSent] = useState(false);

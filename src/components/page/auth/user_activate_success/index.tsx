@@ -2,7 +2,7 @@
 
 import React from "react";
 import { useRouter } from "next/navigation";
-import AuthCard from "@/components/auth/authCard";
+import AuthCard from "@/components/page/auth/authCard";
 
 export default function UserActivateSuccess() {
     const router = useRouter();

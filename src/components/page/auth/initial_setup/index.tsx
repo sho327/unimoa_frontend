@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-import AuthCard from "@/components/auth/authCard";
+import AuthCard from "@/components/page/auth/authCard";
 
 type PlanMode = "personal" | "shared-free" | "shared-pro" | "invite";
 
