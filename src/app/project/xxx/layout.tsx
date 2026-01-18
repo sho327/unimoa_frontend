@@ -1,4 +1,4 @@
-import ClientMainLayout from "@/components/layout/clientMainLayout";
+import ClientProjectLayout from "@/components/layout/clientProjectLayout";
 
 export default function ProjectLayout({
     children,
@@ -6,8 +6,8 @@ export default function ProjectLayout({
     children: React.ReactNode
 }>) {
     return (
-        <ClientMainLayout withSidebar={false}>
+        <ClientProjectLayout>
             {children}
-        </ClientMainLayout>
+        </ClientProjectLayout>
     )
 }

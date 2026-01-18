@@ -1,0 +1,46 @@
+"use client";
+
+import { useAppStore } from "@/components/store";
+
+export default function SearchBar() {
+    const { searchOpen, setSearchOpen, searchQuery, setSearchQuery } = useAppStore();
+
+    return (
+        <div className="flex items-center">
+            <div
+                className={`flex items-center rounded-full transition-all duration-300 px-1 ${searchOpen ? "w-48 sm:w-64 bg-white border border-gray-200" : "w-10 bg-transparent"
+                    }`}
+            >
+                <button
+                    onClick={() => setSearchOpen(!searchOpen)}
+                    className="h-8 w-8 shrink-0 flex items-center justify-center rounded-full hover:bg-gray-100 text-gray-500 hover:text-[oklch(0.73_0.11_162)]"
+                >
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path
+                            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                            strokeWidth="2.5"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                        />
+                    </svg>
+                </button>
+                {searchOpen && (
+                    <input
+                        type="text"
+                        placeholder="検索..."
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                        onKeyDown={(e) => {
+                            if (e.key === "Escape") {
+                                setSearchOpen(false);
+                                setSearchQuery("");
+                            }
+                        }}
+                        className="bg-transparent border-none outline-none text-sm w-full px-1 h-8 text-gray-800"
+                        autoFocus
+                    />
+                )}
+            </div>
+        </div>
+    );
+}
