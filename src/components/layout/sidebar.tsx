@@ -62,12 +62,12 @@ export default function Sidebar() {
         <>
             {/* モバイルメニューオーバーレイ */}
             {mobileMenuOpen && (
-                <div onClick={() => setMobileMenuOpen(false)} className="fixed inset-0 bg-black/40 z-[110] md:hidden mt-16" />
+                <div onClick={() => setMobileMenuOpen(false)} className="fixed inset-0 bg-black/40 z-[200] md:z-[-1] md:hidden mt-16" />
             )}
 
             {/* サイドメニュー */}
             <aside
-                className={`bg-white border-r border-gray-100 flex-col overflow-y-auto shadow-sm transition-all duration-300 z-[110] fixed left-0 transform top-16 h-[calc(100vh-4rem)] md:top-0 md:h-full md:relative md:translate-x-0 md:shadow-none ${mobileMenuOpen ? "translate-x-0" : "-translate-x-full"
+                className={`bg-white border-r border-gray-100 flex-col overflow-y-auto shadow-sm transition-all duration-300 z-[200] md:z-10 fixed left-0 transform top-16 h-[calc(100vh-4rem)] md:top-0 md:h-full md:relative md:translate-x-0 md:shadow-none ${mobileMenuOpen ? "translate-x-0" : "-translate-x-full"
                     } ${sidebarExpanded || mobileMenuOpen ? "w-64 px-3" : "md:w-[72px] md:items-center md:px-2"}`}
             >
                 <div className="flex flex-col h-full py-6 md:py-5">
