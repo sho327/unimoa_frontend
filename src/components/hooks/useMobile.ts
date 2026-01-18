@@ -3,12 +3,12 @@ import * as React from 'react'
 const MOBILE_BREAKPOINT = 768
 
 /**
- * useIsMobile — モバイルかどうかを返す
+ * useMobile — モバイルかどうかを返す
  * @args
  * @createdBy KatoShogo
  * @createdAt 2026/01/18
  */
-export function useIsMobile() {
+export function useMobile() {
     const [isMobile, setIsMobile] = React.useState<boolean | undefined>(undefined)
 
     React.useEffect(() => {

@@ -1,16 +1,60 @@
-"use client";
-
-import React from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useAppStore } from "@/components/store";
+import { pageRoutes } from "@/components/constants";
 
 export default function Sidebar() {
+    const pathname = usePathname();
     const {
         sidebarExpanded,
         mobileMenuOpen,
         setMobileMenuOpen,
-        activeTab,
-        setActiveTab
     } = useAppStore();
+
+    const menuItems = [
+        {
+            label: "ダッシュボード",
+            href: pageRoutes.MAIN.DASHBOARD,
+            icon: (
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path
+                        d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                    />
+                </svg>
+            ),
+        },
+        {
+            label: "プロジェクト",
+            href: pageRoutes.MAIN.PROJECTS,
+            icon: (
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path
+                        d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                    />
+                </svg>
+            ),
+        },
+        {
+            label: "メンバー",
+            href: pageRoutes.MAIN.MEMBERS,
+            icon: (
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path
+                        d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                    />
+                </svg>
+            ),
+        },
+    ];
 
     return (
         <>
@@ -33,83 +77,27 @@ export default function Sidebar() {
                                 </div>
                             )}
 
-                            {/* プロジェクト */}
-                            <button
-                                onClick={() => {
-                                    setActiveTab("projects")
-                                    setMobileMenuOpen(false)
-                                }}
-                                className={`flex items-center gap-3 w-full p-2.5 rounded-xl transition-all ${activeTab === "projects"
-                                    ? "bg-[oklch(0.73_0.11_162)] text-white shadow-md shadow-[oklch(0.73_0.11_162)]/30"
-                                    : "text-gray-500 hover:bg-gray-50 hover:text-gray-900"
-                                    } ${!sidebarExpanded && !mobileMenuOpen ? "md:justify-center md:px-0" : ""}`}
-                            >
-                                <div className="w-6 h-6 flex items-center justify-center shrink-0">
-                                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path
-                                            d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"
-                                            strokeWidth="2"
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                        />
-                                    </svg>
-                                </div>
-                                {(sidebarExpanded || mobileMenuOpen) && (
-                                    <span className="font-bold text-sm whitespace-nowrap">プロジェクト</span>
-                                )}
-                            </button>
-
-                            {/* カレンダー */}
-                            <button
-                                onClick={() => {
-                                    setActiveTab("calendar")
-                                    setMobileMenuOpen(false)
-                                }}
-                                className={`flex items-center gap-3 w-full p-2.5 rounded-xl transition-all ${activeTab === "calendar"
-                                    ? "bg-[oklch(0.73_0.11_162)] text-white shadow-md shadow-[oklch(0.73_0.11_162)]/30"
-                                    : "text-gray-500 hover:bg-gray-50 hover:text-gray-900"
-                                    } ${!sidebarExpanded && !mobileMenuOpen ? "md:justify-center md:px-0" : ""}`}
-                            >
-                                <div className="w-6 h-6 flex items-center justify-center shrink-0">
-                                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path
-                                            d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
-                                            strokeWidth="2"
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                        />
-                                    </svg>
-                                </div>
-                                {(sidebarExpanded || mobileMenuOpen) && (
-                                    <span className="font-bold text-sm whitespace-nowrap">カレンダー</span>
-                                )}
-                            </button>
-
-                            {/* メンバー */}
-                            <button
-                                onClick={() => {
-                                    setActiveTab("members")
-                                    setMobileMenuOpen(false)
-                                }}
-                                className={`flex items-center gap-3 w-full p-2.5 rounded-xl transition-all ${activeTab === "members"
-                                    ? "bg-[oklch(0.73_0.11_162)] text-white shadow-md shadow-[oklch(0.73_0.11_162)]/30"
-                                    : "text-gray-500 hover:bg-gray-50 hover:text-gray-900"
-                                    } ${!sidebarExpanded && !mobileMenuOpen ? "md:justify-center md:px-0" : ""}`}
-                            >
-                                <div className="w-6 h-6 flex items-center justify-center shrink-0">
-                                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path
-                                            d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"
-                                            strokeWidth="2"
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                        />
-                                    </svg>
-                                </div>
-                                {(sidebarExpanded || mobileMenuOpen) && (
-                                    <span className="font-bold text-sm whitespace-nowrap">メンバー</span>
-                                )}
-                            </button>
+                            {menuItems.map((item) => {
+                                const isActive = pathname === item.href;
+                                return (
+                                    <Link
+                                        key={item.href}
+                                        href={item.href}
+                                        onClick={() => setMobileMenuOpen(false)}
+                                        className={`flex items-center gap-3 w-full p-2.5 rounded-xl transition-all ${isActive
+                                            ? "bg-[oklch(0.73_0.11_162)] text-white shadow-md shadow-[oklch(0.73_0.11_162)]/30"
+                                            : "text-gray-500 hover:bg-gray-50 hover:text-gray-900"
+                                            } ${!sidebarExpanded && !mobileMenuOpen ? "md:justify-center md:px-0" : ""}`}
+                                    >
+                                        <div className="w-6 h-6 flex items-center justify-center shrink-0">
+                                            {item.icon}
+                                        </div>
+                                        {(sidebarExpanded || mobileMenuOpen) && (
+                                            <span className="font-bold text-sm whitespace-nowrap">{item.label}</span>
+                                        )}
+                                    </Link>
+                                );
+                            })}
                         </div>
                     </div>
                 </div>

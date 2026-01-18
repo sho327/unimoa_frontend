@@ -3,6 +3,7 @@
 import React, { useState, ReactNode } from "react";
 import { useAppStore } from "@/components/store";
 import Sidebar from "@/components/layout/sidebar";
+import { useMobile } from "@/components/hooks/useMobile";
 
 export default function ClientMainLayout({
     children,
@@ -11,6 +12,7 @@ export default function ClientMainLayout({
     children: ReactNode;
     withSidebar?: boolean;
 }) {
+    const isMobile = useMobile();
     const {
         sidebarExpanded,
         setSidebarExpanded,
