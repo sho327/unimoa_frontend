@@ -5,6 +5,7 @@ import { useAppStore } from "@/components/store";
 import { useClickOutside } from "@/components/hooks/useClickOutside";
 import { NotificationDropdown, Notification } from "./notificationDropdown";
 import { SpaceSelectDropdown } from "./spaceSelectDropdown";
+import { UserMenuDropdown } from "./userMenuDropdown";
 
 export default function AppHeader({ withSidebar = true }: { withSidebar?: boolean }) {
     const {
@@ -16,12 +17,6 @@ export default function AppHeader({ withSidebar = true }: { withSidebar?: boolea
         setActiveSpace,
         spaces
     } = useAppStore();
-
-    const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
-
-    const profileRef = useRef<HTMLDivElement>(null);
-
-    useClickOutside(profileRef, () => setProfileDropdownOpen(false), profileDropdownOpen);
 
     return (
         <header className="bg-white border-b border-gray-100 h-16 px-5 shrink-0 z-[120] flex items-center justify-between">
@@ -97,23 +92,7 @@ export default function AppHeader({ withSidebar = true }: { withSidebar?: boolea
                 />
 
                 {/* プロフィール */}
-                <div className="relative" ref={profileRef}>
-                    <div
-                        role="button"
-                        onClick={() => setProfileDropdownOpen(!profileDropdownOpen)}
-                        className={`avatar h-8 w-8 rounded-full border-2 overflow-hidden cursor-pointer transition-all ${profileDropdownOpen ? "border-[oklch(0.73_0.11_162)]" : "border-gray-100 hover:border-[oklch(0.73_0.11_162)]/40"}`}
-                    >
-                        <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Kenta" alt="User" />
-                    </div>
-                    {profileDropdownOpen && (
-                        <ul className="absolute right-0 top-full mt-2 w-56 bg-white border border-gray-100 rounded-2xl shadow-2xl p-2 z-[130] animate-in fade-in slide-in-from-top-2 duration-200">
-                            <li className="px-4 py-2 text-[10px] text-gray-400 uppercase tracking-widest font-bold border-b border-gray-50 mb-1">Kenta Tanaka</li>
-                            <li><button className="w-full text-left px-4 py-2 hover:bg-gray-50 rounded-lg text-sm font-bold text-gray-600 transition-colors">プロフィール設定</button></li>
-                            <div className="border-t border-gray-100 my-1 opacity-50" />
-                            <li><button className="w-full text-left px-4 py-2 hover:bg-red-50 text-red-500 rounded-lg text-sm font-bold transition-colors">ログアウト</button></li>
-                        </ul>
-                    )}
-                </div>
+                <UserMenuDropdown displayUserName="田中 太郎" />
             </div>
         </header>
     );
