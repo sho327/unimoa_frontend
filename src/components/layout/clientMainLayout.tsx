@@ -15,7 +15,7 @@ export default function ClientMainLayout({
     withSidebar?: boolean;
 }) {
     const isMobile = useMobile();
-    const { activeSpace, sidebarExpanded } = useAppStore();
+    const { activeSpace } = useAppStore();
 
     return (
         <div className="h-screen flex flex-col overflow-hidden text-gray-800 relative">

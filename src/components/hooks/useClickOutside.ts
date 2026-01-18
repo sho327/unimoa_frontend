@@ -28,6 +28,9 @@ export function useClickOutside(
         }
     };
 
+    // SSR環境下でのエラーを防ぐため、document の存在を確認してから渡す
+    const target = typeof document !== 'undefined' ? document : null;
+
     // useEventListener を活用して、document に対して mousedown イベントをリッスン
-    useEventListener("mousedown", handleClick, document);
+    useEventListener("mousedown", handleClick, target);
 }
