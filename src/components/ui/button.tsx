@@ -24,7 +24,7 @@ export function Button({
         primary: "bg-[oklch(0.73_0.11_162)] text-white hover:bg-[oklch(0.68_0.11_162)] shadow-md shadow-[oklch(0.73_0.11_162)]/10 border-none",
         secondary: "bg-[oklch(0.73_0.11_162)]/10 text-[oklch(0.73_0.11_162)] hover:bg-[oklch(0.73_0.11_162)]/20 border-none",
         ghost: "bg-transparent hover:bg-gray-100 text-gray-500 hover:text-gray-900 border-none",
-        outline: "bg-white border-[1.5px] border-gray-200 hover:border-gray-300 text-gray-700 hover:bg-gray-50",
+        outline: "border-[1.5px] border-gray-300 bg-white hover:bg-gray-100 hover:border-gray-400 hover:text-gray-800 font-bold text-gray-600",
         danger: "bg-red-500 text-white hover:bg-red-600 border-none",
         social: "bg-white border-[1.5px] border-gray-300 hover:bg-gray-100 hover:border-gray-400 text-gray-600 font-bold normal-case",
     };
