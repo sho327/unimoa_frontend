@@ -18,7 +18,7 @@ export default function ClientMainLayout({
     const { activeSpace } = useAppStore();
 
     return (
-        <div className="h-screen flex flex-col overflow-hidden text-gray-800 relative">
+        <div className="h-screen flex flex-col text-gray-800 relative">
             <AppHeader withSidebar={withSidebar} />
 
             {/* コンテンツエリア (Sidebar と Children) */}

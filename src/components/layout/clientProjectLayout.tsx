@@ -28,7 +28,7 @@ export default function ClientProjectLayout({
     ];
 
     return (
-        <div className="h-screen flex flex-col overflow-hidden text-gray-800 relative">
+        <div className="h-screen flex flex-col text-gray-800 relative">
             <AppHeader withSidebar={false} />
 
             <div className="flex flex-1 overflow-hidden relative">

@@ -3,17 +3,21 @@
 import React, { useState, useRef } from "react";
 import { useAppStore } from "@/components/store";
 import { useClickOutside } from "@/components/hooks/useClickOutside";
+import { useMobile } from "@/components/hooks/useMobile";
 
 export default function MobileSpaceSwitcher() {
+    const isMobile = useMobile();
     const { activeSpace, setActiveSpace, spaces } = useAppStore();
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const containerRef = useRef<HTMLDivElement>(null);
 
     useClickOutside(containerRef, () => setMobileMenuOpen(false), mobileMenuOpen);
 
+    if (!isMobile) return null;
+
     return (
-        <div className="md:hidden fixed bottom-6 left-1/2 -translate-x-1/2 w-[92%] max-w-[400px] z-[150]" ref={containerRef}>
-            <div className="bg-white/90 backdrop-blur-xl border border-white/50 rounded-2xl shadow-[0_20px_50px_-12px_rgba(0,0,0,0.15)] p-2.5 flex items-center justify-between gap-3 overflow-hidden">
+        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 w-[92%] max-w-[400px] z-[160]" ref={containerRef}>
+            <div className="bg-white/90 backdrop-blur-xl border border-white/50 rounded-2xl shadow-[0_20px_50px_-12px_rgba(0,0,0,0.15)] p-2.5 flex items-center justify-between gap-3">
                 <div className="flex items-center gap-3 px-2 py-1 flex-1 min-w-0">
                     <div className="w-9 h-9 bg-[oklch(0.73_0.11_162)] text-white rounded-xl flex items-center justify-center font-black text-[11px] shrink-0 shadow-sm border border-white/20">
                         {activeSpace.name.substring(0, 2)}
