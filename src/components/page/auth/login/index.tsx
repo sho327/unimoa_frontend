@@ -37,7 +37,7 @@ export default function Login() {
                     </div>
 
                     <div>
-                        <div className="flex justify-between items-center mb-2 px-1">
+                        <div className="flex justify-between items-center px-1">
                             <Label>
                                 パスワード
                             </Label>
@@ -56,13 +56,12 @@ export default function Login() {
                         />
                     </div>
 
-                    <Button
-                        className={`btn btn-primary w-full rounded-xl font-black text-white shadow-md shadow-primary/10 normal-case mt-2 text-[13px] border-none ${isLoading ? "loading" : ""
-                            }`}
+                    <button
+                        className={`btn btn-primary w-full rounded-xl font-black text-white shadow-md shadow-primary/10 normal-case mt-2 text-[13px] border-none ${isLoading ? "loading" : ""}`}
                         disabled={isLoading}
                     >
                         {isLoading ? "" : "ログイン"}
-                    </Button>
+                    </button>
                 </form>
 
                 {/* 区切り線 */}
