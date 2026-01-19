@@ -7,8 +7,8 @@ import { Loader2 } from "lucide-react";
 /**
  * ページローディング表示コンポーネント
  * 
- * 指定されたテンプレートに基づき、背景のぼかし、
- * animate-sway アニメーション、Unimoa アイコンを適用しています。
+ * グローバル状態の isLoading が true の場合に表示されます。
+ * スピナー形式を採用し、確実に中央揃えされるように設計されています。
  */
 export default function LoadingOverlay() {
     const { isLoading } = useAppStore();
@@ -17,34 +17,11 @@ export default function LoadingOverlay() {
 
     return (
         <div className="fixed inset-0 z-[1000] flex items-center justify-center bg-white/60 backdrop-blur-sm animate-in fade-in duration-300">
-            <div className="text-center">
-                {/* Unimoa ロゴアイコン + Sway アニメーション */}
-                {/* <div className="mb-2">
-                    <div className="animate-sway bg-[oklch(0.73_0.11_162)] text-white w-12 h-12 flex items-center justify-center rounded-xl mx-auto shadow-lg shadow-[oklch(0.73_0.11_162)]/20">
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="32"
-                            height="32"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="white"
-                            strokeWidth="2.2"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            className="scale-75"
-                        >
-                            <g transform="translate(3.5, 4) scale(0.7)">
-                                <circle cx="9" cy="7" r="4" />
-                                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
-                                <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
-                                <path d="M17 3.13a4 4 0 0 1 0 7.75" />
-                            </g>
-                        </svg>
-                    </div>
-                </div> */}
-                <div className="relative">
+            <div className="flex flex-col items-center">
+                {/* メインスピナー部分 */}
+                <div className="relative flex justify-center items-center mb-2">
                     {/* 背景の光輪 */}
-                    <div className="absolute inset-0 bg-[oklch(0.73_0.11_162)] opacity-20 blur-xl rounded-full animate-pulse" />
+                    <div className="absolute inset-0 bg-[oklch(0.73_0.11_162)] opacity-20 blur-xl rounded-full animate-pulse scale-150" />
 
                     {/* メインスピナー */}
                     <Loader2 className="h-10 w-10 text-[oklch(0.73_0.11_162)] animate-spin relative z-10" />
