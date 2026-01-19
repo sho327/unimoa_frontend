@@ -2,10 +2,6 @@
 
 import React, { useState } from "react";
 import AuthCard from "@/components/page/auth/authCard";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Separator, AuthFooter } from "@/components/ui/auth-parts";
 
 export default function Login() {
     const [isLoading, setIsLoading] = useState(false);
@@ -25,10 +21,10 @@ export default function Login() {
 
                 <form className="space-y-5" onSubmit={handleSubmit}>
                     <div>
-                        <Label>
+                        <label className="block text-[12px] font-black text-gray-400 uppercase tracking-[0.15em] mb-2 ml-1">
                             メールアドレス
-                        </Label>
-                        <Input
+                        </label>
+                        <input
                             type="email"
                             placeholder="tanaka@example.com"
                             className="w-full input-minimal text-gray-700 placeholder:text-gray-300"
@@ -37,10 +33,10 @@ export default function Login() {
                     </div>
 
                     <div>
-                        <div className="flex justify-between items-center px-1">
-                            <Label>
+                        <div className="flex justify-between items-center mb-0 px-1">
+                            <label className="block text-[12px] font-black text-gray-400 uppercase tracking-[0.15em]">
                                 パスワード
-                            </Label>
+                            </label>
                             <a
                                 href="/password_reset_request"
                                 className="text-[12px] font-bold text-primary hover:underline transition-all tracking-tight"
@@ -48,7 +44,7 @@ export default function Login() {
                                 パスワードを忘れた場合
                             </a>
                         </div>
-                        <Input
+                        <input
                             type="password"
                             placeholder="••••••••"
                             className="w-full input-minimal text-gray-700 placeholder:text-gray-300"
@@ -57,7 +53,8 @@ export default function Login() {
                     </div>
 
                     <button
-                        className={`btn btn-primary w-full rounded-xl font-black text-white shadow-md shadow-primary/10 normal-case mt-2 text-[13px] border-none ${isLoading ? "loading" : ""}`}
+                        className={`btn btn-primary w-full rounded-xl font-black text-white shadow-md shadow-primary/10 normal-case mt-2 text-[13px] border-none ${isLoading ? "loading" : ""
+                            }`}
                         disabled={isLoading}
                     >
                         {isLoading ? "" : "ログイン"}
@@ -65,30 +62,17 @@ export default function Login() {
                 </form>
 
                 {/* 区切り線 */}
-                <Separator>
-                    または
-                </Separator>
+                <div className="relative my-6">
+                    <div className="absolute inset-0 flex items-center">
+                        <div className="w-full border-t border-gray-200"></div>
+                    </div>
+                    <div className="relative flex justify-center text-[12px] font-black text-gray-400 uppercase tracking-widest">
+                        <span className="bg-white px-4">または</span>
+                    </div>
+                </div>
 
                 {/* ソーシャルボタン */}
                 <div className="grid grid-cols-2 gap-3">
-                    {/* <Button
-                        variant="outline"
-                        size="md"
-                        className="normal-case"
-                    className="btn btn-outline border-gray-300 bg-white hover:bg-gray-100 hover:border-gray-400 hover:text-gray-800 rounded-xl normal-case h-11 min-h-[44px] font-bold text-gray-600 transition-all border-[1.5px]"
-                    >
-                        <svg className="w-4 h-4 mr-2" viewBox="0 0 24 24">
-                            <path
-                                fill="#4285F4"
-                                d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
-                            />
-                            <path
-                                fill="#34A853"
-                                d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
-                            />
-                        </svg>
-                        Google
-                    </Button> */}
                     <button className="btn btn-outline border-gray-300 bg-white hover:bg-gray-100 hover:border-gray-400 hover:text-gray-800 rounded-xl normal-case h-11 min-h-[44px] font-bold text-gray-600 transition-all border-[1.5px]">
                         <svg className="w-4 h-4 mr-2" viewBox="0 0 24 24">
                             <path
@@ -124,8 +108,17 @@ export default function Login() {
                 </p>
             </div>
 
-            <AuthFooter />
+            <div className="flex justify-center gap-6 mt-12 text-[12px] font-black text-gray-400 uppercase tracking-[0.2em] opacity-80">
+                <a href="#" className="hover:text-primary transition-colors">
+                    サポート
+                </a>
+                <a href="#" className="hover:text-primary transition-colors">
+                    プライバシー
+                </a>
+                <a href="#" className="hover:text-primary transition-colors">
+                    利用規約
+                </a>
+            </div>
         </>
     );
 }
-
