@@ -3,6 +3,7 @@ import type { Metadata } from "next"
 import { Inter, Noto_Sans_JP } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
 import "@/components/styles/globals.css"
+import LoadingOverlay from "@/components/layout/loadingOverlay"
 
 const inter = Inter({ subsets: ["latin"], weight: ["400", "700", "900"] })
 const notoSansJP = Noto_Sans_JP({ subsets: ["latin"], weight: ["400", "700", "900"] })
@@ -46,6 +47,7 @@ export default function RootLayout({
     <html lang="ja" data-theme="light">
       <body className={`${inter.className} ${notoSansJP.className} antialiased`}>
         {children}
+        <LoadingOverlay />
         <Analytics />
       </body>
     </html>

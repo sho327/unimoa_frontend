@@ -7,6 +7,7 @@ import * as z from "zod";
 import AuthCard from "@/components/page/auth/authCard";
 import { FormInput } from "@/components/ui/formInput";
 import { SocialLoginButtons } from "@/components/page/auth/socialLoginButtons";
+import { useAppStore } from "@/components/store";
 
 // ==========================================
 // 1. Zodによるバリデーションルールの定義
@@ -26,6 +27,7 @@ const loginSchema = z.object({
 type LoginFormValues = z.infer<typeof loginSchema>;
 
 export default function Login() {
+    const { setIsLoading: setGlobalLoading } = useAppStore();
     const [isLoading, setIsLoading] = useState(false);
 
     // ==========================================
@@ -45,6 +47,7 @@ export default function Login() {
     // ==========================================
     const onSubmit = (data: LoginFormValues) => {
         setIsLoading(true);
+        setGlobalLoading(true);
 
         // 指定のテストアカウントかチェック
         // 実際の実装ではここで Supabase の signInWithPassword 等を呼び出します
@@ -61,6 +64,7 @@ export default function Login() {
         // 通信中をシミュレート
         setTimeout(() => {
             setIsLoading(false);
+            setGlobalLoading(false);
         }, 1500);
     };
 
