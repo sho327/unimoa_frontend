@@ -22,12 +22,16 @@ type AppState = {
     activeSpace: Space;
     spaces: Space[];
 
+    // Global UI State
+    isLoading: boolean;
+
     // Actions
     setSidebarExpanded: (expanded: boolean) => void;
     setMobileMenuOpen: (open: boolean) => void;
     setSearchOpen: (open: boolean) => void;
     setSearchQuery: (query: string) => void;
     setActiveSpace: (space: Space) => void;
+    setIsLoading: (isLoading: boolean) => void;
 };
 
 export const useAppStore = create<AppState>((set) => ({
@@ -38,6 +42,7 @@ export const useAppStore = create<AppState>((set) => ({
     searchQuery: "",
     activeSpace: DEFAULT_SPACES[0],
     spaces: DEFAULT_SPACES,
+    isLoading: false,
 
     // Actions
     setSidebarExpanded: (expanded) => set({ sidebarExpanded: expanded }),
@@ -45,4 +50,5 @@ export const useAppStore = create<AppState>((set) => ({
     setSearchOpen: (open) => set({ searchOpen: open }),
     setSearchQuery: (query) => set({ searchQuery: query }),
     setActiveSpace: (space) => set({ activeSpace: space }),
+    setIsLoading: (loading) => set({ isLoading: loading }),
 }));
