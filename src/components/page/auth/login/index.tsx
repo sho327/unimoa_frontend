@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -80,9 +81,9 @@ export default function Login() {
                         error={errors.password?.message}
                         {...register("password")}
                         rightLabel={
-                            <a href="/password_reset_request" className="text-[12px] font-bold text-primary hover:underline transition-all">
+                            <Link href="/password_reset_request" className="text-[12px] font-bold text-primary hover:underline transition-all">
                                 パスワードを忘れた場合
-                            </a>
+                            </Link>
                         }
                     />
 
@@ -114,9 +115,9 @@ export default function Login() {
             <div className="mt-8 text-center">
                 <p className="text-[12px] font-bold text-gray-500">
                     アカウントをお持ちでないですか？
-                    <a href="/signup" className="text-primary hover:underline ml-2">
+                    <Link href="/signup" className="text-primary hover:underline ml-2">
                         新規登録
-                    </a>
+                    </Link>
                 </p>
             </div>
 

@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import Link from "next/link";
 import AuthCard from "@/components/page/auth/authCard";
 
 export default function Signup() {
@@ -106,9 +107,9 @@ export default function Signup() {
             <div className="mt-8 text-center">
                 <p className="text-[12px] font-bold text-gray-500">
                     既にアカウントをお持ちですか？
-                    <a href="/login" className="text-primary hover:underline ml-2">
+                    <Link href="/login" className="text-primary hover:underline ml-2">
                         ログイン
-                    </a>
+                    </Link>
                 </p>
             </div>
 
