@@ -1,12 +1,26 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
+import Link from "next/link";
 import AuthCard from "@/components/page/auth/authCard";
+import { AuthButton } from "@/components/page/auth/authButton";
+import { useAppStore } from "@/components/store";
 
 export default function UserActivateRequest() {
+    const { setIsLoading: setGlobalLoading } = useAppStore();
+    const [isLoading, setIsLoading] = useState(false);
+
     const handleResendEmail = () => {
+        setIsLoading(true);
+        setGlobalLoading(true);
         // メール再送処理
         console.log("Resending activation email...");
+
+        // 通信中をシミュレート
+        setTimeout(() => {
+            setIsLoading(false);
+            setGlobalLoading(false);
+        }, 1500);
     };
 
     const handleChangeEmail = () => {
@@ -34,15 +48,17 @@ export default function UserActivateRequest() {
                 <div className="space-y-3 pt-6 border-t border-gray-200">
                     <p className="text-[12px] font-black text-gray-400 uppercase tracking-widest">メールが届かない場合</p>
                     <div className="flex flex-col gap-2 pt-1">
-                        <button
+                        <AuthButton
+                            type="button"
+                            variant="primary"
                             onClick={handleResendEmail}
-                            className="btn btn-primary w-full rounded-xl font-bold text-white shadow-sm shadow-primary/10 normal-case text-sm border-none"
+                            isLoading={isLoading}
                         >
                             確認メールを再送する
-                        </button>
+                        </AuthButton>
                         <button
                             onClick={handleChangeEmail}
-                            className="btn btn-outline border-gray-300 bg-white hover:bg-gray-100 hover:border-gray-400 hover:text-gray-800 rounded-xl normal-case font-bold text-gray-600 transition-all border-[1.5px] text-sm"
+                            className="btn btn-outline border-gray-300 bg-white hover:bg-gray-100 hover:border-gray-400 hover:text-gray-800 rounded-xl normal-case font-bold text-gray-600 transition-all border-[1.5px] text-sm h-11 min-h-[44px]"
                         >
                             メールアドレスを変更する
                         </button>
@@ -52,7 +68,7 @@ export default function UserActivateRequest() {
 
             {/* 下部リンク */}
             <div className="mt-8 text-center">
-                <a
+                <Link
                     href="/login"
                     className="text-[12px] font-bold text-gray-400 hover:text-gray-900 flex items-center justify-center gap-2 transition-colors"
                 >
@@ -60,7 +76,7 @@ export default function UserActivateRequest() {
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M15 19l-7-7 7-7" />
                     </svg>
                     ログインに戻る
-                </a>
+                </Link>
             </div>
         </>
     );
