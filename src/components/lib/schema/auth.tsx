@@ -30,5 +30,13 @@ export const signupSchema = z
         path: ["passwordConfirm"],
     });
 
+export const passwordResetRequestSchema = z.object({
+    email: z
+        .string()
+        .min(1, { message: "メールアドレスを入力してください" })
+        .email({ message: "正しいメールアドレス形式で入力してください" }),
+});
+
 export type LoginFormValues = z.infer<typeof loginSchema>;
 export type SignupFormValues = z.infer<typeof signupSchema>;
+export type PasswordResetRequestFormValues = z.infer<typeof passwordResetRequestSchema>;

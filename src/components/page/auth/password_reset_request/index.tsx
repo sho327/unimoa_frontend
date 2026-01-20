@@ -1,14 +1,42 @@
 "use client";
 
 import React, { useState } from "react";
+import Link from "next/link";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import AuthCard from "@/components/page/auth/authCard";
+import { FormInput } from "@/components/ui/formInput";
+import { AuthButton } from "@/components/page/auth/authButton";
+import { passwordResetRequestSchema, PasswordResetRequestFormValues } from "@/components/lib/schema/auth";
+import { useAppStore } from "@/components/store";
 
 export default function PasswordResetRequest() {
+    const { setIsLoading: setGlobalLoading } = useAppStore();
+    const [isLoading, setIsLoading] = useState(false);
     const [sent, setSent] = useState(false);
 
-    const handleSubmit = (e: React.FormEvent) => {
-        e.preventDefault();
-        setSent(true);
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+    } = useForm<PasswordResetRequestFormValues>({
+        resolver: zodResolver(passwordResetRequestSchema),
+        mode: "onBlur",
+    });
+
+    const onSubmit = (data: PasswordResetRequestFormValues) => {
+        setIsLoading(true);
+        setGlobalLoading(true);
+
+        console.log("--- パスワード再設定請求 ---");
+        console.log("Email:", data.email);
+
+        // 通信中をシミュレート
+        setTimeout(() => {
+            setIsLoading(false);
+            setGlobalLoading(false);
+            setSent(true);
+        }, 1500);
     };
 
     return (
@@ -24,24 +52,22 @@ export default function PasswordResetRequest() {
                             登録済みのメールアドレスを入力してください。<br />パスワード再設定用のリンクを送信します。
                         </p>
 
-                        <form className="space-y-5" onSubmit={handleSubmit}>
-                            <div>
-                                <label className="block text-[12px] font-black text-gray-400 uppercase tracking-[0.15em] mb-2 ml-1">
-                                    メールアドレス
-                                </label>
-                                <input
-                                    type="email"
-                                    placeholder="tanaka@example.com"
-                                    className="w-full input-minimal text-gray-700 placeholder:text-gray-300"
-                                    required
-                                />
-                            </div>
+                        <form className="space-y-5" onSubmit={handleSubmit(onSubmit)}>
+                            <FormInput
+                                label="メールアドレス"
+                                placeholder="tanaka@example.com"
+                                error={errors.email?.message}
+                                {...register("email")}
+                            />
 
-                            <button
-                                className="btn btn-primary w-full rounded-xl font-black text-white shadow-md shadow-primary/10 normal-case mt-2 text-[13px] border-none"
+                            <AuthButton
+                                type="submit"
+                                variant="primary"
+                                disabled={isLoading}
+                                isLoading={isLoading}
                             >
                                 送信する
-                            </button>
+                            </AuthButton>
                         </form>
                     </>
                 ) : (
@@ -67,7 +93,7 @@ export default function PasswordResetRequest() {
 
             {/* 下部リンク */}
             <div className="mt-8 text-center">
-                <a
+                <Link
                     href="/login"
                     className="text-[12px] font-bold text-gray-400 hover:text-gray-900 flex items-center justify-center gap-2 transition-colors"
                 >
@@ -75,7 +101,7 @@ export default function PasswordResetRequest() {
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M15 19l-7-7 7-7" />
                     </svg>
                     ログインに戻る
-                </a>
+                </Link>
             </div>
         </>
     );
