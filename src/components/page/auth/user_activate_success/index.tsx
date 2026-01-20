@@ -1,14 +1,26 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import AuthCard from "@/components/page/auth/authCard";
+import { AuthButton } from "@/components/page/auth/authButton";
+import { useAppStore } from "@/components/store";
 
 export default function UserActivateSuccess() {
     const router = useRouter();
+    const { setIsLoading: setGlobalLoading } = useAppStore();
+    const [isLoading, setIsLoading] = useState(false);
 
     const handleNavigateToSpace = () => {
-        router.push("/dashboard");
+        setIsLoading(true);
+        setGlobalLoading(true);
+
+        // 遷移前の処理をシミュレート
+        setTimeout(() => {
+            setIsLoading(false);
+            setGlobalLoading(false);
+            router.push("/dashboard");
+        }, 1200);
     };
 
     return (
@@ -29,12 +41,13 @@ export default function UserActivateSuccess() {
                 </p>
 
                 <div>
-                    <button
+                    <AuthButton
+                        variant="primary"
                         onClick={handleNavigateToSpace}
-                        className="btn btn-primary w-full rounded-xl font-black text-white h-12 shadow-md shadow-primary/20 normal-case text-base border-none"
+                        isLoading={isLoading}
                     >
                         ログインする
-                    </button>
+                    </AuthButton>
                 </div>
             </AuthCard>
 
