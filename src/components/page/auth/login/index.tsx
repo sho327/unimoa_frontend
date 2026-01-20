@@ -10,10 +10,7 @@ import { FormInput } from "@/components/ui/formInput";
 import { SocialLoginButtons } from "@/components/page/auth/socialLoginButtons";
 import { useAppStore } from "@/components/store";
 import { AuthButton } from "@/components/page/auth/authButton";
-import { loginSchema } from "@/components/lib/schema/auth";
-
-// スキーマからTypeScriptの型を自動生成
-type LoginFormValues = z.infer<typeof loginSchema>;
+import { loginSchema, LoginFormValues } from "@/components/lib/schema/auth";
 
 export default function Login() {
     const { setIsLoading: setGlobalLoading } = useAppStore();
