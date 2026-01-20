@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -8,20 +8,8 @@ import AuthCard from "@/components/page/auth/authCard";
 import { FormInput } from "@/components/ui/formInput";
 import { SocialLoginButtons } from "@/components/page/auth/socialLoginButtons";
 import { useAppStore } from "@/components/store";
-
-// ==========================================
-// 1. Zodによるバリデーションルールの定義
-// ==========================================
-const loginSchema = z.object({
-    email: z
-        .string()
-        .min(1, { message: "メールアドレスを入力してください" })
-        .email({ message: "正しいメールアドレス形式で入力してください" }),
-    password: z
-        .string()
-        .min(1, { message: "パスワードを入力してください" })
-        .min(4, { message: "パスワードは4文字以上である必要があります" }),
-});
+import { AuthButton } from "@/components/page/auth/authButton";
+import { loginSchema } from "@/components/lib/schema/auth";
 
 // スキーマからTypeScriptの型を自動生成
 type LoginFormValues = z.infer<typeof loginSchema>;
@@ -31,7 +19,7 @@ export default function Login() {
     const [isLoading, setIsLoading] = useState(false);
 
     // ==========================================
-    // 2. React Hook Form の設定
+    // 1. React Hook Form の設定
     // ==========================================
     const {
         register,
@@ -43,7 +31,7 @@ export default function Login() {
     });
 
     // ==========================================
-    // 3. 送信時の処理
+    // 2. 送信時の処理
     // ==========================================
     const onSubmit = (data: LoginFormValues) => {
         setIsLoading(true);
@@ -98,14 +86,14 @@ export default function Login() {
                         }
                     />
 
-                    <button
+                    <AuthButton
                         type="submit"
-                        className={`btn btn-primary w-full rounded-xl font-black text-white shadow-md shadow-primary/10 normal-case mt-2 text-[13px] border-none ${isLoading ? "loading" : ""
-                            }`}
+                        variant="primary"
                         disabled={isLoading}
+                        isLoading={isLoading}
                     >
-                        {isLoading ? "" : "ログイン"}
-                    </button>
+                        ログイン
+                    </AuthButton>
                 </form>
 
                 {/* 区切り線 */}
