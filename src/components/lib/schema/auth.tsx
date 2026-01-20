@@ -37,6 +37,22 @@ export const passwordResetRequestSchema = z.object({
         .email({ message: "正しいメールアドレス形式で入力してください" }),
 });
 
+export const passwordResetSchema = z
+    .object({
+        password: z
+            .string()
+            .min(1, { message: "新しいパスワードを入力してください" })
+            .min(8, { message: "パスワードは8文字以上である必要があります" }),
+        passwordConfirm: z
+            .string()
+            .min(1, { message: "パスワード（確認）を入力してください" }),
+    })
+    .refine((data) => data.password === data.passwordConfirm, {
+        message: "パスワードが一致しません",
+        path: ["passwordConfirm"],
+    });
+
 export type LoginFormValues = z.infer<typeof loginSchema>;
 export type SignupFormValues = z.infer<typeof signupSchema>;
 export type PasswordResetRequestFormValues = z.infer<typeof passwordResetRequestSchema>;
+export type PasswordResetFormValues = z.infer<typeof passwordResetSchema>;

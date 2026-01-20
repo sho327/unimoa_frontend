@@ -1,15 +1,40 @@
 "use client";
 
 import React, { useState } from "react";
+import Link from "next/link";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import AuthCard from "@/components/page/auth/authCard";
+import { FormInput } from "@/components/ui/formInput";
+import { AuthButton } from "@/components/page/auth/authButton";
+import { passwordResetSchema, PasswordResetFormValues } from "@/components/lib/schema/auth";
+import { useAppStore } from "@/components/store";
 
 export default function PasswordReset() {
+    const { setIsLoading: setGlobalLoading } = useAppStore();
     const [isLoading, setIsLoading] = useState(false);
 
-    const handleSubmit = (e: React.FormEvent) => {
-        e.preventDefault();
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+    } = useForm<PasswordResetFormValues>({
+        resolver: zodResolver(passwordResetSchema),
+        mode: "onBlur",
+    });
+
+    const onSubmit = (data: PasswordResetFormValues) => {
         setIsLoading(true);
-        setTimeout(() => setIsLoading(false), 1500);
+        setGlobalLoading(true);
+
+        console.log("--- パスワード更新試行 ---");
+        console.log("Data:", data);
+
+        // 通信中をシミュレート
+        setTimeout(() => {
+            setIsLoading(false);
+            setGlobalLoading(false);
+        }, 1500);
     };
 
     return (
@@ -23,46 +48,41 @@ export default function PasswordReset() {
                     新しいパスワードを設定してください。<br />設定後、自動的にログインします。
                 </p>
 
-                <form className="space-y-5" onSubmit={handleSubmit}>
-                    <div>
-                        <label className="block text-[12px] font-black text-gray-400 uppercase tracking-[0.15em] mb-2 ml-1">
-                            新しいパスワード
-                        </label>
-                        <input
-                            type="password"
-                            placeholder="8文字以上の英数字"
-                            className="w-full input-minimal text-gray-700 placeholder:text-gray-300"
-                            required
-                        />
-                    </div>
+                <form className="space-y-5" onSubmit={handleSubmit(onSubmit)}>
+                    {/* 新しいパスワード入力 */}
+                    <FormInput
+                        label="新しいパスワード"
+                        type="password"
+                        placeholder="8文字以上の英数字"
+                        error={errors.password?.message}
+                        {...register("password")}
+                    />
 
-                    <div>
-                        <label className="block text-[12px] font-black text-gray-400 uppercase tracking-[0.15em] mb-2 ml-1">
-                            パスワード（確認）
-                        </label>
-                        <input
-                            type="password"
-                            placeholder="もう一度入力してください"
-                            className="w-full input-minimal text-gray-700 placeholder:text-gray-300"
-                            required
-                        />
-                    </div>
+                    {/* パスワード確認入力 */}
+                    <FormInput
+                        label="パスワード（確認）"
+                        type="password"
+                        placeholder="もう一度入力してください"
+                        error={errors.passwordConfirm?.message}
+                        {...register("passwordConfirm")}
+                    />
 
                     <div className="pt-2">
-                        <button
-                            className={`btn btn-primary w-full rounded-xl font-black text-white shadow-md shadow-primary/10 normal-case mt-2 text-[13px] border-none ${isLoading ? "loading" : ""
-                                }`}
+                        <AuthButton
+                            type="submit"
+                            variant="primary"
                             disabled={isLoading}
+                            isLoading={isLoading}
                         >
-                            {isLoading ? "" : "パスワードを更新"}
-                        </button>
+                            パスワードを更新
+                        </AuthButton>
                     </div>
                 </form>
             </AuthCard>
 
             {/* 下部リンク */}
             <div className="mt-8 text-center">
-                <a
+                <Link
                     href="/login"
                     className="text-[12px] font-bold text-gray-400 hover:text-gray-900 flex items-center justify-center gap-2 transition-colors"
                 >
@@ -70,7 +90,7 @@ export default function PasswordReset() {
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M15 19l-7-7 7-7" />
                     </svg>
                     ログイン画面へ戻る
-                </a>
+                </Link>
             </div>
         </>
     );
