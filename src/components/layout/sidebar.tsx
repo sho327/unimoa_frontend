@@ -91,7 +91,7 @@ export default function Sidebar() {
                                             : "text-gray-500 hover:bg-gray-50 hover:text-gray-900"
                                             } ${!sidebarExpanded && !mobileMenuOpen ? "md:justify-center md:px-0" : ""}`}
                                     >
-                                        <div className="w-6 h-6 flex items-center justify-center shrink-0">
+                                        <div className="w-6 h-6 sm:w-5 sm:h-5 flex items-center justify-center shrink-0">
                                             {item.icon}
                                         </div>
                                         {(sidebarExpanded || mobileMenuOpen) && (
