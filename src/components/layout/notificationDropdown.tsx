@@ -78,14 +78,14 @@ export function NotificationDropdown({
 
             {/* ドロップダウンコンテンツ */}
             {isOpen && (
-                <div className="absolute right-0 mt-3 w-80 sm:w-96 bg-white border border-gray-100 rounded-2xl shadow-2xl z-[150] overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200">
+                <div className="absolute -right-5 mt-3 w-80 sm:w-96 bg-white border border-gray-100 rounded-2xl shadow-2xl z-[150] overflow-hidden animate-in fade-in slide-in-from-top-2 duration-200">
                     {/* ヘッダー */}
                     <div className="px-5 py-4 border-b border-gray-50 flex items-center justify-between">
                         <span className="font-black text-sm text-gray-900 tracking-tight">お知らせ</span>
                         {notifications.length > 0 && unreadCount > 0 && (
                             <button
                                 onClick={onClickAllRead}
-                                className="text-[11px] font-black text-[oklch(0.73_0.11_162)] hover:underline"
+                                className="text-[12px] font-black text-[oklch(0.73_0.11_162)] hover:underline"
                             >
                                 すべて既読にする
                             </button>
@@ -123,10 +123,10 @@ export function NotificationDropdown({
                                                     <div className="mt-1.5 h-2 w-2 flex-shrink-0 animate-pulse rounded-full bg-blue-500 ring-4 ring-blue-500/10" />
                                                 )}
                                             </div>
-                                            <p className="text-[11px] leading-relaxed text-gray-500 line-clamp-2 font-medium">
+                                            <p className="text-[12px] leading-relaxed text-gray-500 line-clamp-2 font-medium">
                                                 {notification.description}
                                             </p>
-                                            <p className="mt-2 text-[10px] text-gray-400 font-bold uppercase tracking-wider">
+                                            <p className="mt-2 text-[11px] text-gray-400 font-bold uppercase tracking-wider">
                                                 {formatTimestamp(notification.timestamp)}
                                             </p>
                                         </div>
@@ -144,7 +144,7 @@ export function NotificationDropdown({
                                     router.push("/notifications");
                                     setIsOpen(false);
                                 }}
-                                className="w-full py-2.5 text-center text-[11px] font-black text-gray-500 hover:text-gray-900 hover:bg-gray-50 rounded-xl transition-all flex items-center justify-center gap-1"
+                                className="w-full py-2.5 text-center text-[12px] font-black text-gray-500 hover:text-gray-900 hover:bg-gray-50 rounded-xl transition-all flex items-center justify-center gap-1"
                             >
                                 すべてのお知らせを見る
                             </button>

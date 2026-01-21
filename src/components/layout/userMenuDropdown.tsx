@@ -55,9 +55,9 @@ export function UserMenuDropdown({
             {isOpen && (
                 <div className="absolute top-full right-0 mt-2 w-56 bg-white border border-gray-100 rounded-2xl shadow-2xl z-[150] overflow-hidden animate-in fade-in zoom-in-95 duration-100">
                     {/* ユーザー名ヘッダー */}
-                    <div className="px-4 py-3 border-b border-gray-50 bg-gray-50/30">
-                        <p className="text-xs font-black text-gray-900 truncate leading-none mb-1">{displayUserName}</p>
-                        <p className="text-[9px] font-bold text-gray-400 uppercase tracking-widest leading-none">管理者</p>
+                    <div className="px-4 pt-4 border-b border-gray-50 bg-gray-50/30">
+                        <p className="text-sm font-black text-gray-900 truncate leading-none mb-1">{displayUserName}</p>
+                        <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest leading-none">管理者</p>
                     </div>
 
                     <div className="py-1.5 px-1.5">
