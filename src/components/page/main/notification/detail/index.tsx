@@ -56,7 +56,7 @@ export default function NotificationDetail({ notification }: NotificationDetailP
                         {notification.title}
                     </h2>
 
-                    <div className="divider opacity-50 my-3"></div>
+                    <div className="divider opacity-50 my-2 sm:my-3"></div>
 
                     <div className="text-gray-600 leading-relaxed space-y-4 text-sm sm:text-base">
                         {notification.body.split('\n').map((line, i) => (
