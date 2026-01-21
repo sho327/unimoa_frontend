@@ -4,6 +4,7 @@ import React from "react";
 import Link from "next/link";
 import { ChevronLeft } from "lucide-react";
 import { pageRoutes } from "@/components/constants";
+import { Button } from "@/components/ui/button";
 
 type NotificationType = 'task' | 'info' | 'schedule' | 'file';
 
@@ -40,36 +41,42 @@ export default function NotificationDetail({ notification }: NotificationDetailP
                     className="btn btn-ghost btn-sm gap-2 px-0 mb-6 hover:bg-transparent text-gray-400 hover:text-primary transition-colors inline-flex items-center"
                 >
                     <ChevronLeft className="w-5 h-5" strokeWidth={3} />
-                    <span className="font-black text-xs uppercase tracking-widest">一覧に戻る</span>
+                    <span className="font-black text-sm uppercase tracking-widest">一覧に戻る</span>
                 </Link>
 
                 <div className="bg-white rounded-2xl p-6 sm:p-8 shadow-sm border border-gray-100">
-                    <div className="flex items-center gap-3 mb-6">
+                    <div className="flex items-center gap-3 mb-2">
                         <span className={`px-3 py-1 rounded-full text-[10px] font-black text-white uppercase tracking-widest ${info.class}`}>
                             {info.label}
                         </span>
-                        <span className="text-[11px] font-bold text-gray-400 tracking-wider font-mono">{notification.date}</span>
+                        <span className="text-[12px] font-bold text-gray-400 tracking-wider font-mono">{notification.date}</span>
                     </div>
 
-                    <h2 className="text-xl sm:text-2xl font-black text-gray-900 leading-tight mb-6 tracking-tight">
+                    <h2 className="text-xl font-black text-gray-900 leading-tight tracking-tight">
                         {notification.title}
                     </h2>
 
-                    <div className="divider opacity-50"></div>
+                    <div className="divider opacity-50 my-3"></div>
 
-                    <div className="py-4 text-gray-600 leading-relaxed space-y-4 text-sm sm:text-base font-medium">
+                    <div className="text-gray-600 leading-relaxed space-y-4 text-sm sm:text-base">
                         {notification.body.split('\n').map((line, i) => (
                             <p key={i}>{line}</p>
                         ))}
                     </div>
 
                     <div className="mt-10 flex flex-col sm:flex-row gap-3">
-                        <button className="btn btn-primary rounded-2xl font-black px-8 shadow-lg shadow-primary/20 flex-1 sm:flex-none text-white border-none">
+                        <Button
+                            variant="primary"
+                            onClick={() => console.log("Action:", info.action, notification)}
+                        >
                             {info.action}
-                        </button>
-                        <button className="btn btn-ghost bg-gray-50 hover:bg-gray-100 rounded-2xl font-bold text-gray-400 flex-1 sm:flex-none transition-colors">
+                        </Button>
+                        <Button
+                            variant="outline"
+                            onClick={() => console.log("Mark as read:", notification.id)}
+                        >
                             既読にする
-                        </button>
+                        </Button>
                     </div>
                 </div>
             </div>
