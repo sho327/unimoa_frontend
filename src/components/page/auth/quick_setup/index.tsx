@@ -2,17 +2,39 @@
 
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import AuthCard from "@/components/page/auth/authCard";
+import { FormInput } from "@/components/ui/formInput";
+import { AuthButton } from "@/components/page/auth/authButton";
+import { useAppStore } from "@/components/store";
+import { quickSetupSchema, QuickSetupFormValues } from "@/components/lib/schema/auth";
 
 export default function QuickSetup() {
     const router = useRouter();
+    const { setIsLoading: setGlobalLoading } = useAppStore();
     const [isLoading, setIsLoading] = useState(false);
 
-    const handleSubmit = (e: React.FormEvent) => {
-        e.preventDefault();
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+    } = useForm<QuickSetupFormValues>({
+        resolver: zodResolver(quickSetupSchema),
+        mode: "onBlur",
+    });
+
+    const onSubmit = (data: QuickSetupFormValues) => {
         setIsLoading(true);
+        setGlobalLoading(true);
+
+        console.log("--- クイックセットアップ完了試行 ---");
+        console.log("Data:", data);
+
+        // 通信中をシミュレート
         setTimeout(() => {
             setIsLoading(false);
+            setGlobalLoading(false);
             router.push("/dashboard");
         }, 1500);
     };
@@ -42,7 +64,7 @@ export default function QuickSetup() {
                     参加を完了するために詳細を設定してください
                 </p>
 
-                <form className="space-y-6" onSubmit={handleSubmit}>
+                <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
                     {/* アバター選択 */}
                     <div className="flex flex-col items-center gap-3">
                         <div className="avatar">
@@ -59,54 +81,41 @@ export default function QuickSetup() {
                     </div>
 
                     {/* ニックネーム */}
-                    <div>
-                        <label className="block text-[12px] font-black text-gray-400 uppercase tracking-[0.15em] mb-2 ml-1">
-                            ニックネーム (表示名)
-                        </label>
-                        <input
-                            type="text"
-                            placeholder="例：たなか"
-                            className="w-full input-minimal text-gray-700 placeholder:text-gray-300"
-                            required
-                        />
-                    </div>
+                    <FormInput
+                        label="ニックネーム (表示名)"
+                        placeholder="例：たなか"
+                        error={errors.nickname?.message}
+                        {...register("nickname")}
+                    />
 
                     {/* パスワード */}
-                    <div>
-                        <label className="block text-[12px] font-black text-gray-400 uppercase tracking-[0.15em] mb-2 ml-1">
-                            パスワード
-                        </label>
-                        <input
-                            type="password"
-                            placeholder="8文字以上の英数字"
-                            className="w-full input-minimal text-gray-700 placeholder:text-gray-300"
-                            required
-                        />
-                    </div>
+                    <FormInput
+                        label="パスワード"
+                        type="password"
+                        placeholder="8文字以上の英数字"
+                        error={errors.password?.message}
+                        {...register("password")}
+                    />
 
                     {/* パスワード確認 */}
-                    <div>
-                        <label className="block text-[12px] font-black text-gray-400 uppercase tracking-[0.15em] mb-2 ml-1">
-                            パスワード（確認）
-                        </label>
-                        <input
-                            type="password"
-                            placeholder="もう一度入力してください"
-                            className="w-full input-minimal text-gray-700 placeholder:text-gray-300"
-                            required
-                        />
-                    </div>
+                    <FormInput
+                        label="パスワード（確認）"
+                        type="password"
+                        placeholder="もう一度入力してください"
+                        error={errors.passwordConfirm?.message}
+                        {...register("passwordConfirm")}
+                    />
 
                     {/* 送信ボタン */}
                     <div className="pt-2">
-                        <button
+                        <AuthButton
                             type="submit"
-                            className={`btn btn-primary w-full rounded-xl font-black text-white shadow-md shadow-primary/10 normal-case text-[13px] border-none ${isLoading ? "loading" : ""
-                                }`}
+                            variant="primary"
                             disabled={isLoading}
+                            isLoading={isLoading}
                         >
-                            {isLoading ? "" : "登録を完了して参加する"}
-                        </button>
+                            登録を完了して参加する
+                        </AuthButton>
                     </div>
                 </form>
             </AuthCard>
