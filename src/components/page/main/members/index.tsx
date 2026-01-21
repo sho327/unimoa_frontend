@@ -1,8 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { z } from "zod";
-import { useAppStore } from "@/store";
 import { Modal } from "@/components/ui/modal";
 import { Button } from "@/components/ui/button";
 import { FormInput } from "@/components/ui/formInput";
@@ -22,15 +21,16 @@ type Member = {
     isRegistered: boolean;
 };
 
-export default function Members() {
-    const { searchQuery, setSearchQuery } = useAppStore();
+type InviteTarget =
+    | { type: "member"; id: string; name: string; email: string; avatar?: string }
+    | { type: "email"; email: string };
 
+export default function Members() {
     const [activeTab, setActiveTab] = useState<"registered" | "unregistered">("registered");
     const [showInviteModal, setShowInviteModal] = useState(false);
-    const [showEmailInviteModal, setShowEmailInviteModal] = useState(false);
-    const [emailInput, setEmailInput] = useState("");
+    const [inviteInput, setInviteInput] = useState("");
     const [inviteError, setInviteError] = useState("");
-    const [emailError, setEmailError] = useState("");
+    const [selectedInvites, setSelectedInvites] = useState<InviteTarget[]>([]);
 
     // ダミーデータ
     const registeredMembers: Member[] = [
@@ -95,41 +95,87 @@ export default function Members() {
         return <span className={`badge ${styles[status]} badge-sm font-bold`}>{labels[status]}</span>;
     };
 
-    const inviteSchema = z.string().trim().min(1, "ユーザーIDまたはメールアドレスを入力してください");
-    const emailSchema = z.string().trim().min(1, "メールアドレスを入力してください").email("有効なメールアドレスを入力してください");
+    const emailSchema = z
+        .string()
+        .trim()
+        .min(1, "メールアドレスを入力してください")
+        .email("有効なメールアドレスを入力してください");
 
     const closeInviteModal = () => {
         setShowInviteModal(false);
         setInviteError("");
-        setSearchQuery("");
+        setInviteInput("");
+        setSelectedInvites([]);
     };
 
-    const closeEmailInviteModal = () => {
-        setShowEmailInviteModal(false);
-        setEmailError("");
-        setEmailInput("");
+    const normalizedInput = inviteInput.trim().toLowerCase();
+    const suggestions = useMemo(() => {
+        if (!normalizedInput) return [];
+        return registeredMembers
+            .filter((m) => {
+                const name = m.name.toLowerCase();
+                const email = m.email.toLowerCase();
+                return name.includes(normalizedInput) || email.includes(normalizedInput) || m.id === normalizedInput;
+            })
+            .filter((m) => !selectedInvites.some((s) => s.type === "member" && s.id === m.id))
+            .slice(0, 5);
+    }, [normalizedInput, registeredMembers, selectedInvites]);
+
+    const addMemberInvite = (member: Member) => {
+        setSelectedInvites((prev) => [
+            ...prev,
+            { type: "member", id: member.id, name: member.name, email: member.email, avatar: member.avatar },
+        ]);
+        setInviteInput("");
+        setInviteError("");
+    };
+
+    const addEmailInvite = (email: string) => {
+        const normalized = email.trim().toLowerCase();
+        if (selectedInvites.some((s) => s.type === "email" && s.email.toLowerCase() === normalized)) {
+            setInviteError("同じメールアドレスが既に追加されています");
+            return;
+        }
+        if (selectedInvites.some((s) => s.type === "member" && s.email.toLowerCase() === normalized)) {
+            setInviteError("既にUnimoaユーザとして追加されています");
+            return;
+        }
+        setSelectedInvites((prev) => [...prev, { type: "email", email: normalized }]);
+        setInviteInput("");
+        setInviteError("");
+    };
+
+    const removeInvite = (target: InviteTarget) => {
+        setSelectedInvites((prev) => {
+            if (target.type === "member") return prev.filter((s) => !(s.type === "member" && s.id === target.id));
+            return prev.filter((s) => !(s.type === "email" && s.email === target.email));
+        });
+    };
+
+    const handleInviteInputKeyDown: React.KeyboardEventHandler<HTMLInputElement> = (e) => {
+        if (e.key !== "Enter") return;
+        e.preventDefault();
+
+        // Enter は「メール形式なら外部ユーザとして追加」
+        const emailResult = emailSchema.safeParse(inviteInput);
+        if (emailResult.success) {
+            addEmailInvite(emailResult.data);
+            return;
+        }
+
+        // 入力がメール形式でなければサジェストから選択する想定
+        setInviteError("登録済ユーザをサジェストから選択するか、有効なメールアドレスを入力してください");
     };
 
     const handleInvite = () => {
-        const result = inviteSchema.safeParse(searchQuery);
-        if (!result.success) {
-            setInviteError(result.error.issues[0]?.message ?? "入力内容を確認してください");
+        if (selectedInvites.length === 0) {
+            setInviteError("招待するユーザを選択してください");
             return;
         }
-        setInviteError("");
-        console.log("Inviting user:", result.data);
-        closeInviteModal();
-    };
 
-    const handleEmailInvite = () => {
-        const result = emailSchema.safeParse(emailInput);
-        if (!result.success) {
-            setEmailError(result.error.issues[0]?.message ?? "メールアドレスを確認してください");
-            return;
-        }
-        setEmailError("");
-        console.log("Sending invite to:", result.data);
-        closeEmailInviteModal();
+        // NOTE: 現状はお試し実装のため、実際の送信はせずコンソールに出す
+        console.log("Inviting targets:", selectedInvites);
+        closeInviteModal();
     };
 
     return (
@@ -141,16 +187,6 @@ export default function Members() {
                 </div>
                 {/* 招待ボタン */}
                 <div className="flex items-center gap-2">
-                    {/* <Button
-                        variant="outline"
-                        className="btn-sm text-xs"
-                        onClick={() => setShowEmailInviteModal(true)}
-                    >
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                        </svg>
-                        メール招待
-                    </Button> */}
                     <Button
                         variant="primary"
                         className="btn-sm text-xs gap-1"
@@ -159,9 +195,6 @@ export default function Members() {
                         <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16m8-8H4" />
                         </svg>
-                        {/* <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                        </svg> */}
                         ユーザ招待
                     </Button>
                 </div>
@@ -270,18 +303,64 @@ export default function Members() {
                 onClose={closeInviteModal}
                 title="ユーザ招待"
             >
-                <p className="text-sm text-gray-600 mb-4">
-                    ユーザID または メールアドレスで検索してください。<br/>
-                    <span className="text-xs text-red-500">※未登録ユーザの場合は招待メールが送信されます。</span>
-                </p>
+                <p className="text-sm text-gray-600">対象のユーザID または メールアドレスを入力してください。</p>
+                <p className="text-xs font-bold text-red-500 mt-1 mb-4">※未登録ユーザの場合は招待メールが送信されます。</p>
+                {selectedInvites.length > 0 && (
+                    <div className="flex flex-wrap gap-2 mb-3">
+                        {selectedInvites.map((t) => (
+                            <div
+                                key={t.type === "member" ? `m:${t.id}` : `e:${t.email}`}
+                                className="badge badge-ghost px-3 py-3 gap-2"
+                            >
+                                <span className="font-bold text-xs">
+                                    {t.type === "member" ? `${t.name}（${t.email}）` : t.email}
+                                </span>
+                                <button
+                                    type="button"
+                                    className="btn btn-ghost btn-xs px-1"
+                                    onClick={() => removeInvite(t)}
+                                >
+                                    ×
+                                </button>
+                            </div>
+                        ))}
+                    </div>
+                )}
                 <FormInput
                     label="ユーザーID または メールアドレス"
                     type="text"
                     placeholder="例：tanaka@example.com"
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
+                    value={inviteInput}
+                    onChange={(e) => {
+                        setInviteInput(e.target.value);
+                        setInviteError("");
+                    }}
+                    onKeyDown={handleInviteInputKeyDown}
                     error={inviteError}
                 />
+                {suggestions.length > 0 && (
+                    <div className="mt-2 border border-gray-200 rounded-xl overflow-hidden max-h-56 overflow-y-auto">
+                        {suggestions.map((m) => (
+                            <button
+                                key={m.id}
+                                type="button"
+                                className="w-full flex items-center gap-3 px-3 py-2 text-left hover:bg-gray-50"
+                                onClick={() => addMemberInvite(m)}
+                            >
+                                <div className="avatar">
+                                    <div className="w-8 h-8 rounded-full">
+                                        <img src={m.avatar} alt={m.name || m.email} />
+                                    </div>
+                                </div>
+                                <div className="min-w-0">
+                                    <div className="font-bold text-sm text-gray-900 truncate">{m.name}</div>
+                                    <div className="text-xs text-gray-500 truncate">{m.email}</div>
+                                </div>
+                                <div className="ml-auto text-[10px] font-black text-gray-400">選択</div>
+                            </button>
+                        ))}
+                    </div>
+                )}
                 <div className="modal-action">
                     <Button 
                         variant="outline" 
@@ -292,36 +371,12 @@ export default function Members() {
                     <Button 
                         variant="primary" 
                         onClick={handleInvite}
+                        disabled={selectedInvites.length === 0}
                         >
                         招待する
                     </Button>
                 </div>
             </Modal>
-
-            {/* 未登録ユーザー招待モーダル */}
-            {/* <Modal
-                open={showEmailInviteModal}
-                onClose={closeEmailInviteModal}
-                title="メールで招待"
-            >
-                <p className="text-sm text-gray-600 mb-4">招待メールを送信するメールアドレスを入力してください</p>
-                <FormInput
-                    label="メールアドレス"
-                    type="email"
-                    placeholder="例：yamada@example.com"
-                    value={emailInput}
-                    onChange={(e) => setEmailInput(e.target.value)}
-                    error={emailError}
-                />
-                <div className="modal-action">
-                    <Button variant="ghost" onClick={closeEmailInviteModal}>
-                        キャンセル
-                    </Button>
-                    <Button variant="primary" onClick={handleEmailInvite}>
-                        招待メールを送信
-                    </Button>
-                </div>
-            </Modal> */}
         </main>
     );
 }
