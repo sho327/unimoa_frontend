@@ -21,7 +21,7 @@ export default function QuickSetup() {
         formState: { errors },
     } = useForm<QuickSetupFormValues>({
         resolver: zodResolver(quickSetupSchema),
-        mode: "onSubmit",
+        mode: "onBlur",
     });
 
     const onSubmit = (data: QuickSetupFormValues) => {

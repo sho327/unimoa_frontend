@@ -33,7 +33,7 @@ export default function InitialSetup() {
             workspaceName: "",
             workspaceIcon: "",
         },
-        mode: "onSubmit",
+        mode: "onBlur",
     });
 
     const selectedMode = watch("planMode");
@@ -105,7 +105,7 @@ export default function InitialSetup() {
                             <h1 className="text-base font-black text-gray-900 mb-2">プロフィール設定</h1>
                             <p className="text-[12px] text-gray-500 mb-8 font-bold">メンバーに表示されるあなたの情報</p>
                             <div className="space-y-6">
-                                <div className="flex flex-col items-center gap-4 py-2">
+                                <div className="flex flex-col items-center gap-4 pt-2">
                                     <div className="avatar">
                                         <div className="w-20 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
                                             <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Unimoa" alt="Avatar" />
@@ -339,9 +339,9 @@ export default function InitialSetup() {
                 </form>
             </AuthCard>
 
-            <p className="mt-8 text-center text-[10px] font-bold text-gray-400 uppercase tracking-widest">
+            {/* <p className="mt-8 text-center text-[10px] font-bold text-gray-400 uppercase tracking-widest">
                 Unimoa Setup Wizard
-            </p>
+            </p> */}
         </>
     );
 }
