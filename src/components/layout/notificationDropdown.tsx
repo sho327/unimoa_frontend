@@ -68,7 +68,7 @@ export function NotificationDropdown({
                 className={`relative h-9 w-9 flex items-center justify-center rounded-xl transition-all duration-200 ${isOpen ? "bg-[oklch(0.73_0.11_162)]/10 text-[oklch(0.73_0.11_162)]" : "text-gray-500 hover:bg-gray-100"
                     }`}
             >
-                <Bell className={`h-5 w-5 ${isOpen ? "fill-current" : ""}`} />
+                <Bell className={`h-6 w-6 ${isOpen ? "fill-current" : ""}`} />
                 {unreadCount > 0 && (
                     <span className="absolute top-1.5 right-1.5 flex h-3.5 w-3.5 items-center justify-center rounded-full bg-red-500 text-[8px] font-black text-white border-[1.5px] border-white ring-red-500/10 ring-2">
                         {unreadCount > 99 ? "99+" : unreadCount}

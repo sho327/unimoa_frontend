@@ -37,8 +37,8 @@ export function UserMenuDropdown({
             <button
                 onClick={() => setIsOpen(!isOpen)}
                 className={`h-8 w-8 rounded-full border-2 transition-all flex items-center justify-center overflow-hidden shadow-sm outline-none ${isOpen
-                        ? "border-[oklch(0.73_0.11_162)] shadow-md text-[oklch(0.73_0.11_162)]"
-                        : "border-white bg-gray-200 hover:opacity-80"
+                    ? "border-[oklch(0.73_0.11_162)] shadow-md text-[oklch(0.73_0.11_162)]"
+                    : "border-white bg-gray-200 hover:opacity-80"
                     }`}
             >
                 {userIconSrc ? (
