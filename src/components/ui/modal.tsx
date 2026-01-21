@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-import { cn } from "@/lib/utils";
 
 type ModalProps = {
     open: boolean;
@@ -30,7 +29,7 @@ export function Modal({
 
     return (
         <div className="modal modal-open">
-            <div className={cn("modal-box", maxWidthClassName, className)}>
+            <div className={`modal-box ${maxWidthClassName} ${className ?? ""}`}>
                 {title && <h3 className="font-black text-lg mb-4">{title}</h3>}
                 {children}
                 {footer && <div className="modal-action">{footer}</div>}
