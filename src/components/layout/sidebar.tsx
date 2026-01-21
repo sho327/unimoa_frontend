@@ -80,7 +80,12 @@ export default function Sidebar() {
                             )}
 
                             {menuItems.map((item) => {
-                                const isActive = pathname === item.href;
+                                // パスの末尾スラッシュ有無やネスト配下もハイライト対象にする
+                                const currentPath = pathname.endsWith("/") && pathname !== "/" ? pathname.slice(0, -1) : pathname;
+                                const isActive =
+                                    currentPath === item.href ||
+                                    currentPath.startsWith(`${item.href}/`) ||
+                                    (currentPath === "/" && item.href === pageRoutes.MAIN.DASHBOARD);
                                 return (
                                     <Link
                                         key={item.href}
