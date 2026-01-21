@@ -29,7 +29,7 @@ export const pageRoutes = {
     },
     MAIN: {
         DASHBOARD: `/dashboard`,
-        PROJECTS: `/projects`,
+        PROJECTS: `/project/list`,
         MEMBERS: `/members`,
     },
     PROJECT: {
