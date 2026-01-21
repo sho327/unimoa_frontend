@@ -1,6 +1,6 @@
 "use client"
 
-import { useAppStore } from "@/components/store"
+import { useAppStore } from "@/store"
 
 type Space = {
     id: string

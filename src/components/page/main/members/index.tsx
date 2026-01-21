@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useAppStore } from "@/components/store"
+import { useAppStore } from "@/store"
 
 type MemberStatus = "pending" | "active" | "declined";
 type MemberRole = "admin" | "member" | "viewer";
