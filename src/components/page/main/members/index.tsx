@@ -1,8 +1,12 @@
 "use client";
 
 import { useState } from "react";
+import { z } from "zod";
 import { useAppStore } from "@/store";
 import { Modal } from "@/components/ui/modal";
+import { Button } from "@/components/ui/button";
+import { FormInput } from "@/components/ui/formInput";
+import { Table, TableHead, TableBody, TableRow, TableHeader, TableCell } from "@/components/ui/table";
 
 type MemberStatus = "pending" | "active" | "declined";
 type MemberRole = "admin" | "member" | "viewer";
@@ -25,6 +29,8 @@ export default function Members() {
     const [showInviteModal, setShowInviteModal] = useState(false);
     const [showEmailInviteModal, setShowEmailInviteModal] = useState(false);
     const [emailInput, setEmailInput] = useState("");
+    const [inviteError, setInviteError] = useState("");
+    const [emailError, setEmailError] = useState("");
 
     // ダミーデータ
     const registeredMembers: Member[] = [
@@ -89,16 +95,41 @@ export default function Members() {
         return <span className={`badge ${styles[status]} badge-sm font-bold`}>{labels[status]}</span>;
     };
 
-    const handleInvite = () => {
-        console.log("Inviting user:", searchQuery);
+    const inviteSchema = z.string().trim().min(1, "ユーザーIDまたはメールアドレスを入力してください");
+    const emailSchema = z.string().trim().min(1, "メールアドレスを入力してください").email("有効なメールアドレスを入力してください");
+
+    const closeInviteModal = () => {
         setShowInviteModal(false);
+        setInviteError("");
         setSearchQuery("");
     };
 
-    const handleEmailInvite = () => {
-        console.log("Sending invite to:", emailInput);
+    const closeEmailInviteModal = () => {
         setShowEmailInviteModal(false);
+        setEmailError("");
         setEmailInput("");
+    };
+
+    const handleInvite = () => {
+        const result = inviteSchema.safeParse(searchQuery);
+        if (!result.success) {
+            setInviteError(result.error.issues[0]?.message ?? "入力内容を確認してください");
+            return;
+        }
+        setInviteError("");
+        console.log("Inviting user:", result.data);
+        closeInviteModal();
+    };
+
+    const handleEmailInvite = () => {
+        const result = emailSchema.safeParse(emailInput);
+        if (!result.success) {
+            setEmailError(result.error.issues[0]?.message ?? "メールアドレスを確認してください");
+            return;
+        }
+        setEmailError("");
+        console.log("Sending invite to:", result.data);
+        closeEmailInviteModal();
     };
 
     return (
@@ -110,24 +141,26 @@ export default function Members() {
                 </div>
                 {/* 招待ボタン */}
                 <div className="flex items-center gap-2">
-                    <button
+                    <Button
+                        variant="outline"
+                        className="btn-sm rounded-lg normal-case font-bold text-gray-600 text-xs"
                         onClick={() => setShowEmailInviteModal(true)}
-                        className="btn btn-outline btn-sm border-gray-300 bg-white hover:bg-gray-100 hover:border-gray-400 hover:text-gray-800 rounded-lg normal-case font-bold text-gray-600 text-xs"
                     >
                         <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                         </svg>
                         メール招待
-                    </button>
-                    <button
+                    </Button>
+                    <Button
+                        variant="primary"
+                        className="btn-sm rounded-lg normal-case font-bold text-white text-xs border-none shadow-sm"
                         onClick={() => setShowInviteModal(true)}
-                        className="btn btn-primary btn-sm rounded-lg normal-case font-bold text-white text-xs border-none shadow-sm"
                     >
                         <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16m8-8H4" />
                         </svg>
                         ユーザー招待
-                    </button>
+                    </Button>
                 </div>
             </div>
 
@@ -152,21 +185,21 @@ export default function Members() {
             {/* メンバー一覧テーブル */}
             <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
                 <div className="overflow-x-auto">
-                    <table className="table table-zebra">
-                        <thead className="bg-gray-50">
-                            <tr>
-                                <th className="font-black text-xs text-gray-500 uppercase tracking-widest whitespace-nowrap">メンバー</th>
-                                <th className="font-black text-xs text-gray-500 uppercase tracking-widest whitespace-nowrap">メールアドレス</th>
-                                <th className="font-black text-xs text-gray-500 uppercase tracking-widest whitespace-nowrap">参加日</th>
-                                <th className="font-black text-xs text-gray-500 uppercase tracking-widest whitespace-nowrap">ステータス</th>
-                                <th className="font-black text-xs text-gray-500 uppercase tracking-widest whitespace-nowrap">権限</th>
-                                <th className="font-black text-xs text-gray-500 uppercase tracking-widest whitespace-nowrap"></th>
-                            </tr>
-                        </thead>
-                        <tbody>
+                    <Table className="table-zebra">
+                        <TableHead className="bg-gray-50">
+                            <TableRow>
+                                <TableHeader className="font-black text-xs text-gray-500 uppercase tracking-widest whitespace-nowrap">メンバー</TableHeader>
+                                <TableHeader className="font-black text-xs text-gray-500 uppercase tracking-widest whitespace-nowrap">メールアドレス</TableHeader>
+                                <TableHeader className="font-black text-xs text-gray-500 uppercase tracking-widest whitespace-nowrap">参加日</TableHeader>
+                                <TableHeader className="font-black text-xs text-gray-500 uppercase tracking-widest whitespace-nowrap">ステータス</TableHeader>
+                                <TableHeader className="font-black text-xs text-gray-500 uppercase tracking-widest whitespace-nowrap">権限</TableHeader>
+                                <TableHeader className="font-black text-xs text-gray-500 uppercase tracking-widest whitespace-nowrap"></TableHeader>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
                             {currentMembers.map((member) => (
-                                <tr key={member.id} className="hover">
-                                    <td>
+                                <TableRow key={member.id} className="hover">
+                                    <TableCell>
                                         <div className="flex items-center gap-3">
                                             <div className="avatar">
                                                 <div className="w-10 h-10 rounded-full">
@@ -177,11 +210,11 @@ export default function Members() {
                                                 {member.name || "未登録"}
                                             </div>
                                         </div>
-                                    </td>
-                                    <td className="text-sm text-gray-600 whitespace-nowrap">{member.email}</td>
-                                    <td className="text-sm text-gray-600 whitespace-nowrap">{member.joinedAt}</td>
-                                    <td>{getStatusBadge(member.status)}</td>
-                                    <td>
+                                    </TableCell>
+                                    <TableCell className="text-sm text-gray-600 whitespace-nowrap">{member.email}</TableCell>
+                                    <TableCell className="text-sm text-gray-600 whitespace-nowrap">{member.joinedAt}</TableCell>
+                                    <TableCell>{getStatusBadge(member.status)}</TableCell>
+                                    <TableCell>
                                         <select
                                             className="select select-sm select-bordered font-bold text-xs"
                                             defaultValue={member.role}
@@ -191,20 +224,26 @@ export default function Members() {
                                             <option value="member">メンバー</option>
                                             <option value="viewer">閲覧者</option>
                                         </select>
-                                    </td>
-                                    <td>
+                                    </TableCell>
+                                    <TableCell>
                                         <div className="flex">
                                             {member.status === "pending" && (
-                                                <button className="btn btn-ghost btn-xs text-primary hover:bg-primary/10 font-bold gap-1 px-2 rounded-lg transition-all">
+                                                <Button
+                                                    variant="ghost"
+                                                    className="btn-xs text-primary hover:bg-primary/10 font-bold gap-1 px-2 rounded-lg transition-all"
+                                                >
                                                     <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                                                         <path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
                                                         <path d="M3 3v5h5" />
                                                         <path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16" />
                                                         <path d="M16 16h5v5" />
                                                     </svg>
-                                                </button>
+                                                </Button>
                                             )}
-                                            <button className="btn btn-ghost btn-xs text-error hover:bg-error/10 font-bold gap-1 px-2 rounded-lg transition-all">
+                                            <Button
+                                                variant="ghost"
+                                                className="btn-xs text-error hover:bg-error/10 font-bold gap-1 px-2 rounded-lg transition-all"
+                                            >
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                                                     <path d="M3 6h18" />
                                                     <path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6" />
@@ -212,61 +251,65 @@ export default function Members() {
                                                     <line x1="10" x2="10" y1="11" y2="17" />
                                                     <line x1="14" x2="14" y1="11" y2="17" />
                                                 </svg>
-                                            </button>
+                                            </Button>
                                         </div>
-                                    </td>
-                                </tr>
+                                    </TableCell>
+                                </TableRow>
                             ))}
-                        </tbody>
-                    </table>
+                        </TableBody>
+                    </Table>
                 </div>
             </div>
 
             {/* Unimoaユーザー招待モーダル */}
             <Modal
                 open={showInviteModal}
-                onClose={() => setShowInviteModal(false)}
+                onClose={closeInviteModal}
                 title="Unimoaユーザーを招待"
             >
                 <p className="text-sm text-gray-600 mb-4">ユーザーIDまたはメールアドレスで検索してください</p>
-                <input
+                <FormInput
+                    label="ユーザーID / メールアドレス"
                     type="text"
                     placeholder="例：tanaka@example.com"
-                    className="input input-bordered w-full mb-4"
+                    className="mb-4"
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
+                    error={inviteError}
                 />
                 <div className="modal-action">
-                    <button className="btn btn-ghost" onClick={() => setShowInviteModal(false)}>
+                    <Button variant="ghost" onClick={closeInviteModal}>
                         キャンセル
-                    </button>
-                    <button className="btn btn-primary" onClick={handleInvite}>
+                    </Button>
+                    <Button variant="primary" onClick={handleInvite}>
                         招待する
-                    </button>
+                    </Button>
                 </div>
             </Modal>
 
             {/* 未登録ユーザー招待モーダル */}
             <Modal
                 open={showEmailInviteModal}
-                onClose={() => setShowEmailInviteModal(false)}
+                onClose={closeEmailInviteModal}
                 title="メールで招待"
             >
                 <p className="text-sm text-gray-600 mb-4">招待メールを送信するメールアドレスを入力してください</p>
-                <input
+                <FormInput
+                    label="メールアドレス"
                     type="email"
                     placeholder="例：yamada@example.com"
-                    className="input input-bordered w-full mb-4"
+                    className="mb-4"
                     value={emailInput}
                     onChange={(e) => setEmailInput(e.target.value)}
+                    error={emailError}
                 />
                 <div className="modal-action">
-                    <button className="btn btn-ghost" onClick={() => setShowEmailInviteModal(false)}>
+                    <Button variant="ghost" onClick={closeEmailInviteModal}>
                         キャンセル
-                    </button>
-                    <button className="btn btn-primary" onClick={handleEmailInvite}>
+                    </Button>
+                    <Button variant="primary" onClick={handleEmailInvite}>
                         招待メールを送信
-                    </button>
+                    </Button>
                 </div>
             </Modal>
         </main>
