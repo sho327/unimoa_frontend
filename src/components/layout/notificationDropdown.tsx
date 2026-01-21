@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { Bell, Trophy, Megaphone, CheckCircle, FolderOpen, MoreHorizontal } from "lucide-react";
 import { useClickOutside } from "@/hooks/useClickOutside";
 import { formatTimestamp } from "@/utils/formatTimestamp";
+import { pageRoutes } from "@/components/constants";
 
 export type Notification = {
     id: string;
@@ -141,7 +142,7 @@ export function NotificationDropdown({
                         <div className="p-2 border-t border-gray-50">
                             <button
                                 onClick={() => {
-                                    router.push("/notifications");
+                                    router.push(pageRoutes.MAIN.NOTIFICATIONS);
                                     setIsOpen(false);
                                 }}
                                 className="w-full py-2.5 text-center text-[12px] font-black text-gray-500 hover:text-gray-900 hover:bg-gray-50 rounded-xl transition-all flex items-center justify-center gap-1"

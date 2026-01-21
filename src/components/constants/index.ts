@@ -31,6 +31,7 @@ export const pageRoutes = {
         DASHBOARD: `/dashboard`,
         PROJECTS: `/project/list`,
         MEMBERS: `/members`,
+        NOTIFICATIONS: `/notification/list`,
     },
     PROJECT: {
         DASHBOARD: `/project/xxx/dashboard`,
