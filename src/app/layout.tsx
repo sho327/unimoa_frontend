@@ -2,7 +2,7 @@ import type React from "react"
 import type { Metadata } from "next"
 import { Inter, Noto_Sans_JP } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
-import "@/components/styles/globals.css"
+import "@/styles/globals.css"
 import LoadingOverlay from "@/components/layout/loadingOverlay"
 
 const inter = Inter({ subsets: ["latin"], weight: ["400", "700", "900"] })

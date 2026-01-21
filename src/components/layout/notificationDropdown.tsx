@@ -3,8 +3,8 @@
 import React, { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { Bell, Trophy, Megaphone, CheckCircle, FolderOpen, MoreHorizontal } from "lucide-react";
-import { useClickOutside } from "@/components/hooks/useClickOutside";
-import { formatTimestamp } from "@/components/utils/formatTimestamp";
+import { useClickOutside } from "@/hooks/useClickOutside";
+import { formatTimestamp } from "@/utils/formatTimestamp";
 
 export type Notification = {
     id: string;

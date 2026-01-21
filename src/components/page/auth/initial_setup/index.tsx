@@ -7,8 +7,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import AuthCard from "@/components/page/auth/authCard";
 import { FormInput } from "@/components/ui/formInput";
 import { AuthButton } from "@/components/page/auth/authButton";
-import { useAppStore } from "@/components/store";
-import { initialSetupSchema, InitialSetupFormValues } from "@/components/lib/schema/auth";
+import { useAppStore } from "@/store";
+import { initialSetupSchema, InitialSetupFormValues } from "@/lib/schema/auth";
 
 type PlanMode = "personal" | "shared-free" | "shared-pro" | "invite";
 

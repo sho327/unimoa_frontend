@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useAppStore } from "@/components/store";
+import { useAppStore } from "@/store";
 import { pageRoutes } from "@/components/constants";
 
 export default function Sidebar() {

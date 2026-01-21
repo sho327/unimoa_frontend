@@ -1,8 +1,8 @@
 "use client";
 
 import React, { useRef } from "react";
-import { useAppStore } from "@/components/store";
-import { useClickOutside } from "@/components/hooks/useClickOutside";
+import { useAppStore } from "@/store";
+import { useClickOutside } from "@/hooks/useClickOutside";
 
 export default function SearchBar() {
     const { searchOpen, setSearchOpen, searchQuery, setSearchQuery } = useAppStore();

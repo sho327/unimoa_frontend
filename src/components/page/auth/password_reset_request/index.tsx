@@ -7,8 +7,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import AuthCard from "@/components/page/auth/authCard";
 import { FormInput } from "@/components/ui/formInput";
 import { AuthButton } from "@/components/page/auth/authButton";
-import { passwordResetRequestSchema, PasswordResetRequestFormValues } from "@/components/lib/schema/auth";
-import { useAppStore } from "@/components/store";
+import { passwordResetRequestSchema, PasswordResetRequestFormValues } from "@/lib/schema/auth";
+import { useAppStore } from "@/store";
 
 export default function PasswordResetRequest() {
     const { setIsLoading: setGlobalLoading } = useAppStore();

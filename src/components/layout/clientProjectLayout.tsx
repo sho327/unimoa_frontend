@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import AppHeader from "./appHeader";
 import SearchBar from "./searchBar";
 import MobileSpaceSwitcher from "./mobileSpaceSwitcher";
-import { useAppStore } from "@/components/store";
+import { useAppStore } from "@/store";
 import { useRouter } from "next/navigation";
 
 export default function ClientProjectLayout({

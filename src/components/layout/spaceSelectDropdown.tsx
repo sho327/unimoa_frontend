@@ -2,9 +2,9 @@
 
 import React, { useState, useRef } from "react";
 import { ChevronDown, Plus, Check, Users } from "lucide-react";
-import { useClickOutside } from "@/components/hooks/useClickOutside";
-import { useMobile } from "@/components/hooks/useMobile";
-import type { Space } from "@/components/store";
+import { useClickOutside } from "@/hooks/useClickOutside";
+import { useMobile } from "@/hooks/useMobile";
+import type { Space } from "@/store";
 
 interface SpaceSelectDropdownProps {
     activeSpace: Space;

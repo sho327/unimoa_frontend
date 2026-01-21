@@ -1,8 +1,8 @@
 "use client";
 
 import React, { useState, useRef } from "react";
-import { useAppStore } from "@/components/store";
-import { useClickOutside } from "@/components/hooks/useClickOutside";
+import { useAppStore } from "@/store";
+import { useClickOutside } from "@/hooks/useClickOutside";
 import { NotificationDropdown, Notification } from "./notificationDropdown";
 import { SpaceSelectDropdown } from "./spaceSelectDropdown";
 import { UserMenuDropdown } from "./userMenuDropdown";

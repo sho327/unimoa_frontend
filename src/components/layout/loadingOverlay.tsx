@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { useAppStore } from "@/components/store";
+import { useAppStore } from "@/store";
 import { Loader2 } from "lucide-react";
 
 /**

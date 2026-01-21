@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import Link from "next/link";
 import AuthCard from "@/components/page/auth/authCard";
 import { AuthButton } from "@/components/page/auth/authButton";
-import { useAppStore } from "@/components/store";
+import { useAppStore } from "@/store";
 
 export default function UserActivateRequest() {
     const { setIsLoading: setGlobalLoading } = useAppStore();

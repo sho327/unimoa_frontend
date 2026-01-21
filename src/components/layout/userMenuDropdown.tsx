@@ -3,8 +3,8 @@
 import React, { useState, useRef } from "react";
 import Link from "next/link";
 import { User, Settings, LogOut } from "lucide-react";
-import { useClickOutside } from "@/components/hooks/useClickOutside";
-import { useMobile } from "@/components/hooks/useMobile";
+import { useClickOutside } from "@/hooks/useClickOutside";
+import { useMobile } from "@/hooks/useMobile";
 
 interface UserMenuDropdownProps {
     displayUserName: string;

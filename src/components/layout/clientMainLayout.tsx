@@ -1,11 +1,11 @@
 "use client";
 
 import Sidebar from "@/components/layout/sidebar";
-import { useMobile } from "@/components/hooks/useMobile";
+import { useMobile } from "@/hooks/useMobile";
 import AppHeader from "./appHeader";
 import SearchBar from "./searchBar";
 import MobileSpaceSwitcher from "./mobileSpaceSwitcher";
-import { useAppStore } from "@/components/store";
+import { useAppStore } from "@/store";
 
 export default function ClientMainLayout({
     children,

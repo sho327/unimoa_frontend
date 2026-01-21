@@ -2,9 +2,9 @@
 
 import React, { useState, useRef } from "react";
 import { Check, Plus } from "lucide-react";
-import { useAppStore } from "@/components/store";
-import { useClickOutside } from "@/components/hooks/useClickOutside";
-import { useMobile } from "@/components/hooks/useMobile";
+import { useAppStore } from "@/store";
+import { useClickOutside } from "@/hooks/useClickOutside";
+import { useMobile } from "@/hooks/useMobile";
 
 export default function MobileSpaceSwitcher() {
     const isMobile = useMobile();

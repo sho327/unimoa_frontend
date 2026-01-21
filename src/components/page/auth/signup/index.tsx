@@ -7,9 +7,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import AuthCard from "@/components/page/auth/authCard";
 import { FormInput } from "@/components/ui/formInput";
 import { SocialLoginButtons } from "@/components/page/auth/socialLoginButtons";
-import { useAppStore } from "@/components/store";
+import { useAppStore } from "@/store";
 import { AuthButton } from "@/components/page/auth/authButton";
-import { signupSchema, SignupFormValues } from "@/components/lib/schema/auth";
+import { signupSchema, SignupFormValues } from "@/lib/schema/auth";
 
 export default function Signup() {
     const { setIsLoading: setGlobalLoading } = useAppStore();
