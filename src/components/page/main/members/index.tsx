@@ -1,7 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { useAppStore } from "@/store"
+import { useAppStore } from "@/store";
+import { Modal } from "@/components/ui/modal";
 
 type MemberStatus = "pending" | "active" | "declined";
 type MemberRole = "admin" | "member" | "viewer";
@@ -222,56 +223,52 @@ export default function Members() {
             </div>
 
             {/* Unimoaユーザー招待モーダル */}
-            {showInviteModal && (
-                <div className="modal modal-open">
-                    <div className="modal-box max-w-md">
-                        <h3 className="font-black text-lg mb-4">Unimoaユーザーを招待</h3>
-                        <p className="text-sm text-gray-600 mb-4">ユーザーIDまたはメールアドレスで検索してください</p>
-                        <input
-                            type="text"
-                            placeholder="例：tanaka@example.com"
-                            className="input input-bordered w-full mb-4"
-                            value={searchQuery}
-                            onChange={(e) => setSearchQuery(e.target.value)}
-                        />
-                        <div className="modal-action">
-                            <button className="btn btn-ghost" onClick={() => setShowInviteModal(false)}>
-                                キャンセル
-                            </button>
-                            <button className="btn btn-primary" onClick={handleInvite}>
-                                招待する
-                            </button>
-                        </div>
-                    </div>
-                    <div className="modal-backdrop" onClick={() => setShowInviteModal(false)}></div>
+            <Modal
+                open={showInviteModal}
+                onClose={() => setShowInviteModal(false)}
+                title="Unimoaユーザーを招待"
+            >
+                <p className="text-sm text-gray-600 mb-4">ユーザーIDまたはメールアドレスで検索してください</p>
+                <input
+                    type="text"
+                    placeholder="例：tanaka@example.com"
+                    className="input input-bordered w-full mb-4"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                />
+                <div className="modal-action">
+                    <button className="btn btn-ghost" onClick={() => setShowInviteModal(false)}>
+                        キャンセル
+                    </button>
+                    <button className="btn btn-primary" onClick={handleInvite}>
+                        招待する
+                    </button>
                 </div>
-            )}
+            </Modal>
 
             {/* 未登録ユーザー招待モーダル */}
-            {showEmailInviteModal && (
-                <div className="modal modal-open">
-                    <div className="modal-box max-w-md">
-                        <h3 className="font-black text-lg mb-4">メールで招待</h3>
-                        <p className="text-sm text-gray-600 mb-4">招待メールを送信するメールアドレスを入力してください</p>
-                        <input
-                            type="email"
-                            placeholder="例：yamada@example.com"
-                            className="input input-bordered w-full mb-4"
-                            value={emailInput}
-                            onChange={(e) => setEmailInput(e.target.value)}
-                        />
-                        <div className="modal-action">
-                            <button className="btn btn-ghost" onClick={() => setShowEmailInviteModal(false)}>
-                                キャンセル
-                            </button>
-                            <button className="btn btn-primary" onClick={handleEmailInvite}>
-                                招待メールを送信
-                            </button>
-                        </div>
-                    </div>
-                    <div className="modal-backdrop" onClick={() => setShowEmailInviteModal(false)}></div>
+            <Modal
+                open={showEmailInviteModal}
+                onClose={() => setShowEmailInviteModal(false)}
+                title="メールで招待"
+            >
+                <p className="text-sm text-gray-600 mb-4">招待メールを送信するメールアドレスを入力してください</p>
+                <input
+                    type="email"
+                    placeholder="例：yamada@example.com"
+                    className="input input-bordered w-full mb-4"
+                    value={emailInput}
+                    onChange={(e) => setEmailInput(e.target.value)}
+                />
+                <div className="modal-action">
+                    <button className="btn btn-ghost" onClick={() => setShowEmailInviteModal(false)}>
+                        キャンセル
+                    </button>
+                    <button className="btn btn-primary" onClick={handleEmailInvite}>
+                        招待メールを送信
+                    </button>
                 </div>
-            )}
+            </Modal>
         </main>
     );
 }
