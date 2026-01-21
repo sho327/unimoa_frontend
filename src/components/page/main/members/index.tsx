@@ -272,7 +272,6 @@ export default function Members() {
                     label="ユーザーID / メールアドレス"
                     type="text"
                     placeholder="例：tanaka@example.com"
-                    className="mb-4"
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     error={inviteError}
@@ -298,7 +297,6 @@ export default function Members() {
                     label="メールアドレス"
                     type="email"
                     placeholder="例：yamada@example.com"
-                    className="mb-4"
                     value={emailInput}
                     onChange={(e) => setEmailInput(e.target.value)}
                     error={emailError}
