@@ -32,8 +32,8 @@ export default function NotificationDetail({ notification }: NotificationDetailP
     const info = getBadgeInfo(notification.type);
 
     return (
-        <main className="flex-1 overflow-y-auto p-4 sm:p-10 bg-gray-50/30 transition-all duration-300">
-            <div className="max-w-2xl mx-auto w-full">
+        <main className="flex-1 overflow-y-auto p-6 transition-all duration-300">
+            <div className="w-full">
                 {/* 戻るナビゲーション */}
                 <Link
                     href={pageRoutes.MAIN.NOTIFICATIONS}
@@ -43,7 +43,7 @@ export default function NotificationDetail({ notification }: NotificationDetailP
                     <span className="font-black text-xs uppercase tracking-widest">一覧に戻る</span>
                 </Link>
 
-                <div className="bg-white rounded-3xl p-6 sm:p-10 shadow-sm border border-gray-100">
+                <div className="bg-white rounded-xl p-6 sm:p-8 shadow-sm border border-gray-100">
                     <div className="flex items-center gap-3 mb-6">
                         <span className={`px-3 py-1 rounded-full text-[10px] font-black text-white uppercase tracking-widest ${info.class}`}>
                             {info.label}
