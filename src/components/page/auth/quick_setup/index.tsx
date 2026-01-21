@@ -21,7 +21,7 @@ export default function QuickSetup() {
         formState: { errors },
     } = useForm<QuickSetupFormValues>({
         resolver: zodResolver(quickSetupSchema),
-        mode: "onBlur",
+        mode: "onSubmit",
     });
 
     const onSubmit = (data: QuickSetupFormValues) => {
@@ -123,7 +123,7 @@ export default function QuickSetup() {
             {/* 下部説明 */}
             <div className="mt-8 text-center px-4">
                 <p className="text-[10px] font-bold text-gray-400 leading-relaxed">
-                    この登録を完了すると、自動的に「マイ・スペース」と「招待されたスペース」の2つが作成されます。
+                    この登録を完了すると、自動的に「個人スペース」と「招待されたスペース」の2つが作成されます。
                 </p>
             </div>
         </>

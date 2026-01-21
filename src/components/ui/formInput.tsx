@@ -19,8 +19,9 @@ export const FormInput = forwardRef<HTMLInputElement, FormInputProps>(
                 <input
                     ref={ref}
                     {...props}
-                    className={`w-full input-minimal text-gray-700 placeholder:text-gray-300 ${error ? "border-red-500 focus:border-red-500" : ""
-                        } ${className}`}
+                    className={
+                        `w-full input-minimal text-gray-700 placeholder:text-gray-300 focus:!shadow-none ${error ? "!border-red-500 focus:border-red-500" : ""} ${className}`
+                    }
                 />
                 {error && (
                     <p className="mt-1 ml-1 text-[11px] font-bold text-red-500">

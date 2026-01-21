@@ -80,12 +80,7 @@ export const initialSetupSchema = z
         planMode: z.enum(["personal", "shared-free", "shared-pro", "invite"]),
         inviteCode: z.string().optional(),
         workspaceName: z.string().optional(),
-        workspaceUrl: z
-            .string()
-            .optional()
-            .refine((val) => !val || /^[a-z0-9-]+$/.test(val), {
-                message: "URLは半角英数字とハイフンのみ使用できます",
-            }),
+        workspaceIcon: z.string().optional(),
     })
     .superRefine((data, ctx) => {
         if (data.planMode === "shared-free" || data.planMode === "shared-pro") {
@@ -96,13 +91,7 @@ export const initialSetupSchema = z
                     path: ["workspaceName"],
                 });
             }
-            if (!data.workspaceUrl || data.workspaceUrl.trim() === "") {
-                ctx.addIssue({
-                    code: z.ZodIssueCode.custom,
-                    message: "スペースURLを入力してください",
-                    path: ["workspaceUrl"],
-                });
-            }
+
         }
         if (data.planMode === "invite") {
             if (!data.inviteCode || data.inviteCode.trim() === "") {

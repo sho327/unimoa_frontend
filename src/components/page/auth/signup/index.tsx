@@ -21,7 +21,7 @@ export default function Signup() {
         formState: { errors },
     } = useForm<SignupFormValues>({
         resolver: zodResolver(signupSchema),
-        mode: "onBlur",
+        mode: "onSubmit",
     });
 
     const onSubmit = (data: SignupFormValues) => {

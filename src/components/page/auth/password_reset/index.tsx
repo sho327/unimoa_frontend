@@ -20,7 +20,7 @@ export default function PasswordReset() {
         formState: { errors },
     } = useForm<PasswordResetFormValues>({
         resolver: zodResolver(passwordResetSchema),
-        mode: "onBlur",
+        mode: "onSubmit",
     });
 
     const onSubmit = (data: PasswordResetFormValues) => {

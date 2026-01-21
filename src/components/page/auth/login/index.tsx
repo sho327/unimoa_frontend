@@ -25,7 +25,7 @@ export default function Login() {
         formState: { errors },
     } = useForm<LoginFormValues>({
         resolver: zodResolver(loginSchema),
-        mode: "onBlur", // 入力欄からフォーカスが外れた時にバリデーション実行
+        mode: "onSubmit", // 入力欄からフォーカスが外れた時にバリデーション実行
     });
 
     // ==========================================

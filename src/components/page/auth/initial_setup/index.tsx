@@ -31,9 +31,9 @@ export default function InitialSetup() {
             planMode: "personal",
             inviteCode: "",
             workspaceName: "",
-            workspaceUrl: "",
+            workspaceIcon: "",
         },
-        mode: "onBlur",
+        mode: "onSubmit",
     });
 
     const selectedMode = watch("planMode");
@@ -260,33 +260,27 @@ export default function InitialSetup() {
                                         : "自分だけのスペースを作成します"}
                             </p>
 
-                            <div className="space-y-6">
+                            <div className="space-y-4">
                                 {/* 共有スペース作成UI */}
                                 {(selectedMode === "shared-free" || selectedMode === "shared-pro") && (
                                     <div className="space-y-5">
+                                        <div className="flex flex-col items-center gap-4 py-2">
+                                            <div className="avatar">
+                                                <div className="w-20 rounded-2xl ring ring-primary ring-offset-base-100 ring-offset-2">
+                                                    <img src="https://api.dicebear.com/7.x/identicon/svg?seed=Workspace" alt="Workspace Icon" />
+                                                </div>
+                                            </div>
+                                            <button type="button" className="text-[12px] font-black text-primary hover:underline">
+                                                アイコンを変更
+                                            </button>
+                                        </div>
                                         <FormInput
                                             label="スペース名"
                                             placeholder="例：〇〇大学 佐藤ゼミ"
                                             error={errors.workspaceName?.message}
                                             {...register("workspaceName")}
                                         />
-                                        <div>
-                                            <label className="block text-[12px] font-black text-gray-400 uppercase tracking-[0.15em] mb-2 ml-1">
-                                                スペースURL (識別ID)
-                                            </label>
-                                            <div className="flex items-center gap-2">
-                                                <span className="text-[12px] font-bold text-gray-400">unimoa.jp/</span>
-                                                <input
-                                                    type="text"
-                                                    placeholder="sato-lab"
-                                                    className="w-full input-minimal text-[12px] text-gray-700 placeholder:text-gray-300"
-                                                    {...register("workspaceUrl")}
-                                                />
-                                            </div>
-                                            {errors.workspaceUrl && (
-                                                <p className="text-[10px] font-bold text-error mt-1 ml-1">{errors.workspaceUrl.message}</p>
-                                            )}
-                                        </div>
+
                                     </div>
                                 )}
 
