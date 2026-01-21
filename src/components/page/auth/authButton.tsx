@@ -3,7 +3,7 @@ import { Button, ButtonProps } from "@/components/ui/button";
 export const AuthButton = (props: ButtonProps) => (
     <Button
         {...props}
-        className={`w-full font-black text-[13px] ${props.className || ""}`}
+        className={`w-full font-black text-[13px] rounded-xl ${props.className || ""}`}
     />
 );
 

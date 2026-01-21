@@ -15,7 +15,7 @@ export const Button = ({ children, isLoading, variant = "primary", className, ..
     return (
         <button
             {...props}
-            className={`btn normal-case rounded-xl font-bold transition-all ${variantClass[variant]} ${className || ""}`}
+            className={`btn normal-case font-bold transition-all ${variantClass[variant]} ${className || ""}`}
             disabled={isLoading || props.disabled}
         >
             {isLoading ? (

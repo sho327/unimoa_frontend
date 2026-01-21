@@ -137,29 +137,32 @@ export default function Members() {
             <div className="flex justify-between items-end mb-6">
                 <div>
                     <h1 className="text-xl sm:text-2xl font-black text-gray-900 tracking-tight">メンバー管理</h1>
-                    <p className="hidden sm:block text-xs text-gray-500 mt-1 font-bold">メンバー一覧</p>
+                    <p className="hidden sm:block text-xs text-gray-500 mt-1 font-bold">登録時み/未登録メンバーの一覧</p>
                 </div>
                 {/* 招待ボタン */}
                 <div className="flex items-center gap-2">
-                    <Button
+                    {/* <Button
                         variant="outline"
-                        className="btn-sm rounded-lg normal-case font-bold text-gray-600 text-xs"
+                        className="btn-sm text-xs"
                         onClick={() => setShowEmailInviteModal(true)}
                     >
                         <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                         </svg>
                         メール招待
-                    </Button>
+                    </Button> */}
                     <Button
                         variant="primary"
-                        className="btn-sm rounded-lg normal-case font-bold text-white text-xs border-none shadow-sm"
+                        className="btn-sm text-xs gap-1"
                         onClick={() => setShowInviteModal(true)}
                     >
                         <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16m8-8H4" />
                         </svg>
-                        ユーザー招待
+                        {/* <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                        </svg> */}
+                        ユーザ招待
                     </Button>
                 </div>
             </div>
@@ -171,14 +174,14 @@ export default function Members() {
                     style={activeTab === "registered" ? { color: "white" } : {}}
                     onClick={() => setActiveTab("registered")}
                 >
-                    Unimoaユーザー ({registeredMembers.length})
+                    登録済ユーザ ({registeredMembers.length})
                 </button>
                 <button
                     className={`tab font-bold text-xs ${activeTab === "unregistered" ? "tab-active bg-white shadow-sm" : ""}`}
                     style={activeTab === "unregistered" ? { color: "white" } : {}}
                     onClick={() => setActiveTab("unregistered")}
                 >
-                    未登録ユーザー ({unregisteredMembers.length})
+                    外部(未登録)ユーザ ({unregisteredMembers.length})
                 </button>
             </div>
 
@@ -265,11 +268,14 @@ export default function Members() {
             <Modal
                 open={showInviteModal}
                 onClose={closeInviteModal}
-                title="Unimoaユーザーを招待"
+                title="ユーザ招待"
             >
-                <p className="text-sm text-gray-600 mb-4">ユーザーIDまたはメールアドレスで検索してください</p>
+                <p className="text-sm text-gray-600 mb-4">
+                    ユーザID または メールアドレスで検索してください。<br/>
+                    <span className="text-xs text-red-500">※未登録ユーザの場合は招待メールが送信されます。</span>
+                </p>
                 <FormInput
-                    label="ユーザーID / メールアドレス"
+                    label="ユーザーID または メールアドレス"
                     type="text"
                     placeholder="例：tanaka@example.com"
                     value={searchQuery}
@@ -277,17 +283,23 @@ export default function Members() {
                     error={inviteError}
                 />
                 <div className="modal-action">
-                    <Button variant="ghost" onClick={closeInviteModal}>
+                    <Button 
+                        variant="outline" 
+                        onClick={closeInviteModal}
+                        >
                         キャンセル
                     </Button>
-                    <Button variant="primary" onClick={handleInvite}>
+                    <Button 
+                        variant="primary" 
+                        onClick={handleInvite}
+                        >
                         招待する
                     </Button>
                 </div>
             </Modal>
 
             {/* 未登録ユーザー招待モーダル */}
-            <Modal
+            {/* <Modal
                 open={showEmailInviteModal}
                 onClose={closeEmailInviteModal}
                 title="メールで招待"
@@ -309,7 +321,7 @@ export default function Members() {
                         招待メールを送信
                     </Button>
                 </div>
-            </Modal>
+            </Modal> */}
         </main>
     );
 }
