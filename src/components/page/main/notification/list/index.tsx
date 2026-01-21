@@ -50,10 +50,10 @@ export default function NotificationList() {
                     <div
                         key={notif.id}
                         onClick={() => router.push(`${pageRoutes.MAIN.NOTIFICATION_DETAIL}`)}
-                        className="card rounded-xl bg-white border border-gray-100 shadow-sm hover:shadow-md transition-all cursor-pointer group"
+                        className="card rounded-2xl bg-white border border-gray-100 shadow-sm hover:shadow-md transition-all cursor-pointer group"
                     >
                         <div className="p-4 sm:p-5 flex items-start gap-3 sm:gap-4">
-                            <div className="flex-1 min-w-0 ms-2">
+                            <div className="flex-1 min-w-0 ms-3">
                                 <div className="flex items-center gap-2 mb-1.5">
                                     <span className={`w-1.5 h-1.5 rounded-full ${getBadgeClass(notif.type)}`}></span>
                                     <span className="text-[10px] sm:text-xs font-black text-gray-400 uppercase tracking-widest">{notif.date}</span>
