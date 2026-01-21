@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { z } from "zod";
+import { inviteEmailSchema, inviteInputSchema } from "@/lib/schema/main";
 import { Modal } from "@/components/ui/modal";
 import { Button } from "@/components/ui/button";
 import { FormInput } from "@/components/ui/formInput";
@@ -96,12 +97,6 @@ export default function Members() {
         return <span className={`badge ${styles[status]} badge-sm font-bold`}>{labels[status]}</span>;
     };
 
-    const emailSchema = z
-        .string()
-        .trim()
-        .min(1, "メールアドレスを入力してください")
-        .email("有効なメールアドレスを入力してください");
-
     const closeInviteModal = () => {
         setShowInviteModal(false);
         setInviteError("");
@@ -158,14 +153,19 @@ export default function Members() {
         e.preventDefault();
 
         // Enter は「メール形式なら外部ユーザとして追加」
-        const emailResult = emailSchema.safeParse(inviteInput);
+        const emailResult = inviteEmailSchema.safeParse(inviteInput);
         if (emailResult.success) {
             addEmailInvite(emailResult.data);
             return;
         }
 
         // 入力がメール形式でなければサジェストから選択する想定
-        setInviteError("登録済ユーザをサジェストから選択するか、有効なメールアドレスを入力してください");
+        const inputResult = inviteInputSchema.safeParse(inviteInput);
+        if (inputResult.success) {
+            setInviteError("登録済ユーザをサジェストから選択するか、有効なメールアドレスを入力してください");
+        } else {
+            setInviteError(inputResult.error.issues[0]?.message ?? "入力内容を確認してください");
+        }
     };
 
     const handleInvite = () => {
