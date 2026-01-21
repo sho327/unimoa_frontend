@@ -11,9 +11,11 @@ export default function SearchBar() {
     useClickOutside(searchRef, () => setSearchOpen(false), searchOpen);
 
     return (
-        <div className="flex items-center" ref={searchRef}>
+        <div className="flex items-center max-w-full" ref={searchRef}>
             <div
-                className={`flex items-center rounded-full transition-all duration-300 px-1 ${searchOpen ? "w-48 sm:w-64 bg-white border border-gray-200 shadow-sm" : "w-10 bg-transparent"
+                className={`flex items-center rounded-full transition-all duration-300 px-1 ${searchOpen
+                    ? "w-40 max-w-[60vw] sm:w-64 sm:max-w-none bg-white border border-gray-200 shadow-sm"
+                    : "w-10 bg-transparent"
                     }`}
             >
                 <button
