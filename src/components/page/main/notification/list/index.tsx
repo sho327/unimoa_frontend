@@ -53,8 +53,8 @@ export default function NotificationList() {
                         className="card rounded-2xl bg-white border border-gray-100 shadow-sm hover:shadow-md transition-all cursor-pointer group"
                     >
                         <div className="p-4 sm:p-4 flex items-start gap-3 sm:gap-4">
-                            <div className="flex-1 min-w-0 ms-2 sm:ms-1.5">
-                                <div className="flex items-center gap-2">
+                            <div className="flex-1 min-w-0 ms-2.5 sm:ms-1.5">
+                                <div className="flex items-center gap-2 mb-1 sm:mb-0">
                                     <span className={`w-2 h-2 rounded-full ${getBadgeClass(notif.type)}`}></span>
                                     <span className="text-xs font-black text-gray-400 uppercase tracking-widest">
                                         {notif.date}
@@ -63,10 +63,10 @@ export default function NotificationList() {
                                         <span className="bg-primary/10 text-primary px-1.5 py-0.5 rounded text-xs font-black">新着</span>
                                     )}
                                 </div>
-                                <h3 className={`text-base sm:text-base truncate ${notif.isUnread ? 'font-black text-gray-900' : 'font-bold text-gray-600'}`}>
+                                <h3 className={`text-base sm:text-base truncate mb-1 sm:mb-0 ${notif.isUnread ? 'font-black text-gray-900' : 'font-bold text-gray-600'}`}>
                                     {notif.title}
                                 </h3>
-                                <p className="text-xs text-gray-500 line-clamp-2 leading-relaxed">
+                                <p className="text-sm sm:text-xs text-gray-500 line-clamp-2 leading-relaxed">
                                     {notif.body}
                                 </p>
                             </div>
