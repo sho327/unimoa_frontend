@@ -41,18 +41,18 @@ export default function NotificationDetail({ notification }: NotificationDetailP
                     className="btn btn-ghost btn-sm gap-2 px-0 mb-6 hover:bg-transparent text-gray-400 hover:text-primary transition-colors inline-flex items-center"
                 >
                     <ChevronLeft className="w-5 h-5" strokeWidth={3} />
-                    <span className="font-black text-sm uppercase tracking-widest">一覧に戻る</span>
+                    <span className="font-black text-sm tracking-widest">一覧に戻る</span>
                 </Link>
 
                 <div className="bg-white rounded-2xl p-7 sm:p-8 shadow-sm border border-gray-100">
                     <div className="flex items-center gap-3 mb-2">
-                        <span className={`px-3 py-1 rounded-full text-[10px] font-black text-white uppercase tracking-widest ${info.class}`}>
+                        <span className={`px-3 py-1 rounded-full text-[10px] font-black text-white tracking-widest ${info.class}`}>
                             {info.label}
                         </span>
-                        <span className="text-[12px] font-bold text-gray-400 tracking-wider font-mono">{notification.date}</span>
+                        <span className="text-xs font-bold text-gray-400 tracking-wider font-mono">{notification.date}</span>
                     </div>
 
-                    <h2 className="text-xl font-black text-gray-900 leading-tight tracking-tight">
+                    <h2 className="text-lg font-black text-gray-900 leading-tight tracking-tight">
                         {notification.title}
                     </h2>
 
