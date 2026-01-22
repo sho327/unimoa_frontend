@@ -57,7 +57,7 @@ export function UserMenuDropdown({
                     {/* ユーザー名ヘッダー */}
                     <div className="px-4 pt-4 pb-3 border-b border-gray-50 bg-gray-50/30">
                         <p className="text-sm font-black text-gray-900 truncate leading-none mb-1">{displayUserName}</p>
-                        <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest leading-none">管理者</p>
+                        <p className="text-xs mt-2 font-bold text-gray-400 uppercase tracking-widest leading-none">管理者</p>
                     </div>
 
                     <div className="py-1.5 px-1.5">

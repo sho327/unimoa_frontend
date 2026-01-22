@@ -45,23 +45,25 @@ export default function NotificationList() {
                 <button className="btn btn-ghost btn-xs sm:btn-sm text-primary font-bold hover:bg-primary/5">すべて既読</button>
             </div>
 
-            <div className="grid grid-cols-1 gap-3">
+            <div className="grid grid-cols-1 gap-2">
                 {notifs.map((notif) => (
                     <div
                         key={notif.id}
                         onClick={() => router.push(`${pageRoutes.MAIN.NOTIFICATION_DETAIL}`)}
                         className="card rounded-2xl bg-white border border-gray-100 shadow-sm hover:shadow-md transition-all cursor-pointer group"
                     >
-                        <div className="p-4 sm:p-5 flex items-start gap-3 sm:gap-4">
-                            <div className="flex-1 min-w-0 ms-4">
-                                <div className="flex items-center gap-2 mb-1.5">
-                                    <span className={`w-1.5 h-1.5 rounded-full ${getBadgeClass(notif.type)}`}></span>
-                                    <span className="text-[10px] sm:text-xs font-black text-gray-400 uppercase tracking-widest">{notif.date}</span>
+                        <div className="p-4 sm:p-4 flex items-start gap-3 sm:gap-4">
+                            <div className="flex-1 min-w-0 ms-2 sm:ms-1.5">
+                                <div className="flex items-center gap-2">
+                                    <span className={`w-2 h-2 rounded-full ${getBadgeClass(notif.type)}`}></span>
+                                    <span className="text-xs font-black text-gray-400 uppercase tracking-widest">
+                                        {notif.date}
+                                    </span>
                                     {notif.isUnread && (
-                                        <span className="bg-primary/10 text-primary px-1.5 py-0.5 rounded text-[10px] font-black">新着</span>
+                                        <span className="bg-primary/10 text-primary px-1.5 py-0.5 rounded text-xs font-black">新着</span>
                                     )}
                                 </div>
-                                <h3 className={`text-sm sm:text-base mb-1 truncate ${notif.isUnread ? 'font-black text-gray-900' : 'font-bold text-gray-600'}`}>
+                                <h3 className={`text-base sm:text-base truncate ${notif.isUnread ? 'font-black text-gray-900' : 'font-bold text-gray-600'}`}>
                                     {notif.title}
                                 </h3>
                                 <p className="text-xs text-gray-500 line-clamp-2 leading-relaxed">

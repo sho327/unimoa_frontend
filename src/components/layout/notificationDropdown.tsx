@@ -39,15 +39,15 @@ export function NotificationDropdown({
     const getNotificationIcon = (type: Notification["type"]) => {
         switch (type) {
             case "task":
-                return <Trophy className="h-4 w-4 text-amber-600" />;
+                return <Trophy className="h-5 w-5 text-amber-600" />;
             case "note":
-                return <Megaphone className="h-4 w-4 text-blue-600" />;
+                return <Megaphone className="h-5 w-5 text-blue-600" />;
             case "calendar":
-                return <CheckCircle className="h-4 w-4 text-emerald-600" />;
+                return <CheckCircle className="h-5 w-5 text-emerald-600" />;
             case "fileManagement":
-                return <FolderOpen className="h-4 w-4 text-purple-600" />;
+                return <FolderOpen className="h-5 w-5 text-purple-600" />;
             default:
-                return <Bell className="h-4 w-4 text-slate-600" />;
+                return <Bell className="h-5 w-5 text-slate-600" />;
         }
     };
 
@@ -111,23 +111,22 @@ export function NotificationDropdown({
                                         className={`group relative flex items-start gap-3 p-4 cursor-pointer transition-colors ${!notification.isRead ? "bg-blue-50/30 hover:bg-blue-50/60" : "hover:bg-gray-50"
                                             }`}
                                     >
-                                        <div className="mt-1 flex-shrink-0 w-8 h-8 rounded-lg bg-white shadow-sm flex items-center justify-center border border-gray-100 group-hover:scale-110 transition-transform">
+                                        <div className="mt-1 flex-shrink-0 w-9 h-9 rounded-lg bg-white shadow-sm flex items-center justify-center border border-gray-100 group-hover:scale-110 transition-transform">
                                             {getNotificationIcon(notification.type)}
                                         </div>
                                         <div className="flex-1 min-w-0 pr-2">
                                             <div className="flex items-start justify-between gap-2 mb-0.5">
-                                                <p className={`text-[13px] leading-snug font-bold line-clamp-2 ${!notification.isRead ? "text-gray-900" : "text-gray-600"
-                                                    }`}>
+                                                <p className={`text-sm leading-snug font-bold line-clamp-2 ${!notification.isRead ? "text-gray-900" : "text-gray-600"}`}>
                                                     {notification.title}
                                                 </p>
                                                 {!notification.isRead && (
                                                     <div className="mt-1.5 h-2 w-2 flex-shrink-0 animate-pulse rounded-full bg-blue-500 ring-4 ring-blue-500/10" />
                                                 )}
                                             </div>
-                                            <p className="text-[12px] leading-relaxed text-gray-500 line-clamp-2 font-medium">
+                                            <p className="text-xs leading-relaxed text-gray-500 line-clamp-2 font-medium">
                                                 {notification.description}
                                             </p>
-                                            <p className="mt-2 text-[11px] text-gray-400 font-bold uppercase tracking-wider">
+                                            <p className="mt-2 text-[10px] text-gray-400 font-bold uppercase tracking-wider">
                                                 {formatTimestamp(notification.timestamp)}
                                             </p>
                                         </div>
