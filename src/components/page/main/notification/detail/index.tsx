@@ -40,7 +40,7 @@ export default function NotificationDetail({ notification }: NotificationDetailP
                         <span className={`px-3 py-1 rounded-full text-[10px] font-black text-white tracking-widest ${info.class}`}>
                             {info.label}
                         </span>
-                        <span className="text-xs font-bold text-gray-400 tracking-wider font-mono">{notification.date}</span>
+                        <span className="text-sm font-bold text-gray-400 tracking-wider font-mono">{notification.date}</span>
                     </div>
 
                     <h2 className="text-lg font-black text-gray-900 leading-tight tracking-tight">
@@ -49,7 +49,7 @@ export default function NotificationDetail({ notification }: NotificationDetailP
 
                     <div className="divider opacity-50 my-2 sm:my-3"></div>
 
-                    <div className="text-gray-600 leading-relaxed space-y-4 text-sm sm:text-sm">
+                    <div className="text-gray-600 leading-relaxed space-y-4 text-sm">
                         {notification.body.split('\n').map((line, i) => (
                             <p key={i}>{line}</p>
                         ))}
