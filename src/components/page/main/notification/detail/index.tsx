@@ -35,15 +35,6 @@ export default function NotificationDetail({ notification }: NotificationDetailP
     return (
         <main className="flex-1 overflow-y-auto p-6 transition-all duration-300">
             <div className="w-full">
-                {/* 戻るナビゲーション */}
-                <Link
-                    href={pageRoutes.MAIN.NOTIFICATIONS}
-                    className="btn btn-ghost btn-sm gap-2 px-0 mb-6 hover:bg-transparent text-gray-400 hover:text-primary transition-colors inline-flex items-center"
-                >
-                    <ChevronLeft className="w-5 h-5" strokeWidth={3} />
-                    <span className="font-black text-sm tracking-widest">一覧に戻る</span>
-                </Link>
-
                 <div className="bg-white rounded-2xl p-7 sm:p-8 shadow-sm border border-gray-100">
                     <div className="flex items-center gap-3 mb-2">
                         <span className={`px-3 py-1 rounded-full text-[10px] font-black text-white tracking-widest ${info.class}`}>
@@ -58,24 +49,31 @@ export default function NotificationDetail({ notification }: NotificationDetailP
 
                     <div className="divider opacity-50 my-2 sm:my-3"></div>
 
-                    <div className="text-gray-600 leading-relaxed space-y-4 text-sm sm:text-base">
+                    <div className="text-gray-600 leading-relaxed space-y-4 text-sm sm:text-sm">
                         {notification.body.split('\n').map((line, i) => (
                             <p key={i}>{line}</p>
                         ))}
                     </div>
 
                     <div className="mt-10 flex flex-col sm:flex-row gap-3">
+                        <Link
+                            href={pageRoutes.MAIN.NOTIFICATIONS}
+                            className="flex-1 sm:flex-none"
+                        >
+                            <Button
+                                variant="ghost"
+                                className="w-full sm:w-auto h-12"
+                            >
+                                <ChevronLeft className="w-4 h-4" strokeWidth={3} />
+                                一覧に戻る
+                            </Button>
+                        </Link>
                         <Button
                             variant="primary"
                             onClick={() => console.log("Action:", info.action, notification)}
+                            className="flex-1 sm:flex-none h-12"
                         >
                             {info.action}
-                        </Button>
-                        <Button
-                            variant="outline"
-                            onClick={() => console.log("Mark as read:", notification.id)}
-                        >
-                            既読にする
                         </Button>
                     </div>
                 </div>

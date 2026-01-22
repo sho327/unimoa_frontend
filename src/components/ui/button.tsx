@@ -9,7 +9,7 @@ export const Button = ({ children, isLoading, variant = "primary", className, ..
     const variantClass = {
         primary: "btn-primary text-white border-none shadow-md shadow-primary/10",
         outline: "btn-outline border-gray-300 bg-white text-gray-600 hover:bg-gray-100 hover:border-gray-400 hover:text-gray-800",
-        ghost: "btn-ghost",
+        ghost: "btn-ghost hover:text-gray-800 hover:bg-gray-200",
     };
 
     return (
