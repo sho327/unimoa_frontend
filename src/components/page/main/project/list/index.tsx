@@ -12,6 +12,8 @@ type Project = {
     id: string
     title: string
     category: string
+    desc: string
+    tags: string[]
     tasks: number[]
 }
 
@@ -25,8 +27,30 @@ export default function Projects() {
     const displayProjects = (currentLocalSpace && currentLocalSpace.projects && currentLocalSpace.projects.length > 0)
         ? currentLocalSpace.projects
         : [
-            { id: "p1", title: "卒業研究中間発表の準備", category: "リサーチ", tasks: [1, 2, 3] },
-            { id: "p2", title: "ゼミ合宿の計画", category: "イベント", tasks: [1] },
+            { 
+                id: "p1", 
+                title: "卒業研究中間発表の準備", 
+                category: "リサーチ", 
+                desc: "卒業研究の中間発表に向けて、スライド作成と資料整理を進めています。デザイン面でのサポートも募集中です。",
+                tags: ["研究", "プレゼン", "デザイン"],
+                tasks: [1, 2, 3] 
+            },
+            { 
+                id: "p2", 
+                title: "ゼミ合宿の計画", 
+                category: "イベント", 
+                desc: "来月のゼミ合宿の企画・運営を担当します。予算管理や会場手配など、一緒に進めてくれる方を募集しています。",
+                tags: ["イベント", "企画", "運営"],
+                tasks: [1] 
+            },
+            {
+                id: "p3",
+                title: "2025年度 工学部学祭 公式サイト制作",
+                category: "Web制作",
+                desc: "今年の学祭サイトをReact+Next.jsで作り直します。エンジニアだけでなくデザイナーも募集中です！",
+                tags: ["React", "Figma", "TypeScript"],
+                tasks: []
+            },
         ];
 
     return (
@@ -41,17 +65,39 @@ export default function Projects() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {displayProjects.map((project) => (
-                    <div key={project.id} className="card bg-white border border-gray-100 shadow-sm hover:shadow-md transition-all cursor-pointer group">
+                    <div 
+                        key={project.id} 
+                        className="card bg-white border border-gray-100 shadow-sm hover:shadow-md transition-all cursor-pointer group"
+                    >
                         <div className="card-body p-6">
-                            <div className="flex justify-between items-start mb-2">
-                                <span className="text-xs font-black px-2 py-0.5 rounded-md bg-primary/10 text-primary uppercase">{project.category}</span>
+                            <div className="flex justify-between items-start">
+                                <span className="text-xs font-black px-2 py-0.5 rounded-md bg-primary/10 text-primary uppercase">
+                                    {project.category}
+                                </span>
                                 <button className="btn btn-ghost btn-circle btn-xs text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity">
                                     <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" />
                                     </svg>
                                 </button>
                             </div>
-                            <h3 className="card-title text-base font-black text-gray-800 mb-2">{project.title}</h3>
+                            <h3 className="card-title text-lg font-black text-gray-800">
+                                {project.title}
+                            </h3>
+                            <p className="text-sm text-gray-500 leading-relaxed line-clamp-1 mb-0.5">
+                                {project.desc}
+                            </p>
+
+                            <div className="flex flex-wrap gap-2 mb-2">
+                                {project.tags.map((tag: string) => (
+                                    <span 
+                                        key={tag} 
+                                        className="text-xs font-bold text-gray-400 border border-gray-100 px-2 py-0.5 rounded-md"
+                                    >
+                                        #{tag}
+                                    </span>
+                                ))}
+                            </div>
+
                             <div className="mt-auto pt-4 flex items-center justify-between text-xs text-gray-500 border-t border-gray-200">
                                 <div className="flex -space-x-2">
                                     <div className="w-7 h-7 rounded-full border-2 border-white bg-gray-100 overflow-hidden shadow-sm">
