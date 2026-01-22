@@ -26,7 +26,7 @@ type ProjectDetailProps = {
 export default function ProjectDetail({ project }: ProjectDetailProps) {
     return (
         <main className="flex-1 overflow-y-auto p-6 transition-all duration-300">
-            <div className="w-full">
+            <div className="w-100 sm:w-[85%] sm:mx-auto">
                 {/* 戻るナビゲーション */}
                 {/* <Link
                     href={pageRoutes.MAIN.PROJECTS}
@@ -114,7 +114,7 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
                             </div>
                             <div className="mt-6 text-center gap-3">
                                 <Link
-                                    href={pageRoutes.MAIN.NOTIFICATIONS}
+                                    href={pageRoutes.MAIN.PROJECTS}
                                     className="flex-1 sm:flex-none"
                                 >
                                     <Button

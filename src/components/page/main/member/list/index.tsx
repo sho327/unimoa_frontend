@@ -364,17 +364,19 @@ export default function Members() {
                     </div>
                 )}
                 <div className="modal-action">
-                    <Button 
-                        variant="outline" 
+                    <Button
+                        variant="outline"
                         onClick={closeInviteModal}
-                        >
+                        className="flex-1 sm:flex-none !h-11 !min-h-11"
+                    >
                         キャンセル
                     </Button>
-                    <Button 
-                        variant="primary" 
+                    <Button
+                        variant="primary"
                         onClick={handleInvite}
                         disabled={selectedInvites.length === 0}
-                        >
+                        className="flex-1 sm:flex-none !h-11 !min-h-11"
+                    >
                         招待する
                     </Button>
                 </div>

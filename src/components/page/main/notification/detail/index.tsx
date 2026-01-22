@@ -34,7 +34,7 @@ export default function NotificationDetail({ notification }: NotificationDetailP
 
     return (
         <main className="flex-1 overflow-y-auto p-6 transition-all duration-300">
-            <div className="w-full">
+            <div className="w-100 sm:w-[85%] sm:mx-auto">
                 <div className="bg-white rounded-2xl p-7 sm:p-8 shadow-sm border border-gray-100">
                     <div className="flex items-center gap-3 mb-2">
                         <span className={`px-3 py-1 rounded-full text-[10px] font-black text-white tracking-widest ${info.class}`}>
@@ -55,7 +55,28 @@ export default function NotificationDetail({ notification }: NotificationDetailP
                         ))}
                     </div>
 
-                    <div className="mt-10 flex flex-col sm:flex-row gap-3">
+                    <div className="mt-10 flex items-center justify-center gap-3">
+                        <Link
+                            href={pageRoutes.MAIN.NOTIFICATIONS}
+                            className="flex-1 sm:flex-none"
+                        >
+                            <Button
+                                variant="ghost"
+                                className="flex-1 sm:flex-none !h-11 !min-h-11"
+                            >
+                                <ChevronLeft className="w-4 h-4" strokeWidth={3} />
+                                一覧に戻る
+                            </Button>
+                        </Link>
+                        <Button
+                            variant="primary"
+                            onClick={() => console.log("Action:", info.action, notification)}
+                            className="flex-1 sm:flex-none !h-11 !min-h-11"
+                        >
+                            {info.action}
+                        </Button>
+                    </div>
+                    {/* <div className="mt-10 flex flex-col sm:flex-row gap-3">
                         <Link
                             href={pageRoutes.MAIN.NOTIFICATIONS}
                             className="flex-1 sm:flex-none"
@@ -75,7 +96,7 @@ export default function NotificationDetail({ notification }: NotificationDetailP
                         >
                             {info.action}
                         </Button>
-                    </div>
+                    </div> */}
                 </div>
             </div>
         </main>
