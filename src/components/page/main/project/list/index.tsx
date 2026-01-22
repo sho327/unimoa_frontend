@@ -1,6 +1,11 @@
 "use client"
 
+import { useState, useRef, useEffect } from "react"
+import { useRouter } from "next/navigation"
 import { useAppStore } from "@/store"
+import { useClickOutside } from "@/hooks/useClickOutside"
+import { Eye, Edit, Trash2 } from "lucide-react"
+import { pageRoutes } from "@/components/constants"
 
 type Space = {
     id: string
@@ -18,7 +23,25 @@ type Project = {
 }
 
 export default function Projects() {
+    const router = useRouter();
     const { activeSpace, spaces } = useAppStore();
+    const [openMenuId, setOpenMenuId] = useState<string | null>(null);
+    const menuRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
+
+    // メニュー外をクリックしたら閉じる
+    useEffect(() => {
+        if (openMenuId && menuRefs.current[openMenuId]) {
+            const handleClickOutside = (event: MouseEvent) => {
+                if (menuRefs.current[openMenuId] && !menuRefs.current[openMenuId]?.contains(event.target as Node)) {
+                    setOpenMenuId(null);
+                }
+            };
+            document.addEventListener("mousedown", handleClickOutside);
+            return () => {
+                document.removeEventListener("mousedown", handleClickOutside);
+            };
+        }
+    }, [openMenuId]);
 
     // 本来は activeSpace に基づいて取得するが、モック用に spaces から検索
     const currentLocalSpace = spaces.find(s => s.id === activeSpace.id) || spaces[0];
@@ -27,21 +50,21 @@ export default function Projects() {
     const displayProjects = (currentLocalSpace && currentLocalSpace.projects && currentLocalSpace.projects.length > 0)
         ? currentLocalSpace.projects
         : [
-            { 
-                id: "p1", 
-                title: "卒業研究中間発表の準備", 
-                category: "リサーチ", 
+            {
+                id: "p1",
+                title: "卒業研究中間発表の準備",
+                category: "リサーチ",
                 desc: "卒業研究の中間発表に向けて、スライド作成と資料整理を進めています。デザイン面でのサポートも募集中です。",
                 tags: ["研究", "プレゼン", "デザイン"],
-                tasks: [1, 2, 3] 
+                tasks: [1, 2, 3]
             },
-            { 
-                id: "p2", 
-                title: "ゼミ合宿の計画", 
-                category: "イベント", 
+            {
+                id: "p2",
+                title: "ゼミ合宿の計画",
+                category: "イベント",
                 desc: "来月のゼミ合宿の企画・運営を担当します。予算管理や会場手配など、一緒に進めてくれる方を募集しています。",
                 tags: ["イベント", "企画", "運営"],
-                tasks: [1] 
+                tasks: [1]
             },
             {
                 id: "p3",
@@ -65,8 +88,8 @@ export default function Projects() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {displayProjects.map((project) => (
-                    <div 
-                        key={project.id} 
+                    <div
+                        key={project.id}
                         className="card bg-white border border-gray-100 shadow-sm hover:shadow-md transition-all cursor-pointer group"
                     >
                         <div className="card-body p-6">
@@ -74,11 +97,63 @@ export default function Projects() {
                                 <span className="text-xs font-black px-2 py-0.5 rounded-md bg-primary/10 text-primary uppercase">
                                     {project.category}
                                 </span>
-                                <button className="btn btn-ghost btn-circle btn-xs text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity">
-                                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" />
-                                    </svg>
-                                </button>
+                                <div
+                                    className="relative"
+                                    ref={(el) => { menuRefs.current[project.id] = el; }}
+                                >
+                                    <button
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            setOpenMenuId(openMenuId === project.id ? null : project.id);
+                                        }}
+                                        className="btn btn-ghost btn-circle btn-xs text-gray-400 transition-opacity"
+                                    >
+                                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" />
+                                        </svg>
+                                    </button>
+                                    {openMenuId === project.id && (
+                                        <div className="absolute top-full right-0 mt-2 w-48 bg-white border border-gray-100 rounded-2xl shadow-2xl z-[150] overflow-hidden animate-in fade-in zoom-in-95 duration-100">
+                                            <div className="py-1.5 px-1.5">
+                                                <button
+                                                    onClick={(e) => {
+                                                        e.stopPropagation();
+                                                        router.push(pageRoutes.MAIN.PROJECT_DETAIL);
+                                                        setOpenMenuId(null);
+                                                    }}
+                                                    className="w-full flex items-center gap-2.5 px-3 py-2.5 text-sm font-bold text-gray-600 hover:bg-gray-50 hover:text-gray-900 rounded-xl transition-all group"
+                                                >
+                                                    <Eye className="h-4 w-4 text-gray-400 group-hover:text-[oklch(0.73_0.11_162)] transition-colors" />
+                                                    <span>詳細を見る</span>
+                                                </button>
+                                                <button
+                                                    onClick={(e) => {
+                                                        e.stopPropagation();
+                                                        console.log("Update project:", project.id);
+                                                        setOpenMenuId(null);
+                                                    }}
+                                                    className="w-full flex items-center gap-2.5 px-3 py-2.5 text-sm font-bold text-gray-600 hover:bg-gray-50 hover:text-gray-900 rounded-xl transition-all group"
+                                                >
+                                                    <Edit className="h-4 w-4 text-gray-400 group-hover:text-[oklch(0.73_0.11_162)] transition-colors" />
+                                                    <span>更新</span>
+                                                </button>
+                                            </div>
+                                            <div className="border-t border-gray-100 py-1.5 px-1.5">
+                                                <button
+                                                    onClick={(e) => {
+                                                        e.stopPropagation();
+                                                        console.log("Delete project:", project.id);
+                                                        setOpenMenuId(null);
+                                                    }}
+                                                    className="w-full flex items-center gap-2.5 px-3 py-2.5 text-sm font-bold text-red-500 hover:bg-red-50 rounded-xl transition-all"
+                                                >
+                                                    <Trash2 className="h-4 w-4" />
+                                                    <span>削除</span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    )}
+                                </div>
                             </div>
                             <h3 className="card-title text-lg font-black text-gray-800">
                                 {project.title}
@@ -89,8 +164,8 @@ export default function Projects() {
 
                             <div className="flex flex-wrap gap-2 mb-2">
                                 {project.tags.map((tag: string) => (
-                                    <span 
-                                        key={tag} 
+                                    <span
+                                        key={tag}
                                         className="text-xs font-bold text-gray-400 border border-gray-100 px-2 py-0.5 rounded-md"
                                     >
                                         #{tag}
@@ -117,18 +192,6 @@ export default function Projects() {
                         </div>
                     </div>
                 ))}
-
-                {/* 新規作成カード */}
-                <div className="card bg-gray-50 border-2 border-dashed border-gray-200 hover:border-[oklch(0.73_0.11_162)] hover:bg-[oklch(0.73_0.11_162)]/5 transition-all cursor-pointer flex items-center justify-center min-h-[180px]">
-                    <div className="flex flex-col items-center gap-2 text-gray-400">
-                        <div className="w-10 h-10 rounded-full bg-white border border-gray-200 flex items-center justify-center shadow-sm">
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16m8-8H4" />
-                            </svg>
-                        </div>
-                        <span className="text-xs font-bold">新規プロジェクト</span>
-                    </div>
-                </div>
             </div>
         </main>
     )

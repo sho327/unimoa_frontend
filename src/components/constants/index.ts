@@ -30,12 +30,12 @@ export const pageRoutes = {
     MAIN: {
         DASHBOARD: `/dashboard`,
         PROJECTS: `/project/list`,
+        PROJECT_DETAIL: `/project/detail`,
         MEMBERS: `/member/list`,
         NOTIFICATIONS: `/notification/list`,
         NOTIFICATION_DETAIL: `/notification/detail`,
     },
     PROJECT: {
         DASHBOARD: `/project/xxx/dashboard`,
-
     }
 }
