@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useAppStore } from "@/store";
 import { pageRoutes } from "@/components/constants";
+import { SpaceSelectDropdown } from "@/components/layout/spaceSelectDropdown";
 
 export default function Sidebar() {
     const pathname = usePathname();
@@ -11,7 +12,57 @@ export default function Sidebar() {
         sidebarExpanded,
         mobileMenuOpen,
         setMobileMenuOpen,
+        activeSpace,
+        spaces,
+        setActiveSpace,
     } = useAppStore();
+
+    const isProjectArea = pathname.startsWith("/project/xxx");
+
+    const projectMenuItems = [
+        {
+            label: "ダッシュボード",
+            href: pageRoutes.PROJECT.DASHBOARD,
+            icon: (
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path
+                        d="M3 13h8V3H3v10zm10 8h8V11h-8v10zM3 21h8v-6H3v6zm10-10h8V3h-8v8z"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                    />
+                </svg>
+            ),
+        },
+        {
+            label: "タスク",
+            href: pageRoutes.PROJECT.TASK.LIST,
+            icon: (
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path
+                        d="M9 12l2 2 4-4M7 6h10M7 18h10M7 12h2"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                    />
+                </svg>
+            ),
+        },
+        {
+            label: "メンバー",
+            href: pageRoutes.PROJECT.MEMBER.LIST,
+            icon: (
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path
+                        d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                    />
+                </svg>
+            ),
+        },
+    ];
 
     const menuItems = [
         {
@@ -30,7 +81,7 @@ export default function Sidebar() {
         },
         {
             label: "プロジェクト",
-            href: pageRoutes.MAIN.PROJECTS,
+            href: pageRoutes.MAIN.PROJECT_LIST,
             icon: (
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path
@@ -44,7 +95,7 @@ export default function Sidebar() {
         },
         {
             label: "メンバー",
-            href: pageRoutes.MAIN.MEMBERS,
+            href: pageRoutes.MAIN.MEMBER_LIST,
             icon: (
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path
@@ -58,7 +109,7 @@ export default function Sidebar() {
         },
         {
             label: "お知らせ",
-            href: pageRoutes.MAIN.NOTIFICATIONS,
+            href: pageRoutes.MAIN.NOTIFICATION_LIST,
             icon: (
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path
@@ -81,44 +132,104 @@ export default function Sidebar() {
 
             {/* サイドメニュー */}
             <aside
-                className={`bg-white border-r border-gray-100 flex-col overflow-y-auto shadow-sm transition-all duration-300 z-[200] md:z-10 fixed left-0 transform top-16 h-[calc(100vh-4rem)] md:top-0 md:h-full md:relative md:translate-x-0 md:shadow-none ${mobileMenuOpen ? "translate-x-0" : "-translate-x-full"
+                className={`bg-white border-r border-gray-200 flex-col overflow-y-auto shadow-sm transition-all duration-300 z-[200] md:z-10 fixed left-0 transform top-16 h-[calc(100vh-4rem)] md:top-0 md:h-full md:relative md:translate-x-0 md:shadow-none ${mobileMenuOpen ? "translate-x-0" : "-translate-x-full"
                     } ${sidebarExpanded || mobileMenuOpen ? "w-64 px-3" : "md:w-[72px] md:items-center md:px-2"}`}
             >
                 <div className="flex flex-col h-full py-6 md:py-5">
                     <div className="flex-1 flex flex-col gap-1 w-full">
                         <div className="w-full space-y-1 px-3 md:px-1">
-                            {(sidebarExpanded || mobileMenuOpen) && (
-                                <div className="text-[10px] font-black text-gray-400 uppercase tracking-widest px-3 mb-4 md:mb-3">
-                                    Menu
+                            {/* スマホの時だけ：メニュー見出しの上にスペース選択を表示 */}
+                            {mobileMenuOpen && (
+                                <div className="md:hidden mb-6">
+                                    <div className="text-xs font-black text-gray-400 uppercase tracking-widest px-3 mb-2">
+                                        スペース切替
+                                    </div>
+                                    <SpaceSelectDropdown
+                                        activeSpace={activeSpace}
+                                        spaces={spaces}
+                                        onSelectSpace={(space) => {
+                                            setActiveSpace(space);
+                                            setMobileMenuOpen(false);
+                                        }}
+                                        triggerWidthClassName="w-full"
+                                        dropdownWidthClassName="w-full"
+                                    />
                                 </div>
                             )}
 
-                            {menuItems.map((item) => {
-                                // パスの末尾スラッシュ有無やネスト配下もハイライト対象にする
-                                const currentPath = pathname.endsWith("/") && pathname !== "/" ? pathname.slice(0, -1) : pathname;
-                                const isActive =
-                                    currentPath === item.href ||
-                                    currentPath.startsWith(`${item.href}/`) ||
-                                    (currentPath === "/" && item.href === pageRoutes.MAIN.DASHBOARD);
-                                return (
-                                    <Link
-                                        key={item.href}
-                                        href={item.href}
-                                        onClick={() => setMobileMenuOpen(false)}
-                                        className={`flex items-center gap-3 w-full p-2.5 rounded-xl transition-all ${isActive
-                                            ? "bg-[oklch(0.73_0.11_162)] text-white shadow-md shadow-[oklch(0.73_0.11_162)]/30"
-                                            : "text-gray-500 hover:bg-gray-50 hover:text-gray-900"
-                                            } ${!sidebarExpanded && !mobileMenuOpen ? "md:justify-center md:px-0" : ""}`}
-                                    >
-                                        <div className="w-6 h-6 sm:w-5 sm:h-5 flex items-center justify-center shrink-0">
-                                            {item.icon}
+                            {/* プロジェクト配下の時だけ：プロジェクト用メニューを表示 */}
+                            {isProjectArea && (
+                                <div className="mb-6">
+                                    {(sidebarExpanded || mobileMenuOpen) && (
+                                        <div className="text-xs font-black text-gray-400 uppercase tracking-widest px-3 mb-2 md:mb-3">
+                                            プロジェクトメニュー
                                         </div>
-                                        {(sidebarExpanded || mobileMenuOpen) && (
-                                            <span className="font-bold text-sm whitespace-nowrap">{item.label}</span>
-                                        )}
-                                    </Link>
-                                );
-                            })}
+                                    )}
+
+                                    {projectMenuItems.map((item) => {
+                                        const currentPath = pathname.endsWith("/") && pathname !== "/" ? pathname.slice(0, -1) : pathname;
+                                        const isActive =
+                                            currentPath === item.href ||
+                                            currentPath.startsWith(`${item.href}/`);
+                                        return (
+                                            <Link
+                                                key={item.href}
+                                                href={item.href}
+                                                onClick={() => setMobileMenuOpen(false)}
+                                                className={`flex items-center gap-3 w-full p-2.5 rounded-xl transition-all ${isActive
+                                                    ? "bg-[oklch(0.73_0.11_162)] text-white shadow-md shadow-[oklch(0.73_0.11_162)]/30"
+                                                    : "text-gray-500 hover:bg-gray-50 hover:text-gray-900"
+                                                    } ${!sidebarExpanded && !mobileMenuOpen ? "md:justify-center md:px-0" : ""}`}
+                                            >
+                                                <div className="w-6 h-6 sm:w-5 sm:h-5 flex items-center justify-center shrink-0">
+                                                    {item.icon}
+                                                </div>
+                                                {(sidebarExpanded || mobileMenuOpen) && (
+                                                    <span className="font-bold text-[14.25px] whitespace-nowrap">{item.label}</span>
+                                                )}
+                                            </Link>
+                                        );
+                                    })}
+                                </div>
+                            )}
+
+                            {/* プロジェクト配下では、通常メニューは出さずプロジェクトに集中させる */}
+                            {!isProjectArea && (
+                                <>
+                                    {(sidebarExpanded || mobileMenuOpen) && (
+                                        <div className="text-xs font-black text-gray-400 uppercase tracking-widest px-3 mb-4 md:mb-3">
+                                            メニュー
+                                        </div>
+                                    )}
+
+                                    {menuItems.map((item) => {
+                                        // パスの末尾スラッシュ有無やネスト配下もハイライト対象にする
+                                        const currentPath = pathname.endsWith("/") && pathname !== "/" ? pathname.slice(0, -1) : pathname;
+                                        const isActive =
+                                            currentPath === item.href ||
+                                            currentPath.startsWith(`${item.href}/`) ||
+                                            (currentPath === "/" && item.href === pageRoutes.MAIN.DASHBOARD);
+                                        return (
+                                            <Link
+                                                key={item.href}
+                                                href={item.href}
+                                                onClick={() => setMobileMenuOpen(false)}
+                                                className={`flex items-center gap-3 w-full p-2.5 rounded-xl transition-all ${isActive
+                                                    ? "bg-[oklch(0.73_0.11_162)] text-white shadow-md shadow-[oklch(0.73_0.11_162)]/30"
+                                                    : "text-gray-500 hover:bg-gray-50 hover:text-gray-900"
+                                                    } ${!sidebarExpanded && !mobileMenuOpen ? "md:justify-center md:px-0" : ""}`}
+                                            >
+                                                <div className="w-6 h-6 sm:w-5 sm:h-5 flex items-center justify-center shrink-0">
+                                                    {item.icon}
+                                                </div>
+                                                {(sidebarExpanded || mobileMenuOpen) && (
+                                                    <span className="font-bold text-[14.25px] whitespace-nowrap">{item.label}</span>
+                                                )}
+                                            </Link>
+                                        );
+                                    })}
+                                </>
+                            )}
                         </div>
                     </div>
                 </div>

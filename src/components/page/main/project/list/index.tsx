@@ -6,6 +6,8 @@ import { useAppStore } from "@/store"
 import { useClickOutside } from "@/hooks/useClickOutside"
 import { Eye, Edit, Trash2 } from "lucide-react"
 import { pageRoutes } from "@/components/constants"
+import { Button } from "@/components/ui/button"
+import { Card, CardBody } from "@/components/ui/card"
 
 type Space = {
     id: string
@@ -78,21 +80,32 @@ export default function Projects() {
 
     return (
         <main className="flex-1 overflow-y-auto p-6 transition-all duration-300">
-            <div className="flex justify-between items-end mb-6">
+            <div className="flex justify-between items-center mb-6">
                 <div>
                     <h1 className="text-xl sm:text-2xl font-black text-gray-900 tracking-tight">プロジェクト</h1>
-                    <p className="hidden sm:block text-xs text-gray-500 mt-1 font-bold">現在進行中のプロジェクト一覧</p>
+                    <p className="hidden sm:block text-[13.5px] text-gray-500 mt-1 font-bold">現在進行中のプロジェクト一覧</p>
                 </div>
-                <button className="btn btn-primary btn-sm rounded-lg px-4 text-xs shadow-md text-white border-none">+ 新規作成</button>
+                <div className="flex items-center gap-2">
+                    <Button
+                        variant="primary"
+                        className="flex-1 sm:flex-none !h-11 !min-h-11"
+                        onClick={() => router.push(`${pageRoutes.MAIN.PROJECT_SAVE}`)}
+                    >
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16m8-8H4" />
+                        </svg>
+                        新規作成
+                    </Button>
+                </div>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {displayProjects.map((project) => (
-                    <div
-                        key={project.id}
-                        className="card bg-white border border-gray-100 shadow-sm hover:shadow-md transition-all cursor-pointer group"
-                    >
-                        <div className="card-body p-6">
+                    <Card key={project.id} className="cursor-pointer">
+                        <CardBody onClick={(e) => {
+                            e.stopPropagation();
+                            router.push(pageRoutes.PROJECT.TASK.LIST);
+                        }}>
                             <div className="flex justify-between items-start">
                                 <span className="text-xs font-black px-2 py-0.5 rounded-md bg-primary/10 text-primary uppercase">
                                     {project.category}
@@ -189,8 +202,8 @@ export default function Projects() {
                                     <span>{project.tasks.length} タスク</span>
                                 </div>
                             </div>
-                        </div>
-                    </div>
+                        </CardBody>
+                    </Card>
                 ))}
             </div>
         </main>

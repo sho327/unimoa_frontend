@@ -1,12 +1,11 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import AppHeader from "./appHeader";
 import SearchBar from "./searchBar";
 import MobileSpaceSwitcher from "./mobileSpaceSwitcher";
 import { useAppStore } from "@/store";
 import { useRouter } from "next/navigation";
-import Sidebar from "@/components/layout/sidebar";
 
 export default function ClientProjectLayout({
     children,
@@ -17,18 +16,26 @@ export default function ClientProjectLayout({
 }) {
     const { activeSpace } = useAppStore();
     const router = useRouter();
+    const [activeTab, setActiveTab] = useState("tasks");
+
+    const tabs = [
+        { id: "tasks", label: "タスク一覧" },
+        { id: "files", label: "ファイル共有" },
+        { id: "members", label: "メンバー" },
+        { id: "settings", label: "設定" },
+        { id: "docs", label: "ドキュメント" },
+        { id: "logs", label: "ログ" },
+    ];
 
     return (
         <div className="h-screen flex flex-col text-gray-800 relative">
-            <AppHeader withSidebar={true} />
+            <AppHeader withSidebar={false} />
 
             <div className="flex flex-1 overflow-hidden relative">
-                <Sidebar />
-
                 <div className="flex-1 flex flex-col min-w-0 bg-transparent overflow-hidden">
                     {/* プロジェクト上部バー */}
-                    <div className="bg-white border-b border-gray-100 px-4 py-2 shrink-0 z-[100] flex items-center justify-between min-h-[56px] shadow-sm">
-                        <div className="flex items-center gap-1.5 min-w-0">
+                    <div className="bg-white border-b border-gray-100 px-4 py-2 shrink-0 z-[100] flex items-center justify-between min-h-[56px]">
+                        <div className="flex items-center gap-3 min-w-0">
                             <button
                                 onClick={() => router.back()}
                                 className="h-8 w-8 flex items-center justify-center rounded-full hover:bg-gray-100 text-gray-400 transition-colors"
@@ -41,8 +48,7 @@ export default function ClientProjectLayout({
                                 <span className="text-[12px] font-black text-primary/70 uppercase tracking-widest leading-none mb-1">
                                     {activeSpace.name}
                                 </span>
-                                {/* <h2 className="text-[15px] font-black truncate text-gray-900 max-w-[120px] sm:max-w-xs px-1"> */}
-                                <h2 className="text-[15px] font-black truncate text-gray-900 max-w-[150px] sm:max-w-xs">
+                                <h2 className="text-[15px] font-black truncate text-gray-900 max-w-[120px] sm:max-w-xs px-1">
                                     {projectTitle}
                                 </h2>
                             </div>
@@ -52,15 +58,28 @@ export default function ClientProjectLayout({
                         <SearchBar />
                     </div>
 
+                    {/* タブナビゲーション */}
+                    <nav className="flex px-4 bg-white overflow-x-auto no-scrollbar shrink-0 shadow-sm flex-nowrap whitespace-nowrap">
+                        {tabs.map((tab) => (
+                            <button
+                                key={tab.id}
+                                onClick={() => setActiveTab(tab.id)}
+                                className={`px-6 py-4 text-xs font-black tracking-widest border-b-2 transition-all shrink-0 ${activeTab === tab.id ? "border-primary text-primary" : "border-transparent text-gray-400 hover:text-gray-600"
+                                    }`}
+                            >
+                                {tab.label}
+                            </button>
+                        ))}
+                    </nav>
+
                     {/* メインエリア */}
-                    {/* children 側で overflow-y-auto を効かせるため、ここは flex コンテナにして高さを渡す */}
-                    <div className="flex-1 flex flex-col min-w-0 overflow-hidden relative">
+                    <div className="flex-1 overflow-hidden relative">
                         {children}
                     </div>
                 </div>
             </div>
 
-            {/* <MobileSpaceSwitcher /> */}
+            <MobileSpaceSwitcher />
         </div>
     );
 }

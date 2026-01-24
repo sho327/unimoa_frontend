@@ -8,13 +8,14 @@ import { useMobile } from "@/hooks/useMobile";
 
 export default function MobileSpaceSwitcher() {
     const isMobile = useMobile();
-    const { activeSpace, setActiveSpace, spaces } = useAppStore();
+    const { activeSpace, setActiveSpace, spaces, mobileMenuOpen: sidebarMobileMenuOpen } = useAppStore();
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const containerRef = useRef<HTMLDivElement>(null);
 
     useClickOutside(containerRef, () => setMobileMenuOpen(false), mobileMenuOpen);
 
-    if (!isMobile) return null;
+    // スマホのサイドバーが開いている間は、下部固定UIを消して重複を防ぐ
+    if (!isMobile || sidebarMobileMenuOpen) return null;
 
     const handleSelectSpace = (space: any) => {
         setActiveSpace(space);

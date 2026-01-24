@@ -45,6 +45,10 @@ body {
   animation: dropdown-pop 0.2s ease-out;
 }
 
+.table tr.active, .table tr.active:nth-child(2n), .table-zebra tbody tr:nth-child(2n) {
+  background-color: #f6f6f6;
+}
+
 @keyframes dropdown-pop {
   from {
     opacity: 0;

@@ -29,13 +29,22 @@ export const pageRoutes = {
     },
     MAIN: {
         DASHBOARD: `/dashboard`,
-        PROJECTS: `/project/list`,
+        PROJECT_LIST: `/project/list`,
         PROJECT_DETAIL: `/project/detail`,
-        MEMBERS: `/member/list`,
-        NOTIFICATIONS: `/notification/list`,
+        PROJECT_SAVE: `/project/save`,
+        PROJECT_MEMBER_LIST: `/project/member/list`,
+        MEMBER_LIST: `/member/list`,
+        NOTIFICATION_LIST: `/notification/list`,
         NOTIFICATION_DETAIL: `/notification/detail`,
     },
     PROJECT: {
         DASHBOARD: `/project/xxx/dashboard`,
+        TASK: {
+            LIST: `/project/xxx/task/list`,
+            DETAIL: `/project/xxx/task/detail`,
+        },
+        MEMBER: {
+            LIST: `/project/xxx/member/list`,
+        }
     }
 }

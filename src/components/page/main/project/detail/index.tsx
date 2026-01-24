@@ -1,10 +1,13 @@
 "use client";
 
-import React from "react";
-import Link from "next/link";
-import { ChevronLeft, Check } from "lucide-react";
+import React, { useState } from "react";
+import Link from "next/link"
+import Image from "next/image";
+import { ChevronLeft, Check, Users } from "lucide-react";
 import { pageRoutes } from "@/components/constants";
 import { Button } from "@/components/ui/button";
+import { Card, CardBody, CardHeader } from "@/components/ui/card";
+import { Modal } from "@/components/ui/modal";
 
 type ProjectDetailProps = {
     project: {
@@ -18,29 +21,30 @@ type ProjectDetailProps = {
             university?: string;
             avatar?: string;
         };
+        members: {
+            id: string;
+            name: string;
+            univ: string;
+            catch: string;
+            tags: string[];
+            avatar?: string;
+        }[];
         requirements: string[];
         tags: string[];
     };
 };
 
 export default function ProjectDetail({ project }: ProjectDetailProps) {
+    const [isMembersModalOpen, setIsMembersModalOpen] = useState(false);
+
     return (
         <main className="flex-1 overflow-y-auto p-6 transition-all duration-300">
-            <div className="w-100 sm:w-[85%] sm:mx-auto">
-                {/* 戻るナビゲーション */}
-                {/* <Link
-                    href={pageRoutes.MAIN.PROJECTS}
-                    className="btn btn-ghost btn-sm gap-2 px-0 mb-6 hover:bg-transparent text-gray-400 hover:text-primary transition-colors inline-flex items-center"
+            <div 
+                // className="w-100 sm:w-[85%] sm:mx-auto"
                 >
-                    <ChevronLeft className="w-5 h-5" strokeWidth={3} />
-                    <span className="font-black text-sm tracking-widest">一覧に戻る</span>
-                </Link> */}
-
-                {/* <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start"> */}
-                <>
-                    {/* メインコンテンツ */}
-                    <div className="lg:col-span-7 space-y-6">
-                        <div className="bg-white rounded-2xl p-6 sm:p-8 shadow-sm border border-gray-100">
+                <Card>
+                    <CardBody className="p-6 sm:p-8">
+                        <div className="lg:col-span-7 space-y-6">
                             <div className="flex items-center gap-2 mb-4">
                                 <span className="text-xs font-black px-2 py-0.5 rounded-md bg-primary/10 text-primary uppercase">
                                     {project.category}
@@ -50,7 +54,7 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
                                 {project.title}
                             </h2>
 
-                            <div className="flex items-center gap-3 mb-8 pb-6 border-b border-gray-100">
+                            <div className="flex items-center gap-3 mb-8 pb-6 border-b border-gray-200">
                                 <div className="w-10 h-10 rounded-full bg-gray-100 overflow-hidden border border-gray-200">
                                     <img
                                         src={project.leader.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${project.leader.id}`}
@@ -58,7 +62,7 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
                                     />
                                 </div>
                                 <div>
-                                    <p className="text-[11px] text-gray-400 font-black uppercase tracking-wider leading-none mb-1">
+                                    <p className="text-xs text-gray-400 font-black uppercase tracking-wider leading-none mb-1">
                                         プロジェクトリーダー
                                     </p>
                                     <p className="text-sm font-bold text-gray-800">
@@ -68,9 +72,27 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
                                 </div>
                             </div>
 
+                            {/* 参加メンバー数と一覧へのリンク */}
+                            <div className="mb-8 pb-6 border-b border-gray-200">
+                                <h4 className="text-xs font-black text-gray-400 uppercase tracking-widest mb-3">
+                                    参加メンバー ({project.members.length}人)
+                                </h4>
+                                <div className="flex items-center gap-2">
+                                    {project.members.slice(0, 5).map(member => (
+                                        <div key={member.id} className="w-8 h-8 rounded-full bg-gray-100 overflow-hidden border border-gray-200">
+                                            <img src={member.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${member.name}`} alt={member.name} />
+                                        </div>
+                                    ))}
+                                    {project.members.length > 5 && <span className="text-sm text-gray-500">+{project.members.length - 5}</span>}
+                                    <button onClick={() => setIsMembersModalOpen(true)} className="ml-auto text-sm font-bold text-primary hover:underline">
+                                        参加者一覧を見る
+                                    </button>
+                                </div>
+                            </div>
+
                             <div className="space-y-8">
                                 <section>
-                                    <h4 className="text-[11px] font-black text-gray-400 uppercase tracking-widest mb-3">
+                                    <h4 className="text-xs font-black text-gray-400 uppercase tracking-widest mb-3">
                                         プロジェクトについて
                                     </h4>
                                     <p className="text-sm text-gray-600 leading-relaxed">
@@ -80,13 +102,13 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
 
                                 {project.requirements && project.requirements.length > 0 && (
                                     <section>
-                                        <h4 className="text-[11px] font-black text-gray-400 uppercase tracking-widest mb-3">
+                                        <h4 className="text-xs font-black text-gray-400 uppercase tracking-widest mb-3">
                                             募集要項・条件
                                         </h4>
                                         <ul className="space-y-3">
                                             {project.requirements.map((req, index) => (
                                                 <li key={index} className="flex items-start gap-3 text-sm text-gray-600 font-medium">
-                                                    <Check className="w-5 h-5 text-[oklch(0.73_0.11_162)] shrink-0 mt-0.5" strokeWidth={3} />
+                                                    <Check className="w-5 h-5 text-primary shrink-0 mt-0.5" strokeWidth={3} />
                                                     <span>{req}</span>
                                                 </li>
                                             ))}
@@ -96,7 +118,7 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
 
                                 {project.tags && project.tags.length > 0 && (
                                     <section>
-                                        <h4 className="text-[11px] font-black text-gray-400 uppercase tracking-widest mb-3">
+                                        <h4 className="text-xs font-black text-gray-400 uppercase tracking-widest mb-3">
                                             使用ツール・タグ
                                         </h4>
                                         <div className="flex flex-wrap gap-2">
@@ -114,7 +136,7 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
                             </div>
                             <div className="mt-6 text-center gap-3">
                                 <Link
-                                    href={pageRoutes.MAIN.PROJECTS}
+                                    href={pageRoutes.MAIN.PROJECT_LIST}
                                     className="flex-1 sm:flex-none"
                                 >
                                     <Button
@@ -127,26 +149,47 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
                                 </Link>
                             </div>
                         </div>
-                    </div>
-
-                    {/* サイドバー（将来の応募機能用のプレースホルダー） */}
-                    {/* <div className="lg:col-span-5">
-                        <div className="bg-white rounded-2xl p-6 sm:p-8 shadow-sm border border-gray-100">
-                            <div className="text-center py-10 space-y-4">
-                                <div className="w-16 h-16 bg-[oklch(0.73_0.11_162)]/10 text-[oklch(0.73_0.11_162)] rounded-full flex items-center justify-center mx-auto mb-6">
-                                    <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={3}>
-                                        <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                    </svg>
-                                </div>
-                                <h3 className="text-lg font-black text-gray-900">プロジェクト詳細</h3>
-                                <p className="text-sm text-gray-500 leading-relaxed px-4">
-                                    このプロジェクトの詳細情報を確認できます。
-                                </p>
-                            </div>
-                        </div>
-                    </div> */}
-                </>
+                    </CardBody>
+                </Card>
             </div>
+
+            <Modal
+                open={isMembersModalOpen}
+                onClose={() => setIsMembersModalOpen(false)}
+                title={`参加メンバー (${project.members.length}人)`}
+                maxWidthClassName="max-w-md"
+            >
+                <div className="max-h-[60vh] overflow-y-auto -mr-4 pr-4">
+                    <div className="space-y-3">
+                        {project.members.map(user => (
+                            <div key={user.id} className="user-item rounded-xl p-3 sm:p-4 flex items-start gap-4 bg-white border border-gray-200 hover:bg-gray-50 cursor-pointer">
+                                <div className="shrink-0 mt-0.5">
+                                    <div className="w-12 h-12 rounded-lg bg-gray-100 overflow-hidden border border-gray-200">
+                                        <Image
+                                            src={user.avatar || `https://api.dicebear.com/7.x/avataaars/svg?seed=${user.name}`}
+                                            alt={user.name}
+                                            width={48}
+                                            height={48}
+                                        />
+                                    </div>
+                                </div>
+                                <div className="flex-1 min-w-0">
+                                    <div className="flex flex-wrap items-center gap-x-2 gap-y-1 mb-1">
+                                        <span className="font-bold text-gray-900 text-[15px]">{user.name}</span>
+                                        <span className="text-[10px] text-gray-500 font-bold bg-gray-100 px-1.5 py-0.5 rounded">{user.univ}</span>
+                                    </div>
+                                    <p className="text-[13px] text-gray-600 leading-snug mb-2 truncate">{user.catch}</p>
+                                    <div className="flex flex-wrap gap-x-2 gap-y-0.5">
+                                        {user.tags.slice(0, 2).map(tag => (
+                                            <span key={tag} className="text-[10px] text-gray-400 font-medium">#{tag}</span>
+                                        ))}
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </Modal>
         </main>
     );
 }

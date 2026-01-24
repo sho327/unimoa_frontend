@@ -57,7 +57,7 @@ export default function NotificationDetail({ notification }: NotificationDetailP
 
                     <div className="mt-10 flex items-center justify-center gap-3">
                         <Link
-                            href={pageRoutes.MAIN.NOTIFICATIONS}
+                            href={pageRoutes.MAIN.NOTIFICATION_LIST}
                             className="flex-1 sm:flex-none"
                         >
                             <Button
@@ -76,27 +76,6 @@ export default function NotificationDetail({ notification }: NotificationDetailP
                             {info.action}
                         </Button>
                     </div>
-                    {/* <div className="mt-10 flex flex-col sm:flex-row gap-3">
-                        <Link
-                            href={pageRoutes.MAIN.NOTIFICATIONS}
-                            className="flex-1 sm:flex-none"
-                        >
-                            <Button
-                                variant="ghost"
-                                className="w-full sm:w-auto h-12"
-                            >
-                                <ChevronLeft className="w-4 h-4" strokeWidth={3} />
-                                一覧に戻る
-                            </Button>
-                        </Link>
-                        <Button
-                            variant="primary"
-                            onClick={() => console.log("Action:", info.action, notification)}
-                            className="flex-1 sm:flex-none h-12"
-                        >
-                            {info.action}
-                        </Button>
-                    </div> */}
                 </div>
             </div>
         </main>

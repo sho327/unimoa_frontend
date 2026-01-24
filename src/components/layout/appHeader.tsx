@@ -19,7 +19,7 @@ export default function AppHeader({ withSidebar = true }: { withSidebar?: boolea
     } = useAppStore();
 
     return (
-        <header className="bg-white border-b border-gray-100 h-16 px-5 shrink-0 z-[150] flex items-center justify-between">
+        <header className="bg-white border-b border-gray-200 h-16 px-5 shrink-0 z-[150] flex items-center justify-between">
             <div className="flex items-center gap-2 flex-1">
                 {/* サイドバートグルボタン (withSidebar が true の場合のみ表示) */}
                 {withSidebar && (
@@ -67,7 +67,7 @@ export default function AppHeader({ withSidebar = true }: { withSidebar?: boolea
                 </div>
 
                 {/* タイトル */}
-                <span className="font-black text-xl tracking-tighter text-gray-900">
+                <span className="font-black text-xl text-[1.3rem] tracking-tighter text-gray-900">
                     Unimoa
                 </span>
 

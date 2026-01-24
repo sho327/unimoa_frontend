@@ -40,7 +40,7 @@ export default function NotificationList() {
             <div className="flex justify-between items-end mb-6">
                 <div>
                     <h1 className="text-xl sm:text-2xl font-black text-gray-900 tracking-tight">お知らせ</h1>
-                    <p className="hidden sm:block text-xs text-gray-500 mt-1 font-bold">通知・アナウンス一覧</p>
+                    <p className="hidden sm:block text-[13.5px] text-gray-500 mt-1 font-bold">通知・アナウンス一覧</p>
                 </div>
                 <button className="btn btn-ghost btn-xs sm:btn-sm text-primary font-bold hover:bg-primary/5">すべて既読</button>
             </div>
