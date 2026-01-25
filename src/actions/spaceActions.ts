@@ -2,7 +2,7 @@
 // Modules
 import { cookies } from 'next/headers'
 // Constants
-import { selectedSpaceIdCookie } from '@/components/constants'
+import { selectedSpaceIdCookieKey } from '@/components/constants'
 
 /**
  * ユーザーが選択したスペースIDをCookieに保存するサーバーアクション
@@ -14,7 +14,7 @@ export async function setSelectedSpaceCookie(spaceId: string) {
 
     if (!spaceId) {
         // IDが空の場合はCookieを削除（maxAge: 0で期限切れにして削除）
-        cookieStore.set(selectedSpaceIdCookie, '', {
+        cookieStore.set(selectedSpaceIdCookieKey, '', {
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production',
             maxAge: 0,
@@ -24,7 +24,7 @@ export async function setSelectedSpaceCookie(spaceId: string) {
     }
 
     // CookieにスペースIDを保存
-    cookieStore.set(selectedSpaceIdCookie, spaceId, {
+    cookieStore.set(selectedSpaceIdCookieKey, spaceId, {
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
         maxAge: 60 * 60 * 24 * 30,

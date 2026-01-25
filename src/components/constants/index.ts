@@ -49,4 +49,4 @@ export const pageRoutes = {
         }
     }
 }
-export const selectedSpaceIdCookie = 'selected-space-id'
+export const selectedSpaceIdCookieKey = 'selected-space-id'

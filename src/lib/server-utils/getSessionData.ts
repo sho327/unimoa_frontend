@@ -1,9 +1,10 @@
+'use server'
 // Modules
 import { cookies } from 'next/headers'
 // Supabase
 import { fetchAuthenticatedUserData, ProfileWithSpaces } from '@/lib/supabase/userData'
 // Constants
-import { selectedSpaceIdCookie } from '@/components/constants'
+import { selectedSpaceIdCookieKey } from '@/components/constants'
 
 interface SessionData {
     profileWithSpaces: ProfileWithSpaces | null
@@ -22,7 +23,7 @@ export async function getSessionData(): Promise<SessionData> {
     // 2. Cookieから選択スペースIDを安全に取得
     const cookieStore = await cookies()
     const selectedSpaceIdFromCookie: string | null =
-        cookieStore.get(selectedSpaceIdCookie)?.value || null
+        cookieStore.get(selectedSpaceIdCookieKey)?.value || null
 
     // 3. スペースIDの検証と決定ロジック
     const spaces = profileWithSpaces?.spaces || []

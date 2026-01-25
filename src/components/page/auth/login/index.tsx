@@ -5,8 +5,6 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-// Modules
-import { supabaseClient } from "@/lib/supabase/client";
 // UI/Components
 import { FormInput } from "@/components/ui/formInput";
 // Components
