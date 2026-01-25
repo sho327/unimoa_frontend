@@ -1,20 +1,38 @@
 "use client";
-
-import React, { useState } from "react";
+// Modules
+import React, { useState, useTransition } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import AuthCard from "@/components/page/auth/authCard";
+// Modules
+import { supabaseServer } from "@/lib/supabase/server";
+// UI/Components
 import { FormInput } from "@/components/ui/formInput";
+// Components
+import AuthCard from "@/components/page/auth/authCard";
 import { SocialLoginButtons } from "@/components/page/auth/socialLoginButtons";
-import { useAppStore } from "@/store";
 import { AuthButton } from "@/components/page/auth/authButton";
+// Store
+import { useAppStore } from "@/store";
+// Constants
+import { pageRoutes } from "@/components/constants";
+// Schema
 import { signupSchema, SignupFormValues } from "@/lib/schema/auth";
 
+/**
+ * 新規登録ページ
+ * @args
+ * @createdBy KatoShogo
+ * @createdAt 2026/01/26
+ */
 export default function Signup() {
-    const { setIsLoading: setGlobalLoading } = useAppStore();
-    const [isLoading, setIsLoading] = useState(false);
-
+    // ============================================================================
+    // 変数（Constant）
+    // ============================================================================
+    const router = useRouter()
+    const [isPending, startTransition] = useTransition()
+    // React Hook Form の設定
     const {
         register,
         handleSubmit,
@@ -24,18 +42,70 @@ export default function Signup() {
         mode: "onBlur",
     });
 
-    const onSubmit = (data: SignupFormValues) => {
-        setIsLoading(true);
+    // ============================================================================
+    // ローカル状態（LocalState）
+    // ============================================================================
+    const [error, setError] = useState<string | null>(null)
+
+    // ============================================================================
+    // グローバル状態（GlobalState）
+    // ============================================================================
+    const { setIsLoading: setGlobalLoading } = useAppStore();
+
+    // ============================================================================
+    // アクション処理（Action）
+    // ============================================================================
+    // 新規登録処理
+    const onSubmit = async (inputData: SignupFormValues) => {
+        setError(null);
         setGlobalLoading(true);
 
-        console.log("--- 新規登録試行 ---");
-        console.log("Data:", data);
+        // === Supabase Auth 新規登録 (signUp) ===
+        const supabase = await supabaseServer()
+        const { data, error: authError } = await supabase.auth.signUp({
+            email: inputData.email,
+            password: inputData.password,
+        })
 
-        // 通信中をシミュレート
-        setTimeout(() => {
-            setIsLoading(false);
-            setGlobalLoading(false);
-        }, 1500);
+        if (authError) {
+            console.error('Sign-up error:', authError)
+            if (authError.message.includes('already registered')) {
+                setError('このメールアドレスは既に登録されています。')
+            } else {
+                setError('ユーザー登録中にエラーが発生しました。')
+            }
+            setGlobalLoading(false)
+            return
+        }
+
+        // 登録成功後の処理
+        if (data.session) {
+            // メール認証が無効な設定の場合、セッションが確立される
+            // セッション確立とDBトリガーの完了を軽く待機
+            for (let i = 0; i < 5; i++) {
+                const { data: userCheck } = await supabase.auth.getUser()
+                if (userCheck.user) break
+                await new Promise((r) => setTimeout(r, 200))
+            }
+
+            // トランジション発火（ページ遷移）
+            startTransition(() => {
+                router.push(pageRoutes.MAIN.DASHBOARD)
+            })
+
+            setGlobalLoading(false)
+        } else if (data.user && !data.session) {
+            // メール認証が必要な場合（デフォルト設定）
+            // 完了画面にリダイレクト
+            startTransition(() => {
+                // メール認証完了画面へのパスを指定
+                router.push(pageRoutes.AUTH.USER_ACTIVATE_REQUEST)
+            })
+            // ローディングはトランジションとは独立して解除
+            setGlobalLoading(false)
+        }
+
+
     };
 
     return (

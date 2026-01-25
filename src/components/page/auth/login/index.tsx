@@ -9,6 +9,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { supabaseServer } from "@/lib/supabase/server";
 // UI/Components
 import { FormInput } from "@/components/ui/formInput";
+// Components
 import AuthCard from "@/components/page/auth/authCard";
 import { AuthButton } from "@/components/page/auth/authButton";
 import { SocialLoginButtons } from "@/components/page/auth/socialLoginButtons";

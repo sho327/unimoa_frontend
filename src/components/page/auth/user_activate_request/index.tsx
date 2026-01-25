@@ -1,11 +1,21 @@
 "use client";
-
+// Modules
 import React, { useState } from "react";
 import Link from "next/link";
+// Components
 import AuthCard from "@/components/page/auth/authCard";
 import { AuthButton } from "@/components/page/auth/authButton";
+// Constants
+import { pageRoutes } from "@/components/constants";
+// Store
 import { useAppStore } from "@/store";
 
+/**
+ * メール認証リクエストページ
+ * @args
+ * @createdBy KatoShogo
+ * @createdAt 2026/01/26
+ */
 export default function UserActivateRequest() {
     const { setIsLoading: setGlobalLoading } = useAppStore();
     const [isLoading, setIsLoading] = useState(false);
@@ -69,7 +79,7 @@ export default function UserActivateRequest() {
             {/* 下部リンク */}
             <div className="mt-8 text-center">
                 <Link
-                    href="/login"
+                    href={pageRoutes.AUTH.LOGIN}
                     className="text-[12px] font-bold text-secondary hover:text-neutral flex items-center justify-center gap-2 transition-colors"
                 >
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
