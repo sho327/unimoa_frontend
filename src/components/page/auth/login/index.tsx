@@ -6,7 +6,7 @@ import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 // Modules
-import { supabaseServer } from "@/lib/supabase/server";
+import { supabaseClient } from "@/lib/supabase/client";
 // UI/Components
 import { FormInput } from "@/components/ui/formInput";
 // Components
@@ -15,11 +15,12 @@ import { AuthButton } from "@/components/page/auth/authButton";
 import { SocialLoginButtons } from "@/components/page/auth/socialLoginButtons";
 // Store
 import { useAppStore } from "@/store";
+// Actions
+import { loginAction } from "@/actions/authActions";
 // Constants
 import { pageRoutes } from "@/components/constants";
 // Schema
 import { loginSchema, LoginFormValues } from "@/lib/schema/auth";
-import { getAndSetDefaultSpaceId } from "@/actions/authActions";
 
 /**
  * ログインページ
@@ -60,44 +61,23 @@ export default function Login() {
     const onSubmit = async (inputData: LoginFormValues) => {
         setError(null);
         setGlobalLoading(true);
-        // === Supabase Auth ログイン ===
-        const supabase = await supabaseServer()
-        const { data, error } = await supabase.auth.signInWithPassword({
-            email: inputData.email,
-            password: inputData.password,
-        })
+        // === Server Action ログイン ===
+        const result = await loginAction(inputData)
 
-        if (error) {
-            setError('メールアドレスまたはパスワードが正しくありません。')
+        if (!result.success) {
+            setError(result.errorMessage || 'ログインに失敗しました。')
             setGlobalLoading(false)
             return
         }
+
         // === ログイン完了後 ===
-        if (data.session) {
-            // Supabaseのセッション確立を軽く待機
-            for (let i = 0; i < 5; i++) {
-                const { data: userCheck } = await supabase.auth.getUser()
-                if (userCheck.user) break
-                await new Promise((r) => setTimeout(r, 200))
-            }
+        // トランジション発火（ページ遷移）
+        startTransition(() => {
+            router.push(pageRoutes.MAIN.DASHBOARD)
+        })
 
-            // ユーザの全メンバーシップから個人スペースIDを取得し、Cookieへセット
-            try {
-                // サーバーアクションを実行して、Cookie設定とスペースID取得をサーバー側で完結させる
-                await getAndSetDefaultSpaceId(data.user!.id)
-
-                // トランジション発火（ページ遷移）
-                startTransition(() => {
-                    router.push(pageRoutes.MAIN.DASHBOARD)
-                })
-            } catch (e) {
-                // エラー処理
-                setError('ログイン後の初期設定に失敗しました。')
-            } finally {
-                // トランジションとは独立してローディング解除
-                setGlobalLoading(false);
-            }
-        }
+        // トランジションとは独立してローディング解除
+        setGlobalLoading(false);
     };
 
     // ============================================================================

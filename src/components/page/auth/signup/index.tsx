@@ -5,8 +5,8 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-// Modules
-import { supabaseServer } from "@/lib/supabase/server";
+// Actions
+import { signupAction } from "@/actions/authActions";
 // UI/Components
 import { FormInput } from "@/components/ui/formInput";
 // Components
@@ -60,41 +60,24 @@ export default function Signup() {
         setError(null);
         setGlobalLoading(true);
 
-        // === Supabase Auth 新規登録 (signUp) ===
-        const supabase = await supabaseServer()
-        const { data, error: authError } = await supabase.auth.signUp({
-            email: inputData.email,
-            password: inputData.password,
-        })
+        // === Server Action 新規登録 ===
+        const result = await signupAction(inputData)
 
-        if (authError) {
-            console.error('Sign-up error:', authError)
-            if (authError.message.includes('already registered')) {
-                setError('このメールアドレスは既に登録されています。')
-            } else {
-                setError('ユーザー登録中にエラーが発生しました。')
-            }
+        if (!result.success) {
+            setError(result.errorMessage || 'ユーザー登録中にエラーが発生しました。')
             setGlobalLoading(false)
             return
         }
 
         // 登録成功後の処理
-        if (data.session) {
-            // メール認証が無効な設定の場合、セッションが確立される
-            // セッション確立とDBトリガーの完了を軽く待機
-            for (let i = 0; i < 5; i++) {
-                const { data: userCheck } = await supabase.auth.getUser()
-                if (userCheck.user) break
-                await new Promise((r) => setTimeout(r, 200))
-            }
-
+        if (!result.requireEmailConfirmation) {
+            // メール認証が無効（即ログイン）の場合
             // トランジション発火（ページ遷移）
             startTransition(() => {
                 router.push(pageRoutes.MAIN.DASHBOARD)
             })
-
             setGlobalLoading(false)
-        } else if (data.user && !data.session) {
+        } else {
             // メール認証が必要な場合（デフォルト設定）
             // 完了画面にリダイレクト
             startTransition(() => {
@@ -145,8 +128,8 @@ export default function Signup() {
                     <AuthButton
                         type="submit"
                         variant="primary"
-                        disabled={isLoading}
-                        isLoading={isLoading}
+                        disabled={isPending}
+                        isLoading={isPending}
                     >
                         新規登録
                     </AuthButton>
