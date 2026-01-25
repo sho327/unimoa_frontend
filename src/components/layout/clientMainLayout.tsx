@@ -5,15 +5,99 @@ import { useMobile } from "@/hooks/useMobile";
 import AppHeader from "./appHeader";
 import SearchBar from "./searchBar";
 import { useAppStore } from "@/store";
+import { ProfileWithSpaces } from '@/lib/supabase/userData'
+import { T_SpaceRow } from "@/types/supabase/space";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { useEffect } from "react";
+// Actions
+import { setSelectedSpaceCookie } from '@/actions/spaceActions'
 
+/**
+ * メインレイアウトコンポーネント(クライアントコンポーネント)
+ * @args
+ * @createdBy KatoShogo
+ * @createdAt 2026/01/26
+ */
 export default function ClientMainLayout({
     children,
+    profileWithSpaces,
+    selectedSpaceId,
+    needsCookieUpdate
 }: {
     children: React.ReactNode;
+    profileWithSpaces: ProfileWithSpaces | null
+    selectedSpaceId: string | null
+    needsCookieUpdate?: boolean // Cookie更新が必要かどうか
 }) {
+    // ============================================================================
+    // 変数（Constant）
+    // ============================================================================
     const isMobile = useMobile();
-    const { activeSpace } = useAppStore();
+    const { activeSpace, isLoading, setIsLoading } = useAppStore();
+    const router = useRouter()
+    // 最初に表示すべきスペースオブジェクトを計算するヘルパー関数 (純粋関数)
+    const getInitialSpace = (
+        id: string | null,
+        profileData: ProfileWithSpaces | null
+    ): T_SpaceRow | null => {
+        const spaces = profileData?.spaces || []
+        if (spaces.length === 0) return null
 
+        // 1. Props で渡された ID に対応するスペースオブジェクトを探す
+        const selectedSpace = spaces.find((m) => m.id === id)
+        if (selectedSpace) return selectedSpace
+
+        // 2. IDが無効または未設定の場合、個人スペースを探す
+        return spaces.find((m) => m.is_personal) || null
+    }
+
+    // ============================================================================
+    // ローカル状態（State）
+    // ============================================================================
+    const [currentSpace, setCurrentSpace] = useState<T_SpaceRow | null>(() => {
+        return getInitialSpace(selectedSpaceId, profileWithSpaces)
+    })
+
+    // ============================================================================
+    // Effect(Watch)処理（Effect(Watch)）
+    // ============================================================================
+    useEffect(() => {
+        // 1. 選択中スペースの表示設定
+        // 既に setCurrentSpace が実行済みの場合、Props が変わったときだけ更新
+        const newSpace = getInitialSpace(selectedSpaceId, profileWithSpaces)
+        if (newSpace?.id !== currentSpace?.id) {
+            setCurrentSpace(newSpace)
+        }
+
+        // 2. Cookie更新が必要な場合、クライアント側からServer Actionを呼び出してCookieを更新
+        if (needsCookieUpdate) {
+            if (selectedSpaceId) {
+                setSelectedSpaceCookie(selectedSpaceId)
+            } else {
+                setSelectedSpaceCookie('')
+            }
+            // Cookie更新後、Server Componentを再レンダリングして新しいCookieの値を読み込む
+            router.refresh()
+        }
+
+        // 4. ローディング終了処理
+        if (isLoading) {
+            // Propsが更新された = サーバーからの応答が完了した
+            setIsLoading(false)
+            console.log('Loading reset complete via ClientMainLayout.')
+        }
+    }, [profileWithSpaces, selectedSpaceId, needsCookieUpdate, currentSpace?.id, router])
+
+    // ============================================================================
+    // Define(Computed)処理(状態等による変数定義)
+    // ============================================================================
+    // currentSpace が null でない、かつ ID がある場合に true
+    const isSpaceSelected = !!currentSpace?.id
+
+    // ============================================================================
+    // テンプレート（Template）
+    // ============================================================================
     return (
         <div className="h-screen flex flex-col relative">
             <AppHeader />

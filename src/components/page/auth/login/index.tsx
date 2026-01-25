@@ -1,24 +1,38 @@
 "use client";
-
-import { useState } from "react";
+// Modules
+import { useState, useTransition } from "react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import * as z from "zod";
-import AuthCard from "@/components/page/auth/authCard";
+// Modules
+import { supabaseServer } from "@/lib/supabase/server";
+// UI/Components
 import { FormInput } from "@/components/ui/formInput";
-import { SocialLoginButtons } from "@/components/page/auth/socialLoginButtons";
-import { useAppStore } from "@/store";
+import AuthCard from "@/components/page/auth/authCard";
 import { AuthButton } from "@/components/page/auth/authButton";
+import { SocialLoginButtons } from "@/components/page/auth/socialLoginButtons";
+// Store
+import { useAppStore } from "@/store";
+// Constants
+import { pageRoutes } from "@/components/constants";
+// Schema
 import { loginSchema, LoginFormValues } from "@/lib/schema/auth";
+import { getAndSetDefaultSpaceId } from "@/actions/authActions";
 
+/**
+ * ログインページ
+ * @args
+ * @createdBy KatoShogo
+ * @createdAt 2026/01/26
+ */
 export default function Login() {
-    const { setIsLoading: setGlobalLoading } = useAppStore();
-    const [isLoading, setIsLoading] = useState(false);
-
-    // ==========================================
-    // 1. React Hook Form の設定
-    // ==========================================
+    // ============================================================================
+    // 変数（Constant）
+    // ============================================================================
+    const router = useRouter()
+    const [isPending, startTransition] = useTransition()
+    // React Hook Form の設定
     const {
         register,
         handleSubmit,
@@ -28,32 +42,66 @@ export default function Login() {
         mode: "onBlur", // 入力欄からフォーカスが外れた時にバリデーション実行
     });
 
-    // ==========================================
-    // 2. 送信時の処理
-    // ==========================================
-    const onSubmit = (data: LoginFormValues) => {
-        setIsLoading(true);
+    // ============================================================================
+    // ローカル状態（LocalState）
+    // ============================================================================
+    const [error, setError] = useState<string | null>(null)
+
+    // ============================================================================
+    // グローバル状態（GlobalState）
+    // ============================================================================
+    const { setIsLoading: setGlobalLoading } = useAppStore();
+
+    // ============================================================================
+    // アクション処理（Action）
+    // ============================================================================
+    // ログイン時の処理
+    const onSubmit = async (inputData: LoginFormValues) => {
+        setError(null);
         setGlobalLoading(true);
+        // === Supabase Auth ログイン ===
+        const supabase = await supabaseServer()
+        const { data, error } = await supabase.auth.signInWithPassword({
+            email: inputData.email,
+            password: inputData.password,
+        })
 
-        // 指定のテストアカウントかチェック
-        // 実際の実装ではここで Supabase の signInWithPassword 等を呼び出します
-        if (data.email === "test@test.com" && data.password === "test") {
-            console.log("--- ログイン成功 ---");
-            console.log("Email:", data.email);
-            console.log("Password:", data.password);
-            // alert("ログインに成功しました！");
-        } else {
-            console.log("--- ログイン失敗 ---");
-            console.log("入力された値:", data);
+        if (error) {
+            setError('メールアドレスまたはパスワードが正しくありません。')
+            setGlobalLoading(false)
+            return
         }
+        // === ログイン完了後 ===
+        if (data.session) {
+            // Supabaseのセッション確立を軽く待機
+            for (let i = 0; i < 5; i++) {
+                const { data: userCheck } = await supabase.auth.getUser()
+                if (userCheck.user) break
+                await new Promise((r) => setTimeout(r, 200))
+            }
 
-        // 通信中をシミュレート
-        setTimeout(() => {
-            setIsLoading(false);
-            setGlobalLoading(false);
-        }, 1500);
+            // ユーザの全メンバーシップから個人スペースIDを取得し、Cookieへセット
+            try {
+                // サーバーアクションを実行して、Cookie設定とスペースID取得をサーバー側で完結させる
+                await getAndSetDefaultSpaceId(data.user!.id)
+
+                // トランジション発火（ページ遷移）
+                startTransition(() => {
+                    router.push(pageRoutes.MAIN.DASHBOARD)
+                })
+            } catch (e) {
+                // エラー処理
+                setError('ログイン後の初期設定に失敗しました。')
+            } finally {
+                // トランジションとは独立してローディング解除
+                setGlobalLoading(false);
+            }
+        }
     };
 
+    // ============================================================================
+    // テンプレート（Template）
+    // ============================================================================
     return (
         <>
             <AuthCard>
@@ -78,17 +126,22 @@ export default function Login() {
                         error={errors.password?.message}
                         {...register("password")}
                         rightLabel={
-                            <Link href="/password_reset_request" className="text-[12px] font-bold text-primary hover:underline transition-all">
+                            <Link
+                                href={pageRoutes.AUTH.PASSWORD_RESET_REQUEST}
+                                className="text-[12px] font-bold text-primary hover:underline transition-all"
+                            >
                                 パスワードを忘れた場合
                             </Link>
                         }
                     />
 
+                    {error && <p className="text-error text-center text-sm">{error}</p>}
+
                     <AuthButton
                         type="submit"
                         variant="primary"
-                        disabled={isLoading}
-                        isLoading={isLoading}
+                        disabled={isPending}
+                        isLoading={isPending}
                     >
                         ログイン
                     </AuthButton>
@@ -112,7 +165,7 @@ export default function Login() {
             <div className="mt-8 text-center">
                 <p className="text-[12px] font-bold text-gray-500">
                     アカウントをお持ちでないですか？
-                    <Link href="/signup" className="text-primary hover:underline ml-2">
+                    <Link href={pageRoutes.AUTH.SIGNUP} className="text-primary hover:underline ml-2">
                         新規登録
                     </Link>
                 </p>
