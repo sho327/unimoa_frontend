@@ -50,14 +50,14 @@ export default function QuickSetup() {
                         </div>
                     </div>
                     <div>
-                        <h2 className="text-[13px] font-black text-gray-900 leading-tight">
+                        <h2 className="text-[13px] font-black text-neutral leading-tight">
                             「情報デザイン佐藤ゼミ」<br />
                             <span className="text-primary font-bold">への招待を承諾しました</span>
                         </h2>
                     </div>
                 </div>
 
-                <h1 className="text-base font-black text-gray-900 mb-2 uppercase tracking-tighter">
+                <h1 className="text-base font-black text-neutral mb-2 uppercase tracking-tighter">
                     アカウント作成
                 </h1>
                 <p className="text-[11px] text-gray-500 mb-8 font-bold">
@@ -122,7 +122,7 @@ export default function QuickSetup() {
 
             {/* 下部説明 */}
             <div className="mt-8 text-center px-4">
-                <p className="text-[10px] font-bold text-gray-400 leading-relaxed">
+                <p className="text-[10px] font-bold text-secondary leading-relaxed">
                     この登録を完了すると、自動的に「個人スペース」と「招待されたスペース」の2つが作成されます。
                 </p>
             </div>

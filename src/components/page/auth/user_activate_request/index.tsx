@@ -37,7 +37,7 @@ export default function UserActivateRequest() {
                     </svg>
                 </div>
 
-                <h1 className="text-lg font-black text-gray-900 mb-4">メールを確認してください</h1>
+                <h1 className="text-lg font-black text-neutral mb-4">メールを確認してください</h1>
 
                 <p className="text-[12px] font-medium text-gray-500 leading-relaxed mb-6">
                     本人確認用のメールを送信しました。<br />
@@ -46,7 +46,7 @@ export default function UserActivateRequest() {
                 </p>
 
                 <div className="space-y-3 pt-6 border-t border-gray-200">
-                    <p className="text-[12px] font-black text-gray-400 uppercase tracking-widest">メールが届かない場合</p>
+                    <p className="text-[12px] font-black text-secondary uppercase tracking-widest">メールが届かない場合</p>
                     <div className="flex flex-col gap-2 pt-1">
                         <AuthButton
                             type="button"
@@ -58,7 +58,7 @@ export default function UserActivateRequest() {
                         </AuthButton>
                         <button
                             onClick={handleChangeEmail}
-                            className="btn btn-outline border-gray-300 bg-white hover:bg-gray-100 hover:border-gray-400 hover:text-gray-800 rounded-xl normal-case font-bold text-gray-600 transition-all border-[1.5px] text-sm h-11 min-h-[44px]"
+                            className="btn btn-outline border-gray-300 bg-white hover:bg-gray-100 hover:border-gray-400 hover:text-neutral rounded-xl normal-case font-bold transition-all border-[1.5px] text-sm h-11 min-h-[44px]"
                         >
                             メールアドレスを変更する
                         </button>
@@ -70,7 +70,7 @@ export default function UserActivateRequest() {
             <div className="mt-8 text-center">
                 <Link
                     href="/login"
-                    className="text-[12px] font-bold text-gray-400 hover:text-gray-900 flex items-center justify-center gap-2 transition-colors"
+                    className="text-[12px] font-bold text-secondary hover:text-neutral flex items-center justify-center gap-2 transition-colors"
                 >
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M15 19l-7-7 7-7" />

@@ -4,7 +4,6 @@ import Sidebar from "@/components/layout/sidebar";
 import { useMobile } from "@/hooks/useMobile";
 import AppHeader from "./appHeader";
 import SearchBar from "./searchBar";
-import MobileSpaceSwitcher from "./mobileSpaceSwitcher";
 import { useAppStore } from "@/store";
 
 export default function ClientMainLayout({
@@ -18,7 +17,7 @@ export default function ClientMainLayout({
     const { activeSpace } = useAppStore();
 
     return (
-        <div className="h-screen flex flex-col text-gray-800 relative">
+        <div className="h-screen flex flex-col relative">
             <AppHeader withSidebar={withSidebar} />
 
             {/* コンテンツエリア (Sidebar と Children) */}
@@ -31,10 +30,10 @@ export default function ClientMainLayout({
                         <div className="bg-white border-b border-gray-100 px-4 py-2 shrink-0 z-[100] flex items-center justify-between min-h-[56px] shadow-sm">
                             <div className="flex items-center gap-3">
                                 <div className="flex flex-col min-w-0 min-h-[40px] justify-center px-1">
-                                    <span className="text-[12px] font-black text-[oklch(0.73_0.11_162)]/70 uppercase tracking-widest leading-none mb-1">
+                                    <span className="text-[12px] font-black uppercase tracking-widest leading-none mb-1">
                                         スペース
                                     </span>
-                                    <h2 className="text-[15px] font-black truncate text-gray-900 max-w-[150px] sm:max-w-xs">
+                                    <h2 className="text-[15px] font-black truncate text-neutral max-w-[150px] sm:max-w-xs">
                                         {activeSpace.name}
                                     </h2>
                                 </div>
@@ -49,8 +48,6 @@ export default function ClientMainLayout({
                     {children}
                 </div>
             </div>
-
-            {/* <MobileSpaceSwitcher /> */}
         </div>
     );
 }

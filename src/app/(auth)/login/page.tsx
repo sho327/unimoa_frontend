@@ -1,4 +1,4 @@
-import Login from "@/components/page/project/task/list";
+import Login from "@/components/page/auth/login";
 
 export default function LoginPage() {
     return <Login />;

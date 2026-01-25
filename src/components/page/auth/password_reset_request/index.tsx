@@ -44,7 +44,7 @@ export default function PasswordResetRequest() {
             <AuthCard>
                 {!sent ? (
                     <>
-                        <h1 className="text-base font-black text-gray-900 mb-8 border-b border-gray-200 pb-4">
+                        <h1 className="text-base font-black text-neutral mb-8 border-b border-gray-200 pb-4">
                             パスワード再設定
                         </h1>
 
@@ -77,7 +77,7 @@ export default function PasswordResetRequest() {
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M5 13l4 4L19 7" />
                             </svg>
                         </div>
-                        <h2 className="text-base font-black text-gray-900 mb-2">メールを送信しました</h2>
+                        <h2 className="text-base font-black text-neutral mb-2">メールを送信しました</h2>
                         <p className="text-[12px] font-bold text-gray-500 leading-relaxed mb-8 px-2">
                             メール内のリンクをクリックして、<br />新しいパスワードを設定してください。
                         </p>
@@ -95,7 +95,7 @@ export default function PasswordResetRequest() {
             <div className="mt-8 text-center">
                 <Link
                     href="/login"
-                    className="text-[12px] font-bold text-gray-400 hover:text-gray-900 flex items-center justify-center gap-2 transition-colors"
+                    className="text-[12px] font-bold text-secondary hover:text-neutral flex items-center justify-center gap-2 transition-colors"
                 >
                     <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M15 19l-7-7 7-7" />

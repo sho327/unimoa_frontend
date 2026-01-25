@@ -20,7 +20,7 @@ export default function SearchBar() {
             >
                 <button
                     onClick={() => setSearchOpen(!searchOpen)}
-                    className="h-8 w-8 shrink-0 flex items-center justify-center rounded-full hover:bg-gray-100 text-gray-500 hover:text-[oklch(0.73_0.11_162)] transition-colors"
+                    className="h-8 w-8 shrink-0 flex items-center justify-center rounded-full hover:bg-gray-100 text-gray-500 hover:text-primary transition-colors"
                 >
                     <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path
@@ -43,7 +43,7 @@ export default function SearchBar() {
                                 setSearchQuery("");
                             }
                         }}
-                        className="bg-transparent border-none outline-none text-sm w-full px-1 h-8 text-gray-800 animate-in fade-in duration-200"
+                        className="bg-transparent border-none outline-none text-sm w-full px-1 h-8 text-neutral animate-in fade-in duration-200"
                         autoFocus
                     />
                 )}

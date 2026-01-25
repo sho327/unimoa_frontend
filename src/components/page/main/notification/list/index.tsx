@@ -29,9 +29,9 @@ export default function NotificationList() {
         switch (type) {
             case 'task': return 'bg-error';
             case 'info': return 'bg-info';
-            case 'schedule': return 'bg-success';
+            case 'schedule': return 'bg-primary';
             case 'file': return 'bg-warning';
-            default: return 'bg-gray-400';
+            default: return 'bg-secondary';
         }
     };
 
@@ -39,7 +39,7 @@ export default function NotificationList() {
         <main className="flex-1 overflow-y-auto p-6 transition-all duration-300">
             <div className="flex justify-between items-end mb-6">
                 <div>
-                    <h1 className="text-xl sm:text-2xl font-black text-gray-900 tracking-tight">お知らせ</h1>
+                    <h1 className="text-xl sm:text-2xl font-black text-neutral tracking-tight">お知らせ</h1>
                     <p className="hidden sm:block text-[13.5px] text-gray-500 mt-1 font-bold">通知・アナウンス一覧</p>
                 </div>
                 <button className="btn btn-ghost btn-xs sm:btn-sm text-primary font-bold hover:bg-primary/5">すべて既読</button>
@@ -54,16 +54,16 @@ export default function NotificationList() {
                     >
                         <div className="p-4 sm:p-4 flex items-start gap-3 sm:gap-4">
                             <div className="flex-1 min-w-0 ms-2.5 sm:ms-2">
-                                <div className="flex items-center gap-3 mb-1">
+                                <div className="flex items-center gap-3 mb-1.5">
                                     <span className={`w-2 h-2 rounded-full ${getBadgeClass(notif.type)}`}></span>
-                                    <span className="text-[12.5px] sm:text-[13px] font-black text-gray-400 uppercase tracking-widest">
+                                    <span className="text-[12.5px] sm:text-[13px] font-black text-secondary uppercase tracking-widest">
                                         {notif.date}
                                     </span>
                                     {notif.isUnread && (
                                         <span className="bg-primary/10 text-primary px-1.5 py-0.5 rounded text-[12.5px] sm:text-[13px] font-black">新着</span>
                                     )}
                                 </div>
-                                <h3 className={`text-base truncate mb-1 ${notif.isUnread ? 'font-black text-gray-900' : 'font-bold text-gray-600'}`}>
+                                <h3 className={`truncate mb-1.5 ${notif.isUnread ? 'font-black text-neutral' : 'font-bold text-gray-500'}`}>
                                     {notif.title}
                                 </h3>
                                 <p className="text-sm text-gray-500 line-clamp-2 leading-relaxed">

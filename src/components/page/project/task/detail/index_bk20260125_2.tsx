@@ -58,18 +58,18 @@ export default function TaskDetail({ projectId, taskId }: { projectId: string, t
 
     const getPriorityClass = (priority: TaskPriority) => {
         switch (priority) {
-            case 'high': return 'bg-red-50 text-red-500';
-            case 'medium': return 'bg-orange-50 text-orange-500';
-            default: return 'bg-gray-50 text-gray-400';
+            case 'high': return 'bg-error/10 text-error';
+            case 'medium': return 'bg-warning/10 text-warning';
+            default: return 'bg-secondary/10 text-secondary';
         }
     };
 
     const getStatusClass = (status: TaskStatus) => {
         switch (status) {
             case "done":
-                return "bg-gray-50 text-gray-500";
+                return "bg-secondary/10 text-secondary";
             case "todo":
-                return "bg-orange-50 text-orange-500";
+                return "bg-warning/10 text-warning";
             default:
                 return "bg-primary/10 text-primary";
         }
@@ -79,7 +79,7 @@ export default function TaskDetail({ projectId, taskId }: { projectId: string, t
         <main className="flex-1 overflow-y-auto p-6 transition-all duration-300">
             <div className="flex justify-between items-center mb-6">
                 <div className="min-w-0">
-                    <h1 className="text-xl sm:text-2xl font-black text-gray-900 tracking-tight truncate">タスク詳細</h1>
+                    <h1 className="text-xl sm:text-2xl font-black text-neutral tracking-tight truncate">タスク詳細</h1>
                     <p className="hidden sm:block text-[13.5px] text-gray-500 mt-1 font-bold truncate">
                         {/* {projectId} / {taskId} */}
                         Unimoaアプリケーション/デザイン作成 / #UNIMOA-101
@@ -109,39 +109,39 @@ export default function TaskDetail({ projectId, taskId }: { projectId: string, t
                             <span className={`text-xs font-black px-2 py-0.5 rounded-md uppercase ${getPriorityClass(task.priority)}`}>
                                 優先度:{task.priority_label}
                             </span>
-                            <span className="ml-auto text-xs font-black text-gray-300 tracking-tighter uppercase">
+                            <span className="ml-auto text-xs font-black text-secondary tracking-tighter uppercase">
                                 #{task.id}
                             </span>
                         </div>
 
                         {/* タイトル */}
-                        <h2 className="text-lg sm:text-xl font-black text-gray-900 leading-tight tracking-tight">
+                        <h2 className="text-lg sm:text-xl font-black text-neutral leading-tight tracking-tight">
                             {task.title}
                         </h2>
 
                         {/* 日付・工数 */}
                         <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 pb-6 border-b border-gray-200">
                             <div>
-                                <p className="text-xs text-gray-400 font-black uppercase tracking-wider leading-none mb-2">
+                                <p className="text-xs text-secondary font-black uppercase tracking-wider leading-none mb-2">
                                     開始日
                                 </p>
-                                <p className="text-sm font-bold text-gray-800">
+                                <p className="text-sm font-bold text-neutral">
                                     {task.start_date || "未設定"}
                                 </p>
                             </div>
                             <div>
-                                <p className="text-xs text-gray-400 font-black uppercase tracking-wider leading-none mb-2">
+                                <p className="text-xs text-secondary font-black uppercase tracking-wider leading-none mb-2">
                                     完了期限
                                 </p>
-                                <p className={`text-sm font-bold ${task.end_date ? "text-red-500" : "text-gray-800"}`}>
+                                <p className={`text-sm font-bold ${task.end_date ? "text-error" : "text-neutral"}`}>
                                     {task.end_date || "未設定"}
                                 </p>
                             </div>
                             <div>
-                                <p className="text-xs text-gray-400 font-black uppercase tracking-wider leading-none mb-2">
+                                <p className="text-xs text-secondary font-black uppercase tracking-wider leading-none mb-2">
                                     予定工数
                                 </p>
-                                <p className="text-sm font-bold text-gray-800">
+                                <p className="text-sm font-bold text-neutral">
                                     {task.man_hours ? `${task.man_hours}h` : "--"}
                                 </p>
                             </div>
@@ -149,24 +149,24 @@ export default function TaskDetail({ projectId, taskId }: { projectId: string, t
 
                         {/* タスク詳細 */}
                         <section className="space-y-3">
-                            <h4 className="text-xs font-black text-gray-400 uppercase tracking-widest">
+                            <h4 className="text-xs font-black text-secondary uppercase tracking-widest">
                                 タスク詳細
                             </h4>
-                            <p className="text-sm text-gray-600 leading-relaxed whitespace-pre-wrap">
+                            <p className="text-sm leading-relaxed whitespace-pre-wrap">
                                 {task.description}
                             </p>
                         </section>
 
                         {/* 担当メンバー */}
                         <section className="space-y-4 pt-6 border-t border-gray-200">
-                            <h4 className="text-xs font-black text-gray-400 uppercase tracking-widest">
+                            <h4 className="text-xs font-black text-secondary uppercase tracking-widest">
                                 担当メンバー
                             </h4>
 
                             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                                 <div className="lg:col-span-2 space-y-4">
                                     <div>
-                                        <p className="text-xs text-gray-400 font-black uppercase tracking-wider leading-none mb-2">
+                                        <p className="text-xs text-secondary font-black uppercase tracking-wider leading-none mb-2">
                                             主担当
                                         </p>
                                         <div className="flex items-center gap-3 bg-gray-50 p-3 rounded-xl border border-gray-200">
@@ -177,10 +177,10 @@ export default function TaskDetail({ projectId, taskId }: { projectId: string, t
                                                 />
                                             </div>
                                             <div className="min-w-0">
-                                                <p className="text-sm font-bold text-gray-800 truncate">
+                                                <p className="text-sm font-bold text-neutral truncate">
                                                     {task.main_assignee.display_name}
                                                 </p>
-                                                <p className="text-xs font-bold text-gray-400">
+                                                <p className="text-xs font-bold text-secondary">
                                                     主担当者
                                                 </p>
                                             </div>
@@ -188,7 +188,7 @@ export default function TaskDetail({ projectId, taskId }: { projectId: string, t
                                     </div>
 
                                     <div>
-                                        <p className="text-xs text-gray-400 font-black uppercase tracking-wider leading-none mb-2">
+                                        <p className="text-xs text-secondary font-black uppercase tracking-wider leading-none mb-2">
                                             副担当
                                         </p>
                                         <div className="flex flex-wrap gap-2">
@@ -198,7 +198,7 @@ export default function TaskDetail({ projectId, taskId }: { projectId: string, t
                                                     className="flex items-center gap-2 bg-white border border-gray-200 pr-3 py-1.5 pl-1.5 rounded-full"
                                                 >
                                                     <img src={sub.avatar_url} className="w-6 h-6 rounded-full" alt={sub.display_name} />
-                                                    <span className="text-xs font-bold text-gray-600">
+                                                    <span className="text-xs font-bold">
                                                         {sub.display_name}
                                                     </span>
                                                 </div>
@@ -213,7 +213,7 @@ export default function TaskDetail({ projectId, taskId }: { projectId: string, t
                                 </div>
 
                                 <div>
-                                    <p className="text-xs text-gray-400 font-black uppercase tracking-wider leading-none mb-2">
+                                    <p className="text-xs text-secondary font-black uppercase tracking-wider leading-none mb-2">
                                         レビュアー
                                     </p>
                                     <div className="flex items-center gap-3">
@@ -223,7 +223,7 @@ export default function TaskDetail({ projectId, taskId }: { projectId: string, t
                                                 alt={task.reviewer.display_name}
                                             />
                                         </div>
-                                        <p className="text-sm font-bold text-gray-800">
+                                        <p className="text-sm font-bold text-neutral">
                                             {task.reviewer.display_name}
                                         </p>
                                     </div>
@@ -234,11 +234,11 @@ export default function TaskDetail({ projectId, taskId }: { projectId: string, t
                         {/* 作成・更新 */}
                         <div className="pt-6 border-t border-gray-200 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
                             <div className="flex items-center justify-between sm:justify-start sm:gap-3">
-                                <span className="text-xs font-black text-gray-400 uppercase tracking-widest">作成日時</span>
+                                <span className="text-xs font-black text-secondary uppercase tracking-widest">作成日時</span>
                                 <span className="text-sm font-bold text-gray-500">{task.created_at}</span>
                             </div>
                             <div className="flex items-center justify-between sm:justify-start sm:gap-3">
-                                <span className="text-xs font-black text-gray-400 uppercase tracking-widest">最終更新</span>
+                                <span className="text-xs font-black text-secondary uppercase tracking-widest">最終更新</span>
                                 <span className="text-sm font-bold text-gray-500">{task.updated_at}</span>
                             </div>
                         </div>

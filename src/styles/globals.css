@@ -2,15 +2,64 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Provided prototype styles */
-[data-theme="light"] {
-  --p: 0.73 0.11 162;
-  --b2: 0.95 0.006 162;
-}
+/* [data-theme="light"] {
+  ※↓↓tailwind.config.tsにて設定↓↓※
+
+  Primary
+  --p: xxx xxx xxx;
+  --pc: xxx xxx xxx;
+  例: btn-primary
+
+  Secondary
+  --se: xxx xxx xxx;
+  --sec: xxx xxx xxx;
+  例: btn-secondary
+
+  Accent
+  --ac: xxx xxx xxx;
+  --acc: xxx xxx xxx;
+  例: btn-accent
+
+  Info
+  --in: xxx xxx xxx;
+  --inc: xxx xxx xxx;
+  例: btn-info
+
+  Success
+  --su: xxx xxx xxx;
+  --suc: xxx xxx xxx;
+  例: btn-success
+
+  Warning
+  --wa: xxx xxx xxx;
+  --wac: xxx xxx xxx;
+  例: btn-warning
+
+  Error
+  --er: xxx xxx xxx;
+  --erc: xxx xxx xxx;
+  例: btn-error
+
+  Neutral
+  --n: xxx xxx xxx;
+  --nc: xxx xxx xxx;
+  例: btn-neutral/badge-neutral ※フッターのデフォルト背景色にも使用される
+
+  Base-100(body背景色の設定)
+  --b1: xxx xxx xxx;
+
+  Base-200
+  --b2: xxx xxx xxx;
+
+  Base-300(カード背景色)
+  --b3: xxx xxx xxx;
+
+  Baseテキストカラー
+  --bc: xxx xxx xxx;
+} */
 
 body {
   font-family: 'Inter', 'Noto Sans JP', sans-serif;
-  background-color: oklch(var(--b2));
 }
 
 /* Auth specific styles */
@@ -21,7 +70,8 @@ body {
 }
 
 .input-minimal {
-  border: 1.5px solid #e5e7eb;
+  /* border: 1.5px solid #e5e7eb; */
+  border: 1.5px solid #e2e3e7;
   background-color: #ffffff;
   border-radius: 0.75rem;
   padding: 0.75rem 1rem;

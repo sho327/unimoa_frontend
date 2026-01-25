@@ -44,7 +44,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="ja" data-theme="light">
+    <html lang="ja" data-theme="unimoa_light">
       <body className={`${inter.className} ${notoSansJP.className} antialiased`}>
         {children}
         <LoadingOverlay />

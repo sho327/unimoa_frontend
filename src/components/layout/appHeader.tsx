@@ -44,7 +44,7 @@ export default function AppHeader({ withSidebar = true }: { withSidebar?: boolea
                 )}
 
                 {/* ロゴ */}
-                <div className="bg-[oklch(0.73_0.11_162)] text-white w-7 h-7 flex items-center justify-center rounded-md shrink-0">
+                <div className="bg-primary text-primary-content w-7 h-7 flex items-center justify-center rounded-md shrink-0">
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
                         width="24"
@@ -67,7 +67,7 @@ export default function AppHeader({ withSidebar = true }: { withSidebar?: boolea
                 </div>
 
                 {/* タイトル */}
-                <span className="font-black text-xl text-[1.3rem] tracking-tighter text-gray-900">
+                <span className="font-black text-xl text-[1.3rem] tracking-tighter text-neutral">
                     Unimoa
                 </span>
 

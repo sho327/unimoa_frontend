@@ -11,7 +11,7 @@ export const FormInput = forwardRef<HTMLInputElement, FormInputProps>(
         return (
             <div className="w-full">
                 <div className="flex justify-between items-center mb-2 px-1">
-                    <label className="block text-[12px] font-black text-gray-400 uppercase tracking-[0.15em]">
+                    <label className="block text-[12px] font-black text-secondary uppercase tracking-[0.15em]">
                         {label}
                     </label>
                     {rightLabel}
@@ -19,12 +19,14 @@ export const FormInput = forwardRef<HTMLInputElement, FormInputProps>(
                 <input
                     ref={ref}
                     {...props}
-                    className={
-                        `w-full input-minimal text-gray-700 placeholder:text-gray-300 focus:!shadow-none ${error ? "!border-red-500 focus:border-red-500" : ""} ${className}`
-                    }
+                    className={`
+                        w-full input-minimal placeholder:text-secondary focus:!shadow-none 
+                        ${error ? "!border-error focus:border-error" : ""} 
+                        ${className}
+                    `}
                 />
                 {error && (
-                    <p className="mt-1 ml-1 text-[11px] font-bold text-red-500">
+                    <p className="mt-1 ml-1 text-[11px] font-bold text-error">
                         {error}
                     </p>
                 )}

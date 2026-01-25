@@ -50,7 +50,7 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
                                     {project.category}
                                 </span>
                             </div>
-                            <h2 className="text-lg sm:text-xl font-black text-gray-900 leading-tight tracking-tight mb-4">
+                            <h2 className="text-lg sm:text-xl font-black text-neutral leading-tight tracking-tight mb-4">
                                 {project.title}
                             </h2>
 
@@ -62,10 +62,10 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
                                     />
                                 </div>
                                 <div>
-                                    <p className="text-xs text-gray-400 font-black uppercase tracking-wider leading-none mb-1">
+                                    <p className="text-xs text-secondary font-black uppercase tracking-wider leading-none mb-1">
                                         プロジェクトリーダー
                                     </p>
-                                    <p className="text-sm font-bold text-gray-800">
+                                    <p className="text-sm font-bold text-neutral">
                                         {project.leader.name}
                                         {project.leader.university && ` (${project.leader.university})`}
                                     </p>
@@ -74,7 +74,7 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
 
                             {/* 参加メンバー数と一覧へのリンク */}
                             <div className="mb-8 pb-6 border-b border-gray-200">
-                                <h4 className="text-xs font-black text-gray-400 uppercase tracking-widest mb-3">
+                                <h4 className="text-xs font-black text-secondary uppercase tracking-widest mb-3">
                                     参加メンバー ({project.members.length}人)
                                 </h4>
                                 <div className="flex items-center gap-2">
@@ -92,22 +92,22 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
 
                             <div className="space-y-8">
                                 <section>
-                                    <h4 className="text-xs font-black text-gray-400 uppercase tracking-widest mb-3">
+                                    <h4 className="text-xs font-black text-secondary uppercase tracking-widest mb-3">
                                         プロジェクトについて
                                     </h4>
-                                    <p className="text-sm text-gray-600 leading-relaxed">
+                                    <p className="text-sm leading-relaxed">
                                         {project.description}
                                     </p>
                                 </section>
 
                                 {project.requirements && project.requirements.length > 0 && (
                                     <section>
-                                        <h4 className="text-xs font-black text-gray-400 uppercase tracking-widest mb-3">
+                                        <h4 className="text-xs font-black text-secondary uppercase tracking-widest mb-3">
                                             募集要項・条件
                                         </h4>
                                         <ul className="space-y-3">
                                             {project.requirements.map((req, index) => (
-                                                <li key={index} className="flex items-start gap-3 text-sm text-gray-600 font-medium">
+                                                <li key={index} className="flex items-start gap-3 text-sm font-medium">
                                                     <Check className="w-5 h-5 text-primary shrink-0 mt-0.5" strokeWidth={3} />
                                                     <span>{req}</span>
                                                 </li>
@@ -118,7 +118,7 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
 
                                 {project.tags && project.tags.length > 0 && (
                                     <section>
-                                        <h4 className="text-xs font-black text-gray-400 uppercase tracking-widest mb-3">
+                                        <h4 className="text-xs font-black text-secondary uppercase tracking-widest mb-3">
                                             使用ツール・タグ
                                         </h4>
                                         <div className="flex flex-wrap gap-2">
@@ -175,13 +175,13 @@ export default function ProjectDetail({ project }: ProjectDetailProps) {
                                 </div>
                                 <div className="flex-1 min-w-0">
                                     <div className="flex flex-wrap items-center gap-x-2 gap-y-1 mb-1">
-                                        <span className="font-bold text-gray-900 text-[15px]">{user.name}</span>
+                                        <span className="font-bold text-neutral text-[15px]">{user.name}</span>
                                         <span className="text-[10px] text-gray-500 font-bold bg-gray-100 px-1.5 py-0.5 rounded">{user.univ}</span>
                                     </div>
-                                    <p className="text-[13px] text-gray-600 leading-snug mb-2 truncate">{user.catch}</p>
+                                    <p className="text-[13px] leading-snug mb-2 truncate">{user.catch}</p>
                                     <div className="flex flex-wrap gap-x-2 gap-y-0.5">
                                         {user.tags.slice(0, 2).map(tag => (
-                                            <span key={tag} className="text-[10px] text-gray-400 font-medium">#{tag}</span>
+                                            <span key={tag} className="text-[10px] text-secondary font-medium">#{tag}</span>
                                         ))}
                                     </div>
                                 </div>

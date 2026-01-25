@@ -52,15 +52,15 @@ const TagInput = ({ name }: { name: "tags" }) => {
     return (
         <Card>
             <CardBody>
-                <h4 className="text-sm font-black text-gray-400 uppercase tracking-widest mb-4">
+                <h4 className="text-sm font-black text-secondary uppercase tracking-widest mb-4">
                     スキル・興味
                 </h4>
                 <div className="flex flex-wrap gap-2">
                     {field.value.map((tag, index) => (
-                        <span key={index} className="group flex items-center gap-1.5 bg-white border border-gray-200 text-gray-600 text-xs font-bold pl-2.5 pr-1.5 py-1 rounded-md transition-colors cursor-pointer hover:border-red-300 hover:bg-red-50">
+                        <span key={index} className="group flex items-center gap-1.5 bg-white border border-gray-200 text-xs font-bold pl-2.5 pr-1.5 py-1 rounded-md transition-colors cursor-pointer hover:border-red-300 hover:bg-error/10">
                             <span>{tag}</span>
                             <button type="button" onClick={() => removeTag(index)}>
-                                <X className="w-3.5 h-3.5 text-gray-400 group-hover:text-red-500" />
+                                <X className="w-3.5 h-3.5 text-secondary group-hover:text-error" />
                             </button>
                         </span>
                     ))}
@@ -75,12 +75,12 @@ const TagInput = ({ name }: { name: "tags" }) => {
                             }
                         }}
                         onBlur={addTag}
-                        className="bg-transparent border-none focus:ring-0 text-xs font-bold text-gray-800 placeholder-gray-300 w-24 py-1"
+                        className="bg-transparent border-none focus:ring-0 text-xs font-bold text-neutral placeholder-gray-300 w-24 py-1"
                         placeholder="+ タグを追加"
                     />
                 </div>
-                {fieldState.error && <p className="text-xs text-red-500 mt-2">{fieldState.error.message}</p>}
-                <p className="text-xs text-gray-400 mt-4 leading-tight">Enterキーかカンマ、または枠外クリックでタグを確定できます。</p>
+                {fieldState.error && <p className="text-xs text-error mt-2">{fieldState.error.message}</p>}
+                <p className="text-xs text-secondary mt-4 leading-tight">Enterキーかカンマ、または枠外クリックでタグを確定できます。</p>
             </CardBody>
         </Card>
     );
@@ -143,7 +143,7 @@ export default function ProfileEdit() {
                         >
                         <div className="flex justify-between items-center mb-6">
                             <div>
-                                <h1 className="text-xl sm:text-2xl font-black text-gray-900 tracking-tight">プロフィール編集</h1>
+                                <h1 className="text-xl sm:text-2xl font-black text-neutral tracking-tight">プロフィール編集</h1>
                                 <p className="hidden sm:block text-xs text-gray-500 mt-1 font-bold">あなたの公開プロフィールを編集します。</p>
                             </div>
                         </div>
@@ -185,7 +185,7 @@ export default function ProfileEdit() {
                                         </div>
                                         <input id="avatar-upload" type="file" ref={fileInputRef} onChange={handleFileChange} accept="image/*" className="hidden" />
 
-                                        <h2 className="text-xl font-bold text-gray-900">{user.name}</h2>
+                                        <h2 className="text-xl font-bold text-neutral">{user.name}</h2>
                                         {/* <p className="text-[11px] text-primary font-bold mt-1 bg-primary/5 inline-block px-2 py-0.5 rounded">
                                             {user.univ}
                                         </p> */}

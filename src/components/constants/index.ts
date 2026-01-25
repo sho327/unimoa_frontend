@@ -42,6 +42,7 @@ export const pageRoutes = {
         TASK: {
             LIST: `/project/xxx/task/list`,
             DETAIL: `/project/xxx/task/detail`,
+            SAVE: `/project/xxx/task/save`,
         },
         MEMBER: {
             LIST: `/project/xxx/member/list`,

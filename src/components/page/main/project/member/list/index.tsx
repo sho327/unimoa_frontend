@@ -56,7 +56,7 @@ export default function ProjectMemberList() {
             <div className="flex-1 overflow-auto transition-all duration-300">
                 <div className="flex justify-between items-end mb-6">
                     <div>
-                        <h1 className="text-xl sm:text-2xl font-black text-gray-900 tracking-tight">プロジェクトメンバーを探す</h1>
+                        <h1 className="text-xl sm:text-2xl font-black text-neutral tracking-tight">プロジェクトメンバーを探す</h1>
                         <p className="hidden sm:block text-xs text-gray-500 mt-1 font-bold">プロジェクトに最適なメンバーを見つけましょう。</p>
                     </div>
                 </div>
@@ -68,7 +68,7 @@ export default function ProjectMemberList() {
                         placeholder="名前、スキル、大学などで検索..."
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
-                        icon={<Search className="w-4 h-4 text-gray-400" />}
+                        icon={<Search className="w-4 h-4 text-secondary" />}
                         className="pl-10"
                     />
                 </div>
@@ -93,13 +93,13 @@ export default function ProjectMemberList() {
                                 </div>
                                 <div className="flex-1 min-w-0">
                                     <div className="flex flex-wrap items-center gap-x-2 gap-y-1 mb-1">
-                                        <span className="font-bold text-gray-900 text-[15px]">{user.name}</span>
+                                        <span className="font-bold text-neutral text-[15px]">{user.name}</span>
                                         <span className="text-[10px] text-gray-500 font-bold bg-gray-100 px-1.5 py-0.5 rounded">{user.univ}</span>
                                     </div>
-                                    <p className="text-[13px] text-gray-600 leading-snug mb-2 truncate">{user.catch}</p>
+                                    <p className="text-[13px] leading-snug mb-2 truncate">{user.catch}</p>
                                     <div className="flex flex-wrap gap-x-2 gap-y-0.5">
                                         {user.tags.slice(0, 2).map(tag => (
-                                            <span key={tag} className="text-[10px] text-gray-400 font-medium">#{tag}</span>
+                                            <span key={tag} className="text-[10px] text-secondary font-medium">#{tag}</span>
                                         ))}
                                     </div>
                                 </div>
@@ -130,33 +130,33 @@ export default function ProjectMemberList() {
                                     height={96}
                                 />
                             </div>
-                            <h3 className="text-xl font-bold text-gray-900">{selectedUser.name}</h3>
+                            <h3 className="text-xl font-bold text-neutral">{selectedUser.name}</h3>
                             <p className="text-sm text-primary font-bold mt-1">{selectedUser.univ}</p>
                         </div>
                         <div className="flex gap-2">
                             <Button
                                 onClick={() => handleToggleFollow(selectedUser.id)}
-                                className={`flex-1 btn-md rounded-xl font-bold ${selectedUser.isFollowing ? 'bg-gray-100 text-gray-400' : 'bg-primary text-white'}`}
+                                className={`flex-1 btn-md rounded-xl font-bold ${selectedUser.isFollowing ? 'bg-gray-100 text-secondary' : 'bg-primary text-white'}`}
                                 variant={selectedUser.isFollowing ? "outline" : "primary"}
                             >
                                 {selectedUser.isFollowing ? <UserCheck className="w-4 h-4 mr-1" /> : <UserPlus className="w-4 h-4 mr-1" />}
                                 {selectedUser.isFollowing ? 'フォロー中' : 'フォローする'}
                             </Button>
-                            <Button variant="outline" className="btn-md rounded-xl px-4 text-gray-600">
+                            <Button variant="outline" className="btn-md rounded-xl px-4">
                                 <MessageSquare className="w-5 h-5" />
                             </Button>
                         </div>
                         <div className="space-y-3">
-                            <h4 className="text-[11px] font-black text-gray-400 uppercase tracking-wider">自己紹介 / 募集</h4>
-                            <p className="text-[14px] text-gray-700 leading-relaxed bg-gray-50 p-4 rounded-xl border border-gray-200">{selectedUser.bio}</p>
+                            <h4 className="text-[11px] font-black text-secondary uppercase tracking-wider">自己紹介 / 募集</h4>
+                            <p className="text-[14px] leading-relaxed bg-gray-50 p-4 rounded-xl border border-gray-200">{selectedUser.bio}</p>
                         </div>
                         <div className="space-y-3">
-                            <h4 className="text-[11px] font-black text-gray-400 uppercase tracking-wider">スキル・興味</h4>
+                            <h4 className="text-[11px] font-black text-secondary uppercase tracking-wider">スキル・興味</h4>
                             <div className="flex flex-wrap gap-2">
                                 {selectedUser.tags.map(tag => (
                                     <span
                                         key={tag}
-                                        className="bg-white border border-gray-200 text-gray-600 text-xs font-bold px-3 py-1.5 rounded-lg shadow-sm"
+                                        className="bg-white border border-gray-200 text-xs font-bold px-3 py-1.5 rounded-lg shadow-sm"
                                     >
                                         {tag}
                                     </span>

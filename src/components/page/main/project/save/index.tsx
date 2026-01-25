@@ -44,12 +44,12 @@ const TagInput = ({ name }: { name: "tags" }) => {
 
     return (
         <div>
-            <label className="block text-[12px] font-black text-gray-400 uppercase tracking-[0.15em] mb-2 px-1">必要なスキル・タグ</label>
+            <label className="block text-[12px] font-black text-secondary uppercase tracking-[0.15em] mb-2 px-1">必要なスキル・タグ</label>
             <div className="input-minimal p-2 flex flex-wrap gap-2 min-h-[48px]">
                 {field.value.map((tag, index) => (
                     <span key={index} className="bg-primary/5 text-primary text-[10px] font-black px-2 py-1 rounded flex items-center gap-1">
                         <span>{tag}</span>
-                        <button type="button" onClick={() => removeTag(index)} className="hover:text-red-500">×</button>
+                        <button type="button" onClick={() => removeTag(index)} className="hover:text-error">×</button>
                     </span>
                 ))}
                 <input
@@ -104,7 +104,7 @@ export default function ProjectSave() {
         <FormProvider {...methods}>
             <div className="flex justify-between items-end mb-6">
                 <div>
-                    <h1 className="text-xl sm:text-2xl font-black text-gray-900 tracking-tight">プロジェクト新規登録</h1>
+                    <h1 className="text-xl sm:text-2xl font-black text-neutral tracking-tight">プロジェクト新規登録</h1>
                     <p className="hidden sm:block text-[13.5px] text-gray-500 mt-1 font-bold">プロジェクトの新規作成</p>
                 </div>
             </div>
@@ -125,7 +125,7 @@ export default function ProjectSave() {
                                 <option>イベント運営</option>
                             </FormSelectContext>
                             <div>
-                                <label className="block text-[12px] font-black text-gray-400 uppercase tracking-[0.15em] mb-2 px-1">募集人数</label>
+                                <label className="block text-[12px] font-black text-secondary uppercase tracking-[0.15em] mb-2 px-1">募集人数</label>
                                 <div className="flex items-center gap-4 h-12">
                                     <input type="range" min="1" max="10" {...register("slots", { valueAsNumber: true })} className="range range-primary range-xs flex-1" />
                                     <span className="text-lg font-black text-primary w-8">{slots}人</span>

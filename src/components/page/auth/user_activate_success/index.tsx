@@ -32,7 +32,7 @@ export default function UserActivateSuccess() {
                     </svg>
                 </div>
 
-                <h1 className="text-lg font-black text-gray-900 mb-4">アカウントの有効化完了</h1>
+                <h1 className="text-lg font-black text-neutral mb-4">アカウントの有効化完了</h1>
 
                 <p className="text-[12px] font-medium text-gray-500 leading-relaxed mb-8">
                     メールアドレスの確認が完了しました。<br />
@@ -51,7 +51,7 @@ export default function UserActivateSuccess() {
                 </div>
             </AuthCard>
 
-            <div className="mt-8 text-center text-[12px] font-black text-gray-400 uppercase tracking-widest opacity-60">
+            <div className="mt-8 text-center text-[12px] font-black text-secondary uppercase tracking-widest opacity-60">
                 <p>Welcome to Unimoa Space</p>
             </div>
         </>

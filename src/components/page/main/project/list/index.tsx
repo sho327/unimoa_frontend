@@ -82,7 +82,7 @@ export default function Projects() {
         <main className="flex-1 overflow-y-auto p-6 transition-all duration-300">
             <div className="flex justify-between items-center mb-6">
                 <div>
-                    <h1 className="text-xl sm:text-2xl font-black text-gray-900 tracking-tight">プロジェクト</h1>
+                    <h1 className="text-xl sm:text-2xl font-black text-neutral tracking-tight">プロジェクト</h1>
                     <p className="hidden sm:block text-[13.5px] text-gray-500 mt-1 font-bold">現在進行中のプロジェクト一覧</p>
                 </div>
                 <div className="flex items-center gap-2">
@@ -119,7 +119,7 @@ export default function Projects() {
                                             e.stopPropagation();
                                             setOpenMenuId(openMenuId === project.id ? null : project.id);
                                         }}
-                                        className="btn btn-ghost btn-circle btn-xs text-gray-400 transition-opacity"
+                                        className="btn btn-ghost btn-circle btn-xs text-secondary transition-opacity"
                                     >
                                         <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" />
@@ -134,9 +134,9 @@ export default function Projects() {
                                                         router.push(pageRoutes.MAIN.PROJECT_DETAIL);
                                                         setOpenMenuId(null);
                                                     }}
-                                                    className="w-full flex items-center gap-2.5 px-3 py-2.5 text-sm font-bold text-gray-600 hover:bg-gray-50 hover:text-gray-900 rounded-xl transition-all group"
+                                                    className="w-full flex items-center gap-2.5 px-3 py-2.5 text-sm font-bold hover:bg-gray-50 hover:text-neutral rounded-xl transition-all group"
                                                 >
-                                                    <Eye className="h-4 w-4 text-gray-400 group-hover:text-[oklch(0.73_0.11_162)] transition-colors" />
+                                                    <Eye className="h-4 w-4 text-secondary group-hover:text-primary transition-colors" />
                                                     <span>詳細を見る</span>
                                                 </button>
                                                 <button
@@ -145,9 +145,9 @@ export default function Projects() {
                                                         console.log("Update project:", project.id);
                                                         setOpenMenuId(null);
                                                     }}
-                                                    className="w-full flex items-center gap-2.5 px-3 py-2.5 text-sm font-bold text-gray-600 hover:bg-gray-50 hover:text-gray-900 rounded-xl transition-all group"
+                                                    className="w-full flex items-center gap-2.5 px-3 py-2.5 text-sm font-bold hover:bg-gray-50 hover:text-neutral rounded-xl transition-all group"
                                                 >
-                                                    <Edit className="h-4 w-4 text-gray-400 group-hover:text-[oklch(0.73_0.11_162)] transition-colors" />
+                                                    <Edit className="h-4 w-4 text-secondary group-hover:text-primary transition-colors" />
                                                     <span>更新</span>
                                                 </button>
                                             </div>
@@ -158,7 +158,7 @@ export default function Projects() {
                                                         console.log("Delete project:", project.id);
                                                         setOpenMenuId(null);
                                                     }}
-                                                    className="w-full flex items-center gap-2.5 px-3 py-2.5 text-sm font-bold text-red-500 hover:bg-red-50 rounded-xl transition-all"
+                                                    className="w-full flex items-center gap-2.5 px-3 py-2.5 text-sm font-bold text-error hover:bg-error/10 rounded-xl transition-all"
                                                 >
                                                     <Trash2 className="h-4 w-4" />
                                                     <span>削除</span>
@@ -168,7 +168,7 @@ export default function Projects() {
                                     )}
                                 </div>
                             </div>
-                            <h3 className="card-title text-lg font-black text-gray-800">
+                            <h3 className="card-title text-lg font-black text-neutral">
                                 {project.title}
                             </h3>
                             <p className="text-sm text-gray-500 leading-relaxed line-clamp-1 mb-0.5">
@@ -179,7 +179,7 @@ export default function Projects() {
                                 {project.tags.map((tag: string) => (
                                     <span
                                         key={tag}
-                                        className="text-xs font-bold text-gray-400 border border-gray-100 px-2 py-0.5 rounded-md"
+                                        className="text-xs font-bold text-secondary border border-gray-100 px-2 py-0.5 rounded-md"
                                     >
                                         #{tag}
                                     </span>

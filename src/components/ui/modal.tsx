@@ -29,8 +29,8 @@ export function Modal({
 
     return (
         <div className="modal modal-open">
-            <div className={`modal-box rounded-xl ${maxWidthClassName} ${className ?? ""}`}>
-                {title && <h3 className="font-black text-lg mb-4 border-b border-gray-200 pb-4">{title}</h3>}
+            <div className={`modal-box rounded-xl bg-white ${maxWidthClassName} ${className ?? ""}`}>
+                {title && <h3 className="font-black text-neutral text-lg mb-4 border-b border-gray-200 pb-4">{title}</h3>}
                 {children}
                 {footer && <div className="modal-action">{footer}</div>}
             </div>

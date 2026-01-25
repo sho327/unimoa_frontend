@@ -5,6 +5,8 @@ import { usePathname } from "next/navigation";
 import { useAppStore } from "@/store";
 import { pageRoutes } from "@/components/constants";
 import { SpaceSelectDropdown } from "@/components/layout/spaceSelectDropdown";
+import { ChevronLeft } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 export default function Sidebar() {
     const pathname = usePathname();
@@ -141,7 +143,7 @@ export default function Sidebar() {
                             {/* スマホの時だけ：メニュー見出しの上にスペース選択を表示 */}
                             {mobileMenuOpen && (
                                 <div className="md:hidden mb-6">
-                                    <div className="text-xs font-black text-gray-400 uppercase tracking-widest px-3 mb-2">
+                                    <div className="text-xs font-black text-secondary uppercase tracking-widest px-3 mb-2">
                                         スペース切替
                                     </div>
                                     <SpaceSelectDropdown
@@ -161,10 +163,29 @@ export default function Sidebar() {
                             {isProjectArea && (
                                 <div className="mb-6">
                                     {(sidebarExpanded || mobileMenuOpen) && (
-                                        <div className="text-xs font-black text-gray-400 uppercase tracking-widest px-3 mb-2 md:mb-3">
+                                        <div className="text-xs font-black text-secondary uppercase tracking-widest px-3 mb-2 md:mb-3">
                                             プロジェクトメニュー
                                         </div>
                                     )}
+
+                                    <Link
+                                        href={pageRoutes.MAIN.PROJECT_LIST}
+                                        onClick={() => setMobileMenuOpen(false)}
+                                        className={`flex items-center gap-3 w-full p-2.5 rounded-xl transition-all mb-0 underline bg-primary-content text-primary hover:text-[oklch(0.63_0.11_162)] transition-colors duration-200 ${
+                                            !sidebarExpanded && !mobileMenuOpen ? "md:justify-center md:px-0" : ""
+                                        }`}
+                                    >
+                                        <div className="w-6 h-6 sm:w-5 sm:h-5 flex items-center justify-center shrink-0">
+                                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
+                                                <path strokeLinecap="round" strokeLinejoin="round" d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 016 6v3" />
+                                            </svg>
+                                        </div>
+                                        {(sidebarExpanded || mobileMenuOpen) && (
+                                            <span className="font-bold text-[14.25px] whitespace-nowrap">
+                                                プロジェクト選択
+                                            </span>
+                                        )}
+                                    </Link>
 
                                     {projectMenuItems.map((item) => {
                                         const currentPath = pathname.endsWith("/") && pathname !== "/" ? pathname.slice(0, -1) : pathname;
@@ -177,8 +198,8 @@ export default function Sidebar() {
                                                 href={item.href}
                                                 onClick={() => setMobileMenuOpen(false)}
                                                 className={`flex items-center gap-3 w-full p-2.5 rounded-xl transition-all ${isActive
-                                                    ? "bg-[oklch(0.73_0.11_162)] text-white shadow-md shadow-[oklch(0.73_0.11_162)]/30"
-                                                    : "text-gray-500 hover:bg-gray-50 hover:text-gray-900"
+                                                    ? "bg-primary text-primary-content shadow-md shadow-primary/30"
+                                                    : "text-gray-500 hover:bg-gray-50 hover:text-neutral"
                                                     } ${!sidebarExpanded && !mobileMenuOpen ? "md:justify-center md:px-0" : ""}`}
                                             >
                                                 <div className="w-6 h-6 sm:w-5 sm:h-5 flex items-center justify-center shrink-0">
@@ -197,7 +218,7 @@ export default function Sidebar() {
                             {!isProjectArea && (
                                 <>
                                     {(sidebarExpanded || mobileMenuOpen) && (
-                                        <div className="text-xs font-black text-gray-400 uppercase tracking-widest px-3 mb-4 md:mb-3">
+                                        <div className="text-xs font-black text-secondary uppercase tracking-widest px-3 mb-4 md:mb-3">
                                             メニュー
                                         </div>
                                     )}
@@ -215,8 +236,8 @@ export default function Sidebar() {
                                                 href={item.href}
                                                 onClick={() => setMobileMenuOpen(false)}
                                                 className={`flex items-center gap-3 w-full p-2.5 rounded-xl transition-all ${isActive
-                                                    ? "bg-[oklch(0.73_0.11_162)] text-white shadow-md shadow-[oklch(0.73_0.11_162)]/30"
-                                                    : "text-gray-500 hover:bg-gray-50 hover:text-gray-900"
+                                                    ? "bg-primary text-primary-content shadow-md shadow-primary/30"
+                                                    : "text-gray-500 hover:bg-gray-50 hover:text-neutral"
                                                     } ${!sidebarExpanded && !mobileMenuOpen ? "md:justify-center md:px-0" : ""}`}
                                             >
                                                 <div className="w-6 h-6 sm:w-5 sm:h-5 flex items-center justify-center shrink-0">

@@ -57,9 +57,9 @@ export default function TaskDetail({ projectId, taskId }: { projectId: string, t
 
     const getPriorityClass = (priority: TaskPriority) => {
         switch (priority) {
-            case 'high': return 'bg-red-50 text-red-500';
-            case 'medium': return 'bg-orange-50 text-orange-500';
-            default: return 'bg-gray-50 text-gray-400';
+            case 'high': return 'bg-error/10 text-error';
+            case 'medium': return 'bg-warning/10 text-warning';
+            default: return 'bg-secondary/10 text-secondary';
         }
     };
 
@@ -68,7 +68,7 @@ export default function TaskDetail({ projectId, taskId }: { projectId: string, t
             <div className="max-w-5xl mx-auto w-full">
                 <div className="flex justify-end items-center mb-6">
                     <div className="flex gap-2">
-                        <Button variant="ghost" className="btn-sm text-[10px] font-black text-gray-400">削除</Button>
+                        <Button variant="ghost" className="btn-sm text-[10px] font-black text-secondary">削除</Button>
                         <Button variant="primary" className="btn-sm px-6 rounded-xl text-white font-black border-none shadow-lg shadow-primary/20">編集する</Button>
                     </div>
                 </div>
@@ -86,27 +86,27 @@ export default function TaskDetail({ projectId, taskId }: { projectId: string, t
                                 </span>
                             </div>
 
-                            <h1 className="text-2xl md:text-3xl font-black text-gray-900 leading-tight mb-10">
+                            <h1 className="text-2xl md:text-3xl font-black text-neutral leading-tight mb-10">
                                 {task.title}
                             </h1>
 
                             <div className="grid grid-cols-3 gap-6 mb-12 pb-10 border-b border-gray-50">
                                 <div>
-                                    <label className="label-jp block mb-2 text-gray-300">開始日</label>
+                                    <label className="label-jp block mb-2 text-secondary">開始日</label>
                                     <span className="text-sm font-black text-gray-700">{task.start_date || '未設定'}</span>
                                 </div>
                                 <div>
-                                    <label className="label-jp block mb-2 text-gray-300">完了期限</label>
-                                    <span className="text-sm font-black text-red-500">{task.end_date || '未設定'}</span>
+                                    <label className="label-jp block mb-2 text-secondary">完了期限</label>
+                                    <span className="text-sm font-black text-error">{task.end_date || '未設定'}</span>
                                 </div>
                                 <div>
-                                    <label className="label-jp block mb-2 text-gray-300">予定工数</label>
+                                    <label className="label-jp block mb-2 text-secondary">予定工数</label>
                                     <span className="text-sm font-black text-gray-700">{task.man_hours ? `${task.man_hours}h` : '--'}</span>
                                 </div>
                             </div>
 
                             <div className="space-y-4">
-                                <label className="label-jp block text-gray-300">タスク詳細</label>
+                                <label className="label-jp block text-secondary">タスク詳細</label>
                                 <div className="description-text text-[15px] text-gray-700 font-medium whitespace-pre-wrap pl-1">
                                     {task.description}
                                 </div>
@@ -124,19 +124,19 @@ export default function TaskDetail({ projectId, taskId }: { projectId: string, t
                                     <div className="flex items-center gap-3 bg-gray-50 p-3 rounded-2xl border border-gray-100">
                                         <img src={task.main_assignee.avatar_url} className="w-10 h-10 rounded-full bg-white shadow-sm border border-gray-100" alt={task.main_assignee.display_name} />
                                         <div className="min-w-0">
-                                            <p className="text-xs font-black text-gray-800 truncate">{task.main_assignee.display_name}</p>
-                                            <p className="text-[10px] font-bold text-gray-400">主担当者</p>
+                                            <p className="text-xs font-black text-neutral truncate">{task.main_assignee.display_name}</p>
+                                            <p className="text-[10px] font-bold text-secondary">主担当者</p>
                                         </div>
                                     </div>
                                 </div>
 
                                 <div>
-                                    <label className="text-[9px] font-black text-gray-400 mb-3 block uppercase tracking-tighter">Sub Assignees</label>
+                                    <label className="text-[9px] font-black text-secondary mb-3 block uppercase tracking-tighter">Sub Assignees</label>
                                     <div className="flex flex-wrap gap-2">
                                         {task.sub_assignees.map(sub => (
                                             <div key={sub.id} className="flex items-center gap-2 bg-white border border-gray-100 pr-3 py-1.5 pl-1.5 rounded-full shadow-sm hover:border-primary/30 transition-all cursor-default">
                                                 <img src={sub.avatar_url} className="w-6 h-6 rounded-full" alt={sub.display_name} />
-                                                <span className="text-[11px] font-bold text-gray-600">{sub.display_name}</span>
+                                                <span className="text-[11px] font-bold">{sub.display_name}</span>
                                             </div>
                                         ))}
                                     </div>
@@ -145,7 +145,7 @@ export default function TaskDetail({ projectId, taskId }: { projectId: string, t
                                 <div className="divider opacity-50"></div>
 
                                 <div>
-                                    <label className="text-[9px] font-black text-orange-400 mb-3 block uppercase tracking-tighter">Reviewer</label>
+                                    <label className="text-[9px] font-black text-warning mb-3 block uppercase tracking-tighter">Reviewer</label>
                                     <div className="flex items-center gap-3 px-1">
                                         <img src={task.reviewer.avatar_url} className="w-8 h-8 rounded-full grayscale opacity-60 border border-gray-200" alt={task.reviewer.display_name} />
                                         <span className="text-xs font-black text-gray-500">{task.reviewer.display_name}</span>
@@ -157,11 +157,11 @@ export default function TaskDetail({ projectId, taskId }: { projectId: string, t
                         <div className="px-6 space-y-3">
                             <div className="flex justify-between items-center">
                                 <span className="label-jp">作成日時</span>
-                                <span className="text-[10px] font-bold text-gray-400">{task.created_at}</span>
+                                <span className="text-[10px] font-bold text-secondary">{task.created_at}</span>
                             </div>
                             <div className="flex justify-between items-center">
                                 <span className="label-jp">最終更新</span>
-                                <span className="text-[10px] font-bold text-gray-400">{task.updated_at}</span>
+                                <span className="text-[10px] font-bold text-secondary">{task.updated_at}</span>
                             </div>
                         </div>
                     </div>

@@ -41,7 +41,7 @@ export default function Signup() {
     return (
         <>
             <AuthCard>
-                <h1 className="text-base font-black text-gray-900 mb-8 border-b border-gray-200 pb-4">
+                <h1 className="text-base font-black text-neutral mb-8 border-b border-gray-200 pb-4">
                     新規登録
                 </h1>
 
@@ -87,7 +87,7 @@ export default function Signup() {
                     <div className="absolute inset-0 flex items-center">
                         <div className="w-full border-t border-gray-200"></div>
                     </div>
-                    <div className="relative flex justify-center text-[12px] font-black text-gray-400 uppercase tracking-widest">
+                    <div className="relative flex justify-center text-[12px] font-black text-secondary uppercase tracking-widest">
                         <span className="bg-white px-4">または</span>
                     </div>
                 </div>

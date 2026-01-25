@@ -10,14 +10,14 @@ export default function ClientAuthLayout({
     maxWidth?: string;
 }) {
     return (
-        <div className="min-h-screen flex items-center justify-center p-6 text-gray-800">
+        <div className="min-h-screen flex items-center justify-center p-6">
             <div
                 className="w-full animate-in fade-in duration-700"
                 style={{ maxWidth }}
             >
                 {/* ロゴセクション */}
                 <div className="flex items-center justify-center gap-2.5 mb-8">
-                    <div className="bg-primary text-white w-8 h-8 flex items-center justify-center rounded-lg shadow-sm">
+                    <div className="bg-primary text-primary-content w-8 h-8 flex items-center justify-center rounded-lg shadow-sm">
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
                             width="20"
@@ -37,7 +37,7 @@ export default function ClientAuthLayout({
                             </g>
                         </svg>
                     </div>
-                    <span className="font-black text-2xl tracking-tighter text-gray-900">
+                    <span className="font-black text-2xl tracking-tighter text-neutral">
                         Unimoa
                     </span>
                 </div>

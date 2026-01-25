@@ -57,7 +57,7 @@ export default function Login() {
     return (
         <>
             <AuthCard>
-                <h1 className="text-base font-black text-gray-900 mb-8 border-b border-gray-200 pb-4">
+                <h1 className="text-base font-black text-neutral mb-8 border-b border-gray-200 pb-4">
                     ログイン
                 </h1>
 
@@ -99,7 +99,7 @@ export default function Login() {
                     <div className="absolute inset-0 flex items-center">
                         <div className="w-full border-t border-gray-200"></div>
                     </div>
-                    <div className="relative flex justify-center text-[12px] font-black text-gray-400 uppercase tracking-widest">
+                    <div className="relative flex justify-center text-[12px] font-black text-secondary uppercase tracking-widest">
                         <span className="bg-white px-4">または</span>
                     </div>
                 </div>
@@ -118,7 +118,7 @@ export default function Login() {
                 </p>
             </div>
 
-            <div className="flex justify-center gap-6 mt-12 text-[12px] font-black text-gray-400 uppercase tracking-[0.2em] opacity-80">
+            <div className="flex justify-center gap-6 mt-12 text-[12px] font-black text-secondary uppercase tracking-[0.2em] opacity-80">
                 <a href="#" className="hover:text-primary transition-colors">
                     サポート
                 </a>

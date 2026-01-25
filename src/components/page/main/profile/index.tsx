@@ -51,12 +51,10 @@ const participatingProjects = [
 export default function Profile() {
     return (
         <main className="flex-1 overflow-y-auto p-6 transition-all duration-300">
-            <div 
-                // className="max-w-4xl mx-auto"
-                >
+            <div>
                 <div className="flex justify-between items-center mb-6">
                     <div>
-                        <h1 className="text-xl sm:text-2xl font-black text-gray-900 tracking-tight">プロフィール</h1>
+                        <h1 className="text-xl sm:text-2xl font-black text-neutral tracking-tight">プロフィール</h1>
                         <p className="hidden sm:block text-[13.5px] text-gray-500 mt-1 font-bold">あなたの公開プロフィールです。</p>
                     </div>
                 </div>
@@ -74,7 +72,7 @@ export default function Profile() {
                                         height={96}
                                     />
                                 </div>
-                                <h2 className="text-xl font-bold text-gray-900">{user.name}</h2>
+                                <h2 className="text-xl font-bold text-neutral">{user.name}</h2>
                                 {/* <p className="text-xs text-primary font-bold mt-1 bg-primary/5 inline-block px-2 py-0.5 rounded">
                                     Webエンジニア
                                 </p> */}
@@ -95,7 +93,7 @@ export default function Profile() {
 
                         <Card>
                             <CardBody>
-                                <h4 className="text-sm font-black text-gray-400 uppercase tracking-widest mb-4">
+                                <h4 className="text-sm font-black text-secondary uppercase tracking-widest mb-4">
                                     スキル・興味
                                 </h4>
                                 <div className="flex flex-wrap gap-2">
@@ -117,10 +115,10 @@ export default function Profile() {
                         <Card>
                             <CardBody className="sm:p-8">
                                 <div>
-                                    <h4 className="text-sm font-black text-gray-400 uppercase tracking-widest mb-2">
+                                    <h4 className="text-sm font-black text-secondary uppercase tracking-widest mb-2">
                                         詳細
                                     </h4>
-                                    <p className="text-sm text-gray-700 leading-relaxed whitespace-pre-wrap">
+                                    <p className="text-sm leading-relaxed whitespace-pre-wrap">
                                         {user.bio}
                                     </p>
                                 </div>
@@ -130,7 +128,7 @@ export default function Profile() {
                         {/* 作成したプロジェクト一覧 */}
                         <Card>
                             <CardBody className="sm:p-8">
-                                <h4 className="text-sm font-black text-gray-400 uppercase tracking-widest mb-4">
+                                <h4 className="text-sm font-black text-secondary uppercase tracking-widest mb-4">
                                     作成したプロジェクト
                                 </h4>
                                 <div className="space-y-4">
@@ -139,9 +137,9 @@ export default function Profile() {
                                             <div className="flex justify-between items-start">
                                                 <div>
                                                     <span className="text-xs font-bold text-primary bg-primary/10 px-2 py-0.5 rounded-full">{project.category}</span>
-                                                    <h3 className="font-bold text-gray-800 mt-1">{project.title}</h3>
+                                                    <h3 className="font-bold text-neutral mt-1">{project.title}</h3>
                                                 </div>
-                                                <div className="flex items-center gap-1 text-gray-400">
+                                                <div className="flex items-center gap-1 text-secondary">
                                                     <Users className="w-4 h-4" />
                                                     <span className="text-sm font-bold">{project.memberCount}</span>
                                                 </div>
@@ -156,7 +154,7 @@ export default function Profile() {
                         {/* 参加しているプロジェクト一覧 */}
                         <Card>
                             <CardBody className="sm:p-8">
-                                <h4 className="text-sm font-black text-gray-400 uppercase tracking-widest mb-4">
+                                <h4 className="text-sm font-black text-secondary uppercase tracking-widest mb-4">
                                     参加中のプロジェクト
                                 </h4>
                                 <div className="space-y-4">
@@ -165,9 +163,9 @@ export default function Profile() {
                                             <div className="flex justify-between items-start">
                                                 <div>
                                                     <span className="text-xs font-bold text-primary bg-primary/10 px-2 py-0.5 rounded-full">{project.category}</span>
-                                                    <h3 className="font-bold text-gray-800 mt-1">{project.title}</h3>
+                                                    <h3 className="font-bold text-neutral mt-1">{project.title}</h3>
                                                 </div>
-                                                <div className="flex items-center gap-1 text-gray-400">
+                                                <div className="flex items-center gap-1 text-secondary">
                                                     <Users className="w-4 h-4" />
                                                     <span className="text-sm font-bold">{project.memberCount}</span>
                                                 </div>

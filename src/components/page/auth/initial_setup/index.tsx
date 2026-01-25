@@ -102,7 +102,7 @@ export default function InitialSetup() {
                     {/* Step 1: プロフィール設定 */}
                     {currentStep === 1 && (
                         <div>
-                            <h1 className="text-base font-black text-gray-900 mb-2">プロフィール設定</h1>
+                            <h1 className="text-base font-black text-neutral mb-2">プロフィール設定</h1>
                             <p className="text-[12px] text-gray-500 mb-8 font-bold">メンバーに表示されるあなたの情報</p>
                             <div className="space-y-6">
                                 <div className="flex flex-col items-center gap-4 pt-2">
@@ -135,7 +135,7 @@ export default function InitialSetup() {
                     {/* Step 2: スペース選択 */}
                     {currentStep === 2 && (
                         <div>
-                            <h1 className="text-base font-black text-gray-900 mb-2">スペースの準備</h1>
+                            <h1 className="text-base font-black text-neutral mb-2">スペースの準備</h1>
                             <p className="text-[12px] text-gray-500 mb-6 font-bold">プランを選ぶか、招待コードを入力してください</p>
 
                             <div className="space-y-3">
@@ -154,7 +154,7 @@ export default function InitialSetup() {
                                         </svg>
                                     </div>
                                     <div>
-                                        <div className="text-[13px] font-black text-gray-900">個人スペース</div>
+                                        <div className="text-[13px] font-black text-neutral">個人スペース</div>
                                         <div className="text-[11px] text-gray-500 font-bold">自分専用の無料ワークスペース</div>
                                     </div>
                                 </div>
@@ -177,7 +177,7 @@ export default function InitialSetup() {
                                         </svg>
                                     </div>
                                     <div>
-                                        <div className="text-[13px] font-black text-gray-900">無料共有スペース</div>
+                                        <div className="text-[13px] font-black text-neutral">無料共有スペース</div>
                                         <div className="text-[11px] text-gray-500 font-bold">ゼミ・サークル向け (最大10人)</div>
                                     </div>
                                 </div>
@@ -196,12 +196,12 @@ export default function InitialSetup() {
                                         </svg>
                                     </div>
                                     <div>
-                                        <div className="text-[13px] font-black text-gray-900">有料共有スペース</div>
+                                        <div className="text-[13px] font-black text-neutral">有料共有スペース</div>
                                         <div className="text-[11px] text-gray-500 font-bold">高度な管理と無制限のメンバー (Pro)</div>
                                     </div>
                                 </div>
 
-                                <div className="divider text-[10px] font-black text-gray-400 my-4 uppercase tracking-widest">または</div>
+                                <div className="divider text-[10px] font-black text-secondary my-4 uppercase tracking-widest">または</div>
 
                                 {/* 招待コード入力 */}
                                 <div className="p-4 rounded-xl border-2 border-dashed border-gray-200 bg-gray-50/50">
@@ -211,7 +211,7 @@ export default function InitialSetup() {
                                     <input
                                         type="text"
                                         placeholder="例：ABC-123"
-                                        className="w-full input-minimal text-[12px] uppercase text-gray-700 placeholder:text-gray-300"
+                                        className="w-full input-minimal text-[12px] uppercase placeholder:text-secondary"
                                         value={inviteCodeValue}
                                         onChange={(e) => handleInviteInput(e.target.value)}
                                     />
@@ -245,7 +245,7 @@ export default function InitialSetup() {
                     {/* Step 3: 最終確認 */}
                     {currentStep === 3 && (
                         <div>
-                            <h1 className="text-base font-black text-gray-900 mb-2">
+                            <h1 className="text-base font-black text-neutral mb-2">
                                 {selectedMode === "shared-free" || selectedMode === "shared-pro"
                                     ? "スペースの作成"
                                     : selectedMode === "invite"
@@ -339,7 +339,7 @@ export default function InitialSetup() {
                 </form>
             </AuthCard>
 
-            {/* <p className="mt-8 text-center text-[10px] font-bold text-gray-400 uppercase tracking-widest">
+            {/* <p className="mt-8 text-center text-[10px] font-bold text-secondary uppercase tracking-widest">
                 Unimoa Setup Wizard
             </p> */}
         </>

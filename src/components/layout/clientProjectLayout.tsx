@@ -3,10 +3,10 @@
 import React from "react";
 import AppHeader from "./appHeader";
 import SearchBar from "./searchBar";
-import MobileSpaceSwitcher from "./mobileSpaceSwitcher";
 import { useAppStore } from "@/store";
 import { useRouter } from "next/navigation";
 import Sidebar from "@/components/layout/sidebar";
+import { pageRoutes } from "@/components/constants"
 
 export default function ClientProjectLayout({
     children,
@@ -19,7 +19,7 @@ export default function ClientProjectLayout({
     const router = useRouter();
 
     return (
-        <div className="h-screen flex flex-col text-gray-800 relative">
+        <div className="h-screen flex flex-col relative">
             <AppHeader withSidebar={true} />
 
             <div className="flex flex-1 overflow-hidden relative">
@@ -29,20 +29,11 @@ export default function ClientProjectLayout({
                     {/* プロジェクト上部バー */}
                     <div className="bg-white border-b border-gray-100 px-4 py-2 shrink-0 z-[100] flex items-center justify-between min-h-[56px] shadow-sm">
                         <div className="flex items-center gap-1.5 min-w-0">
-                            <button
-                                onClick={() => router.back()}
-                                className="h-8 w-8 flex items-center justify-center rounded-full hover:bg-gray-100 text-gray-400 transition-colors"
-                            >
-                                <svg className="w-6 h-6 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path d="M15 19l-7-7 7-7" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
-                                </svg>
-                            </button>
                             <div className="flex flex-col min-w-0 min-h-[40px] justify-center">
                                 <span className="text-[12px] font-black text-primary/70 uppercase tracking-widest leading-none mb-1">
                                     {activeSpace.name}
                                 </span>
-                                {/* <h2 className="text-[15px] font-black truncate text-gray-900 max-w-[120px] sm:max-w-xs px-1"> */}
-                                <h2 className="text-[15px] font-black truncate text-gray-900 max-w-[150px] sm:max-w-xs">
+                                <h2 className="text-[15px] font-black truncate text-neutral max-w-[150px] sm:max-w-xs">
                                     {projectTitle}
                                 </h2>
                             </div>
@@ -59,8 +50,6 @@ export default function ClientProjectLayout({
                     </div>
                 </div>
             </div>
-
-            {/* <MobileSpaceSwitcher /> */}
         </div>
     );
 }

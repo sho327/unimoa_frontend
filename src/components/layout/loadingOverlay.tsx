@@ -21,22 +21,22 @@ export default function LoadingOverlay() {
                 {/* メインスピナー部分 */}
                 <div className="relative flex justify-center items-center mb-2">
                     {/* 背景の光輪 */}
-                    <div className="absolute inset-0 bg-[oklch(0.73_0.11_162)] opacity-20 blur-xl rounded-full animate-pulse scale-150" />
+                    <div className="absolute inset-0 bg-primary opacity-20 blur-xl rounded-full animate-pulse scale-150" />
 
                     {/* メインスピナー */}
-                    <Loader2 className="h-10 w-10 text-[oklch(0.73_0.11_162)] animate-spin relative z-10" />
+                    <Loader2 className="h-10 w-10 text-primary animate-spin relative z-10" />
                 </div>
 
                 {/* 読み込みテキスト */}
-                <p className="text-lg font-medium text-gray-600 tracking-tight">
+                <p className="text-lg font-medium tracking-tight">
                     読み込み中です...
                 </p>
 
                 {/* 装飾用のドットアニメーション */}
                 <div className="flex justify-center gap-1 mt-2">
-                    <span className="w-1.5 h-1.5 bg-[oklch(0.73_0.11_162)] rounded-full animate-bounce [animation-delay:-0.3s]" />
-                    <span className="w-1.5 h-1.5 bg-[oklch(0.73_0.11_162)] rounded-full animate-bounce [animation-delay:-0.15s]" />
-                    <span className="w-1.5 h-1.5 bg-[oklch(0.73_0.11_162)] rounded-full animate-bounce" />
+                    <span className="w-1.5 h-1.5 bg-primary rounded-full animate-bounce [animation-delay:-0.3s]" />
+                    <span className="w-1.5 h-1.5 bg-primary rounded-full animate-bounce [animation-delay:-0.15s]" />
+                    <span className="w-1.5 h-1.5 bg-primary rounded-full animate-bounce" />
                 </div>
             </div>
         </div>
