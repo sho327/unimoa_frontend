@@ -1,73 +1,33 @@
 -- =========================================
--- 1. トリガーの削除
+-- 1. ビューの削除 (依存関係の最上位)
 -- =========================================
--- システムロジック系
-DROP TRIGGER IF EXISTS on_auth_user_created ON auth.users;
-DROP TRIGGER IF EXISTS trg_prevent_personal_space_deletion ON public.t_space;
-
--- 自動更新系 (updated_at)
--- ※テーブルに紐づくトリガーはテーブル削除時のCASCADEで自動削除してくれるのでコメントアウト※
--- DROP TRIGGER IF EXISTS trg_t_profile_updated_at ON public.t_profile;
--- DROP TRIGGER IF EXISTS trg_m_profile_skill_tag_updated_at ON public.m_profile_skill_tag;
--- DROP TRIGGER IF EXISTS trg_r_profile_skill_tag_updated_at ON public.r_profile_skill_tag;
--- DROP TRIGGER IF EXISTS trg_t_space_updated_at ON public.t_space;
--- DROP TRIGGER IF EXISTS trg_r_space_updated_at ON public.r_space;
--- DROP TRIGGER IF EXISTS trg_m_project_category_updated_at ON public.m_project_category;
--- DROP TRIGGER IF EXISTS trg_t_project_updated_at ON public.t_project;
--- DROP TRIGGER IF EXISTS trg_r_project_member_updated_at ON public.r_project_member;
--- DROP TRIGGER IF EXISTS trg_t_project_requirement_updated_at ON public.t_project_requirement;
--- DROP TRIGGER IF EXISTS trg_r_project_requirement_updated_at ON public.r_project_requirement;
--- DROP TRIGGER IF EXISTS trg_m_project_tool_updated_at ON public.m_project_tool;
--- DROP TRIGGER IF EXISTS trg_r_project_tool_updated_at ON public.r_project_tool;
--- DROP TRIGGER IF EXISTS trg_m_project_task_category_updated_at ON public.m_project_task_category;
--- DROP TRIGGER IF EXISTS trg_r_project_task_category_updated_at ON public.r_project_task_category;
--- DROP TRIGGER IF EXISTS trg_m_project_task_status_updated_at ON public.m_project_task_status;
--- DROP TRIGGER IF EXISTS trg_r_project_task_status_updated_at ON public.r_project_task_status;
--- DROP TRIGGER IF EXISTS trg_t_task_updated_at ON public.t_task;
--- DROP TRIGGER IF EXISTS trg_r_task_assignee_updated_at ON public.r_task_assignee;
--- DROP TRIGGER IF EXISTS trg_t_task_attachment_updated_at ON public.t_task_attachment;
--- DROP TRIGGER IF EXISTS trg_r_task_attachment_updated_at ON public.r_task_attachment;
--- DROP TRIGGER IF EXISTS trg_t_notification_updated_at ON public.t_notification;
--- DROP TRIGGER IF EXISTS trg_t_notification_read_updated_at ON public.t_notification_read;
--- ※テーブルに紐づくトリガーはテーブル削除時のCASCADEで自動削除してくれるのでコメントアウト※
+DROP VIEW IF EXISTS public.v_notification_read CASCADE;
+DROP VIEW IF EXISTS public.v_notification CASCADE;
+DROP VIEW IF EXISTS public.v_task_attachment_relation CASCADE;
+DROP VIEW IF EXISTS public.v_task_attachment CASCADE;
+DROP VIEW IF EXISTS public.v_task_assignee CASCADE;
+DROP VIEW IF EXISTS public.v_task CASCADE;
+DROP VIEW IF EXISTS public.v_project_task_status_relation CASCADE;
+DROP VIEW IF EXISTS public.v_project_task_status CASCADE;
+DROP VIEW IF EXISTS public.v_project_task_category_relation CASCADE;
+DROP VIEW IF EXISTS public.v_project_task_category CASCADE;
+DROP VIEW IF EXISTS public.v_project_tool_relation CASCADE;
+DROP VIEW IF EXISTS public.v_project_tool CASCADE;
+DROP VIEW IF EXISTS public.v_project_requirement_relation CASCADE;
+DROP VIEW IF EXISTS public.v_project_requirement CASCADE;
+DROP VIEW IF EXISTS public.v_project_member CASCADE;
+DROP VIEW IF EXISTS public.v_project CASCADE;
+DROP VIEW IF EXISTS public.v_project_category CASCADE;
+DROP VIEW IF EXISTS public.v_space_relation CASCADE;
+DROP VIEW IF EXISTS public.v_space CASCADE;
+DROP VIEW IF EXISTS public.v_profile_skill_relation CASCADE;
+DROP VIEW IF EXISTS public.v_profile_skill_tag CASCADE;
+DROP VIEW IF EXISTS public.v_profile CASCADE;
 
 -- =========================================
--- 2. 関数の削除
+-- 2. テーブルの削除 (CASCADEにより紐づくトリガーも自動消滅)
 -- =========================================
-DROP FUNCTION IF EXISTS public.handle_new_user();
-DROP FUNCTION IF EXISTS public.prevent_personal_space_deletion();
-DROP FUNCTION IF EXISTS public.update_updated_at_column();
-
--- =========================================
--- 3. ビューの削除
--- =========================================
-DROP VIEW IF EXISTS public.v_notification_read;
-DROP VIEW IF EXISTS public.v_notification;
-DROP VIEW IF EXISTS public.v_task_attachment_relation;
-DROP VIEW IF EXISTS public.v_task_attachment;
-DROP VIEW IF EXISTS public.v_task_assignee;
-DROP VIEW IF EXISTS public.v_task;
-DROP VIEW IF EXISTS public.v_project_task_status_relation;
-DROP VIEW IF EXISTS public.v_project_task_status;
-DROP VIEW IF EXISTS public.v_project_task_category_relation;
-DROP VIEW IF EXISTS public.v_project_task_category;
-DROP VIEW IF EXISTS public.v_project_tool_relation;
-DROP VIEW IF EXISTS public.v_project_tool;
-DROP VIEW IF EXISTS public.v_project_requirement_relation;
-DROP VIEW IF EXISTS public.v_project_requirement;
-DROP VIEW IF EXISTS public.v_project_member;
-DROP VIEW IF EXISTS public.v_project;
-DROP VIEW IF EXISTS public.v_project_category;
-DROP VIEW IF EXISTS public.v_space_relation;
-DROP VIEW IF EXISTS public.v_space;
-DROP VIEW IF EXISTS public.v_profile_skill_relation;
-DROP VIEW IF EXISTS public.v_profile_skill_tag;
-DROP VIEW IF EXISTS public.v_profile;
-
--- =========================================
--- 4. テーブルの削除 (依存関係の深い順)
--- =========================================
--- CASCADEを付けているので、関連する制約も一緒に削除されます
+-- ※ CASCADEにより、各テーブルの updated_at トリガーや外部キー制約もまとめて削除されます。
 DROP TABLE IF EXISTS public.t_notification_read CASCADE;
 DROP TABLE IF EXISTS public.t_notification CASCADE;
 DROP TABLE IF EXISTS public.r_task_attachment CASCADE;
@@ -90,6 +50,24 @@ DROP TABLE IF EXISTS public.t_space CASCADE;
 DROP TABLE IF EXISTS public.r_profile_skill_tag CASCADE;
 DROP TABLE IF EXISTS public.m_profile_skill_tag CASCADE;
 DROP TABLE IF EXISTS public.t_profile CASCADE;
+
+-- =========================================
+-- 3. 特殊なトリガーの削除 (自前で削除しないテーブル用)
+-- =========================================
+-- auth.usersはシステムテーブルで削除しないため、トリガーだけ個別に削除します
+DROP TRIGGER IF EXISTS on_auth_user_created ON auth.users;
+
+-- ※ trg_prevent_personal_space_deletion は public.t_space に紐づいていたため、
+-- 上記の DROP TABLE ... t_space CASCADE で既に消滅しています。
+-- ここで個別に DROP TRIGGER を書くと「テーブルがない」と怒られるので書きません。
+
+-- =========================================
+-- 4. 関数の削除 (最後に掃除)
+-- =========================================
+-- トリガーがすべて消えた後なので、依存関係エラー（2BP01）は発生しません
+DROP FUNCTION IF EXISTS public.handle_new_user() CASCADE;
+DROP FUNCTION IF EXISTS public.prevent_personal_space_deletion() CASCADE;
+DROP FUNCTION IF EXISTS public.update_updated_at_column() CASCADE;
 
 -- =========================================
 -- 初期化完了

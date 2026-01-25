@@ -98,7 +98,9 @@ BEGIN
     avatar_url, 
     is_setup_completed, 
     created_by, 
-    updated_by
+    updated_by,
+    created_kino_id,
+    updated_kino_id
   )
   VALUES (
     NEW.id, 
@@ -107,7 +109,9 @@ BEGIN
     NEW.raw_user_meta_data->>'avatar_url', 
     false, 
     NEW.id, 
-    NEW.id
+    NEW.id,
+    'system',
+    'system'
   );
 
   -- 2. 個人スペース作成
@@ -117,7 +121,9 @@ BEGIN
     owner_id, 
     is_personal, 
     created_by, 
-    updated_by
+    updated_by,
+    created_kino_id,
+    updated_kino_id
   )
   VALUES (
     base_name || 'の個人スペース', 
@@ -125,7 +131,9 @@ BEGIN
     NEW.id, 
     TRUE, 
     NEW.id, 
-    NEW.id
+    NEW.id,
+    'system',
+    'system'
   )
   RETURNING id INTO personal_space_id;
 
@@ -136,7 +144,9 @@ BEGIN
     role, 
     status, 
     created_by, 
-    updated_by
+    updated_by,
+    created_kino_id,
+    updated_kino_id
   )
   VALUES (
     NEW.id, 
@@ -144,7 +154,9 @@ BEGIN
     'admin', 
     'active', 
     NEW.id, 
-    NEW.id
+    NEW.id,
+    'system',
+    'system'
   );
 
   RETURN NEW;
