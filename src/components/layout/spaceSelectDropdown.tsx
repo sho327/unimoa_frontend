@@ -57,8 +57,8 @@ export function SpaceSelectDropdown({
             <button
                 onClick={() => setIsOpen(!isOpen)}
                 className={`flex items-center gap-2 h-10 transition-all rounded-lg border px-3 outline-none ${triggerWidth} ${isOpen
-                        ? "border-primary bg-primary/5 shadow-sm"
-                        : "border-gray-200 bg-white hover:border-gray-300 hover:bg-gray-50"
+                    ? "border-primary bg-primary/5 shadow-sm"
+                    : "border-gray-200 bg-white hover:border-gray-300 hover:bg-gray-50"
                     }`}
             >
                 <div className="flex flex-1 items-center gap-2 min-w-0">
@@ -92,7 +92,7 @@ export function SpaceSelectDropdown({
                             >
                                 <div className="flex items-center gap-3 min-w-0">
                                     <div className={`w-2 h-2 rounded-full shrink-0 ${space.id === activeSpace.id ? "bg-primary" : "bg-gray-200"}`} />
-                                    <span className="truncate">{space.name}</span>
+                                    <span className="text-[14.5px] truncate">{space.name}</span>
                                 </div>
                                 {space.id === activeSpace.id && (
                                     <Check className="h-4 w-4 shrink-0" />
@@ -109,7 +109,7 @@ export function SpaceSelectDropdown({
                             <div className="w-5 h-5 rounded-md bg-gray-100 group-hover:bg-primary group-hover:text-primary-content flex items-center justify-center transition-colors">
                                 <Plus className="h-3 w-3" />
                             </div>
-                            <span>新しいスペースを作成</span>
+                            <span className="text-[14.5px]">新しいスペースを作成</span>
                         </button>
                     </div>
                 </div>

@@ -115,7 +115,7 @@ export function NotificationDropdown({
                                             {getNotificationIcon(notification.type)}
                                         </div>
                                         <div className="flex-1 min-w-0 pr-2">
-                                            <div className="flex items-start justify-between gap-2 mb-0.5">
+                                            <div className="flex items-start justify-between gap-2 mb-1">
                                                 <p className={`text-[14.5px] leading-snug font-bold line-clamp-2 ${!notification.isRead ? "text-neutral" : "text-gray-500"}`}>
                                                     {notification.title}
                                                 </p>
