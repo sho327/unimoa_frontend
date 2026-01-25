@@ -20,11 +20,11 @@ const config: Config = {
     plugins: [require("daisyui")],
     daisyui: {
         themes: [
-            "light", "dark", "cupcake", "bumblebee", "emerald", "corporate", 
-            "synthwave", "retro", "cyberpunk", "valentine", "halloween", 
-            "garden", "forest", "aqua", "lofi", "pastel", "fantasy", 
-            "wireframe", "black", "luxury", "dracula", "cmyk", "autumn", 
-            "business", "acid", "lemonade", "night", "coffee", "winter", 
+            "light", "dark", "cupcake", "bumblebee", "emerald", "corporate",
+            "synthwave", "retro", "cyberpunk", "valentine", "halloween",
+            "garden", "forest", "aqua", "lofi", "pastel", "fantasy",
+            "wireframe", "black", "luxury", "dracula", "cmyk", "autumn",
+            "business", "acid", "lemonade", "night", "coffee", "winter",
             "dim", "nord", "sunset", "caramellatte", "abyss", "silk",
             {
                 unimoa_light: {
@@ -42,7 +42,7 @@ const config: Config = {
                     "success-content": "oklch(100 0 0)",          // --suc (例: text-success-content)
                     "warning": "oklch(0.71 0.16 52.33)",          // --wa  (例: bg-warning)※umi/warning
                     'warning-content': 'oklch(100 0 0)',          // --erc (例: text-error-content)
-                    "error":   "oklch(0.60 0.20 27.33)",          // --er  (例: bg-error)※umi/danger
+                    "error": "oklch(0.60 0.20 27.33)",            // --er  (例: bg-error)※umi/danger
                     'error-content': 'oklch(100 0 0)',            // --erc (例: text-error-content)
                     "neutral": "oklch(0.27 0.01 256.85)",         // --nc  (例: bg-neutral)※gray-800
                     'neutral-content': 'oklch(100 0 0)',          // --ncc (例: text-neutral-content)
