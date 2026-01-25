@@ -1,7 +1,7 @@
 // Layout/Components
 import ClientMainLayout from "@/components/layout/clientMainLayout";
 // Libs/ServerUtils
-import { getSessionData } from '@/lib/server-utils/getSessionData'
+// import { getSessionData } from '@/lib/server-utils/getSessionData'
 
 /**
  * メインレイアウト
@@ -17,17 +17,17 @@ export default async function MainLayout({
     // ============================================================================
     // 変数（Constant）
     // ============================================================================
-    const {
-        profileWithSpaces,
-        selectedSpaceId: finalSelectedSpaceId,
-        needsCookieUpdate,
-    } = await getSessionData()
+    // const {
+    //     profileWithSpaces,
+    //     selectedSpaceId: finalSelectedSpaceId,
+    //     needsCookieUpdate,
+    // } = await getSessionData()
 
     // ============================================================================
     // テンプレート（Template）
     // ============================================================================
     return (
-        <ClientMainLayout withSidebar={true}>
+        <ClientMainLayout>
             {children}
         </ClientMainLayout>
     )

@@ -7,7 +7,7 @@ import { NotificationDropdown, Notification } from "./notificationDropdown";
 import { SpaceSelectDropdown } from "./spaceSelectDropdown";
 import { UserMenuDropdown } from "./userMenuDropdown";
 
-export default function AppHeader({ withSidebar = true }: { withSidebar?: boolean }) {
+export default function AppHeader() {
     const {
         sidebarExpanded,
         setSidebarExpanded,
@@ -21,27 +21,23 @@ export default function AppHeader({ withSidebar = true }: { withSidebar?: boolea
     return (
         <header className="bg-white border-b border-gray-200 h-16 px-5 shrink-0 z-[150] flex items-center justify-between">
             <div className="flex items-center gap-2 flex-1">
-                {/* サイドバートグルボタン (withSidebar が true の場合のみ表示) */}
-                {withSidebar && (
-                    <>
-                        <button
-                            onClick={() => setSidebarExpanded(!sidebarExpanded)}
-                            className="hidden md:inline-flex items-center justify-center h-8 w-8 rounded-md hover:bg-gray-100 text-gray-500 mr-2"
-                        >
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="w-6 h-6 stroke-current">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
-                            </svg>
-                        </button>
-                        <button
-                            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                            className="md:hidden inline-flex items-center justify-center h-8 w-8 rounded-md hover:bg-gray-100 text-gray-500 mr-2"
-                        >
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="w-6 h-6 stroke-current">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
-                            </svg>
-                        </button>
-                    </>
-                )}
+                {/* サイドバートグルボタン */}
+                <button
+                    onClick={() => setSidebarExpanded(!sidebarExpanded)}
+                    className="hidden md:inline-flex items-center justify-center h-8 w-8 rounded-md hover:bg-gray-100 text-gray-500 mr-2"
+                >
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="w-6 h-6 stroke-current">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
+                    </svg>
+                </button>
+                <button
+                    onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                    className="md:hidden inline-flex items-center justify-center h-8 w-8 rounded-md hover:bg-gray-100 text-gray-500 mr-2"
+                >
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="w-6 h-6 stroke-current">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
+                    </svg>
+                </button>
 
                 {/* ロゴ */}
                 <div className="bg-primary text-primary-content w-7 h-7 flex items-center justify-center rounded-md shrink-0">

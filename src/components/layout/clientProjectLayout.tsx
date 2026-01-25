@@ -20,7 +20,7 @@ export default function ClientProjectLayout({
 
     return (
         <div className="h-screen flex flex-col relative">
-            <AppHeader withSidebar={true} />
+            <AppHeader />
 
             <div className="flex flex-1 overflow-hidden relative">
                 <Sidebar />
