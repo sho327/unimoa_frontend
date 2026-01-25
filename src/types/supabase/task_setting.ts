@@ -1,4 +1,4 @@
-import { Database } from './database'
+import { Database } from './database.types'
 
 /**
  * m_project_task_category テーブルの単一行のデータ型

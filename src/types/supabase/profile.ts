@@ -1,4 +1,4 @@
-import { Database } from './database'
+import { Database } from './database.types'
 
 /**
  * t_profile テーブルの単一行のデータ型
