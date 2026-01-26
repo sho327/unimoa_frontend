@@ -40,7 +40,38 @@ export default function InitialSetup() {
         mode: "onBlur",
     });
 
+    // ============================================================================
+    // 状態（State / Watch）
+    // ============================================================================
     const selectedSpaceMode = watch("spaceMode");
+    const selectedTags = watch("tags") || [];
+    const [tagSearch, setTagSearch] = useState("");
+    const [showSuggestions, setShowSuggestions] = useState(false);
+
+    // ============================================================================
+    // 定数（Constant）
+    // ============================================================================
+    const RECOMMENDED_TAGS = [
+        "Python", "JavaScript", "TypeScript", "React", "Next.js",
+        "デザイン", "UI/UX", "マーケティング", "英会話", "経営情報学",
+        "統計学", "データ分析", "プロジェクト管理", "ライティング"
+    ];
+
+    // ============================================================================
+    // ハンドラ（Handler）
+    // ============================================================================
+    const handleAddTag = (tag: string) => {
+        const trimmedTag = tag.trim();
+        if (trimmedTag && !selectedTags.includes(trimmedTag)) {
+            setValue("tags", [...selectedTags, trimmedTag]);
+        }
+        setTagSearch("");
+        setShowSuggestions(false);
+    };
+
+    const handleRemoveTag = (tag: string) => {
+        setValue("tags", selectedTags.filter(t => t !== tag));
+    };
 
     const handleNextStep = async (step: number) => {
         let isValid = false;
@@ -80,6 +111,11 @@ export default function InitialSetup() {
             router.push("/dashboard");
         }, 1500);
     };
+
+    // 検索語句に一致するサジェストタグ
+    const filteredSuggestions = RECOMMENDED_TAGS.filter(
+        tag => tag.toLowerCase().includes(tagSearch.toLowerCase()) && !selectedTags.includes(tag)
+    );
 
     return (
         <>
@@ -137,17 +173,105 @@ export default function InitialSetup() {
                                     {...register("affiliation")}
                                 />
 
-                                <div>
+                                <div className="relative">
                                     <label className="block text-[11px] font-black text-gray-400 uppercase tracking-widest mb-2 ml-1">スキル・興味のあるタグ</label>
-                                    {/* タグ機能は別途実装 */}
+
+                                    {/* 選択されたタグの表示 */}
                                     <div className="flex flex-wrap gap-2 mb-3">
-                                        <span className="tag-chip px-3 py-1.5 rounded-lg text-xs font-bold">Python</span>
-                                        <span className="tag-chip px-3 py-1.5 rounded-lg text-xs font-bold">マーケティング</span>
+                                        {selectedTags.length > 0 ? (
+                                            selectedTags.map(tag => (
+                                                <span
+                                                    key={tag}
+                                                    className="tag-chip active px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5"
+                                                    onClick={() => handleRemoveTag(tag)}
+                                                >
+                                                    {tag}
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" className="opacity-70"><path d="M18 6 6 18" /><path d="m6 6 12 12" /></svg>
+                                                </span>
+                                            ))
+                                        ) : (
+                                            <p className="text-[11px] text-gray-400 font-bold py-1">タグを選択または入力してください</p>
+                                        )}
                                     </div>
-                                    <div className="flex gap-2">
-                                        <input type="text" id="custom-tag" placeholder="タグを追加" className="flex-1 input-minimal text-xs" />
-                                        <button type="button" className="btn btn-ghost btn-sm border-gray-200 rounded-lg text-xs font-bold">追加</button>
+
+                                    {/* 検索・追加エリア */}
+                                    <div className="flex gap-2 relative">
+                                        <div className="relative flex-1">
+                                            <input
+                                                type="text"
+                                                placeholder="タグを検索または追加"
+                                                className="w-full input-minimal text-xs"
+                                                value={tagSearch}
+                                                onChange={(e) => {
+                                                    setTagSearch(e.target.value);
+                                                    setShowSuggestions(true);
+                                                }}
+                                                onFocus={() => setShowSuggestions(true)}
+                                                onKeyDown={(e) => {
+                                                    if (e.key === 'Enter') {
+                                                        e.preventDefault();
+                                                        handleAddTag(tagSearch);
+                                                    }
+                                                }}
+                                            />
+
+                                            {/* サジェストドロップダウン */}
+                                            {showSuggestions && tagSearch.length > 0 && (
+                                                <div className="absolute top-full left-0 w-full mt-1 bg-white border border-gray-200 rounded-xl shadow-lg z-[200] max-h-48 overflow-y-auto">
+                                                    {filteredSuggestions.length > 0 ? (
+                                                        filteredSuggestions.map(tag => (
+                                                            <button
+                                                                key={tag}
+                                                                type="button"
+                                                                className="w-full text-left px-4 py-2.5 text-xs font-bold hover:bg-gray-50 transition-colors border-b border-gray-50 last:border-0"
+                                                                onClick={() => handleAddTag(tag)}
+                                                            >
+                                                                {tag}
+                                                            </button>
+                                                        ))
+                                                    ) : (
+                                                        <div className="px-4 py-2.5 text-xs font-bold text-gray-400">一致するタグが見つかりません</div>
+                                                    )}
+                                                </div>
+                                            )}
+                                        </div>
+                                        <button
+                                            type="button"
+                                            className="btn btn-ghost btn-sm border-gray-200 rounded-lg text-xs font-bold h-[38px] px-3"
+                                            onClick={() => handleAddTag(tagSearch)}
+                                        >
+                                            追加
+                                        </button>
                                     </div>
+
+                                    {/* おすすめタグ */}
+                                    <div className="mt-4">
+                                        <span className="block text-[10px] font-black text-gray-400 uppercase tracking-widest mb-2 ml-1">おすすめのタグ</span>
+                                        <div className="flex flex-wrap gap-1.5">
+                                            {RECOMMENDED_TAGS.slice(0, 8).map(tag => (
+                                                <button
+                                                    key={tag}
+                                                    type="button"
+                                                    disabled={selectedTags.includes(tag)}
+                                                    className={`px-2.5 py-1 rounded-md text-[10px] font-black border transition-all ${selectedTags.includes(tag)
+                                                        ? "bg-gray-100 text-gray-300 border-gray-100"
+                                                        : "bg-white text-gray-500 border-gray-200 hover:border-primary hover:text-primary"
+                                                        }`}
+                                                    onClick={() => handleAddTag(tag)}
+                                                >
+                                                    {tag}
+                                                </button>
+                                            ))}
+                                        </div>
+                                    </div>
+
+                                    {/* クリック以外でサジェストを閉じるためのオーバーレイ */}
+                                    {showSuggestions && (
+                                        <div
+                                            className="fixed inset-0 z-[190]"
+                                            onClick={() => setShowSuggestions(false)}
+                                        />
+                                    )}
                                 </div>
 
                                 <AuthButton
@@ -264,6 +388,18 @@ export default function InitialSetup() {
                                             <span className="text-xs font-black text-secondary uppercase tracking-widest block mb-1">所属</span>
                                             <div className="text-sm font-bold text-neutral">{watch("affiliation") || "未設定"}</div>
                                         </div>
+                                        {selectedTags.length > 0 && (
+                                            <div>
+                                                <span className="text-xs font-black text-secondary uppercase tracking-widest block mb-1">スキル・タグ</span>
+                                                <div className="flex flex-wrap gap-1.5">
+                                                    {selectedTags.map(tag => (
+                                                        <span key={tag} className="px-2 py-0.5 bg-gray-100 text-gray-600 rounded text-[11px] font-black border border-gray-200">
+                                                            {tag}
+                                                        </span>
+                                                    ))}
+                                                </div>
+                                            </div>
+                                        )}
                                         <div>
                                             <span className="text-xs font-black text-secondary uppercase tracking-widest block mb-1">開始するスペース</span>
                                             <div className="flex items-center gap-2">
