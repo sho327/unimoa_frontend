@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { pageRoutes } from "@/components/constants";
+import { Card, CardBody } from "@/components/ui/card";
 
 type NotificationType = 'task' | 'info' | 'schedule' | 'file';
 
@@ -47,10 +48,10 @@ export default function NotificationList() {
 
             <div className="grid grid-cols-1 gap-2">
                 {notifs.map((notif) => (
-                    <div
+                    <Card
                         key={notif.id}
                         onClick={() => router.push(`${pageRoutes.MAIN.NOTIFICATION_DETAIL}`)}
-                        className="card rounded-2xl bg-white border border-gray-100 shadow-sm hover:shadow-md transition-all cursor-pointer group"
+                        className="rounded-xl cursor-pointer hover:shadow-md"
                     >
                         <div className="p-4 sm:p-4 flex items-start gap-3 sm:gap-4">
                             <div className="flex-1 min-w-0 ms-2.5 sm:ms-2">
@@ -79,7 +80,7 @@ export default function NotificationList() {
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </Card>
                 ))}
             </div>
         </main>

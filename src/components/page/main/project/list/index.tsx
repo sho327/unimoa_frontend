@@ -101,7 +101,7 @@ export default function Projects() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {displayProjects.map((project) => (
-                    <Card key={project.id} className="cursor-pointer">
+                    <Card key={project.id} className="rounded-xl cursor-pointer hover:shadow-md">
                         <CardBody onClick={(e) => {
                             e.stopPropagation();
                             router.push(pageRoutes.PROJECT.TASK.LIST);

@@ -2,6 +2,16 @@
 // Modules
 import { cookies } from 'next/headers'
 /**
+ * クッキー取得関数
+ * @param key クッキーの名前
+ * @returns クッキーの値、存在しない場合はnull
+ */
+export async function getAppCookie(key: string): Promise<string | null> {
+    const cookieStore = await cookies()
+    return cookieStore.get(key)?.value || null
+}
+
+/**
  * 汎用的なクッキー設定関数
  * @param key クッキーの名前
  * @param value 保存する値

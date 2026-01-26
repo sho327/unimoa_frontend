@@ -183,7 +183,7 @@ export default function TaskList() {
                             <div
                                 key={task.id}
                                 onClick={() => setSelectedTask(task)}
-                                className={`group bg-white border border-gray-100 rounded-2xl p-4 flex items-center gap-4 hover:border-primary/40 hover:shadow-sm transition-all cursor-pointer ${task.status === 'done' ? 'opacity-60' : ''} ${selectedTask?.id === task.id ? 'ring-2 ring-primary' : ''}`}
+                                className={`group bg-white border border-gray-100 rounded-xl p-4 flex items-center gap-4 hover:border-primary/40 hover:shadow-sm transition-all cursor-pointer ${task.status === 'done' ? 'opacity-60' : ''} ${selectedTask?.id === task.id ? 'ring-2 ring-primary' : ''}`}
                             >
                                 <input
                                     type="checkbox"
@@ -223,12 +223,12 @@ export default function TaskList() {
                         ))}
                     </div>
                 ) : (
-                    <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+                    <div className="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
                         <div className="overflow-x-auto">
-                            <Table 
+                            <Table
                                 // className="table-zebra table-sm"
                                 className="table-zebra"
-                                >
+                            >
                                 <TableHead className="bg-gray-50">
                                     <TableRow className="text-sm font-black text-secondary uppercase tracking-widest">
                                         <TableHeader className="w-12"></TableHeader>

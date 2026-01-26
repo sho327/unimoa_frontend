@@ -220,7 +220,7 @@ export default function Members() {
             </div>
 
             {/* メンバー一覧テーブル */}
-            <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+            <div className="bg-white rounded-xl border border-gray-100 shadow-sm overflow-hidden">
                 <div className="overflow-x-auto">
                     <Table className="table-zebra">
                         <TableHead className="bg-gray-50">
