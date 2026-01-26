@@ -73,33 +73,37 @@ export const quickSetupSchema = z
 
 export const initialSetupSchema = z
     .object({
+        userId: z
+            .string()
+            .min(3, { message: "3文字以上で入力してください" })
+            .max(20, { message: "20文字以内で入力してください" })
+            .regex(/^[a-zA-Z0-9_]+$/, { message: "英数字とアンダースコア(_)のみ使用できます" }),
         displayName: z
             .string()
             .min(1, { message: "表示名を入力してください" })
             .max(30, { message: "表示名は30文字以内で入力してください" }),
-        planMode: z.enum(["personal", "shared-free", "shared-pro", "invite"]),
-        inviteCode: z.string().optional(),
+        affiliation: z.string().max(50, { message: "50文字以内で入力してください" }).optional(),
+        tags: z.array(z.string()).optional(),
+        avatarUrl: z.string().url({ message: "有効なURL形式である必要があります" }).optional(),
+        spaceMode: z.enum(["personal", "shared"]),
         workspaceName: z.string().optional(),
-        workspaceIcon: z.string().optional(),
+        workspaceIcon: z.string().url({ message: "有効なURL形式である必要があります" }).optional(),
     })
     .superRefine((data, ctx) => {
-        if (data.planMode === "shared-free" || data.planMode === "shared-pro") {
+        if (data.spaceMode === "shared") {
             if (!data.workspaceName || data.workspaceName.trim() === "") {
                 ctx.addIssue({
                     code: z.ZodIssueCode.custom,
-                    message: "ワークスペース名を入力してください",
+                    message: "共有スペースの名前を入力してください",
                     path: ["workspaceName"],
                 });
             }
-
-        }
-        if (data.planMode === "invite") {
-            if (!data.inviteCode || data.inviteCode.trim() === "") {
+            if (data.workspaceName && data.workspaceName.length > 50) {
                 ctx.addIssue({
                     code: z.ZodIssueCode.custom,
-                    message: "招待コードを入力してください",
-                    path: ["inviteCode"],
-                });
+                    message: "50文字以内で入力してください",
+                    path: ["workspaceName"],
+                })
             }
         }
     });

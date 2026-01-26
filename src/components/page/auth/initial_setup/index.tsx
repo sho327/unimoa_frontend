@@ -10,7 +10,7 @@ import { AuthButton } from "@/components/page/auth/authButton";
 import { useAppStore } from "@/store";
 import { initialSetupSchema, InitialSetupFormValues } from "@/lib/schema/auth";
 
-type PlanMode = "personal" | "shared-free" | "shared-pro" | "invite";
+type SpaceMode = "personal" | "shared";
 
 export default function InitialSetup() {
     const router = useRouter();
@@ -26,26 +26,32 @@ export default function InitialSetup() {
         trigger,
         formState: { errors },
     } = useForm<InitialSetupFormValues>({
-        resolver: zodResolver(initialSetupSchema),
+        resolver: zodResolver(initialSetupSchema as any),
         defaultValues: {
-            planMode: "personal",
-            inviteCode: "",
+            userId: "",
+            displayName: "",
+            affiliation: "",
+            tags: [],
+            avatarUrl: "https://api.dicebear.com/7.x/avataaars/svg?seed=Unimoa",
+            spaceMode: "personal",
             workspaceName: "",
-            workspaceIcon: "",
+            workspaceIcon: "https://api.dicebear.com/7.x/identicon/svg?seed=Workspace",
         },
         mode: "onBlur",
     });
 
-    const selectedMode = watch("planMode");
-    const inviteCodeValue = watch("inviteCode");
+    const selectedSpaceMode = watch("spaceMode");
 
     const handleNextStep = async (step: number) => {
-        // 現在のステップのバリデーションを実行
         let isValid = false;
         if (currentStep === 1) {
-            isValid = await trigger("displayName");
+            isValid = await trigger(["userId", "displayName", "affiliation"]);
         } else if (currentStep === 2) {
-            isValid = await trigger(["planMode", "inviteCode"]);
+            isValid = await trigger("spaceMode");
+            if (selectedSpaceMode === 'shared') {
+                const isWorkspaceNameValid = await trigger("workspaceName");
+                isValid = isValid && isWorkspaceNameValid;
+            }
         } else {
             isValid = true;
         }
@@ -55,18 +61,9 @@ export default function InitialSetup() {
         }
     };
 
-    const handleSelectPlan = (mode: PlanMode) => {
-        setValue("planMode", mode);
-        setValue("inviteCode", "");
-    };
-
-    const handleInviteInput = (value: string) => {
-        setValue("inviteCode", value);
-        if (value.length > 0) {
-            setValue("planMode", "invite");
-        } else {
-            setValue("planMode", "personal");
-        }
+    const handleSelectSpaceMode = (mode: SpaceMode) => {
+        setValue("spaceMode", mode);
+        trigger("spaceMode");
     };
 
     const onSubmit = (data: InitialSetupFormValues) => {
@@ -98,29 +95,61 @@ export default function InitialSetup() {
                     ))}
                 </div>
 
-                <form onSubmit={handleSubmit(onSubmit)}>
-                    {/* Step 1: プロフィール設定 */}
+                <form onSubmit={handleSubmit(onSubmit)} className="fade-in">
                     {currentStep === 1 && (
                         <div>
                             <h1 className="text-base font-black text-neutral mb-2">プロフィール設定</h1>
-                            <p className="text-[12px] text-gray-500 mb-8 font-bold">メンバーに表示されるあなたの情報</p>
+                            <p className="text-[12px] text-gray-500 mb-8 font-bold">Unimoaで表示されるあなたの情報です</p>
                             <div className="space-y-6">
                                 <div className="flex flex-col items-center gap-4 pt-2">
-                                    <div className="avatar">
+                                    <div className="avatar relative">
                                         <div className="w-20 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
-                                            <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Unimoa" alt="Avatar" />
+                                            <img src={watch("avatarUrl")} alt="Avatar" />
                                         </div>
+                                        <button type="button" className="absolute bottom-0 right-0 bg-white border border-secondary p-2 rounded-full shadow-sm hover:bg-gray-50">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" /><circle cx="12" cy="13" r="4" /></svg>
+                                        </button>
                                     </div>
                                     <button type="button" className="text-[12px] font-black text-primary hover:underline">
                                         画像を変更する
                                     </button>
                                 </div>
+
+                                <div className="grid grid-cols-2 gap-4">
+                                    <FormInput
+                                        label="ユーザーID"
+                                        placeholder="taro_sato"
+                                        error={errors.userId?.message}
+                                        {...register("userId")}
+                                    />
+                                    <FormInput
+                                        label="表示名"
+                                        placeholder="佐藤 太郎"
+                                        error={errors.displayName?.message}
+                                        {...register("displayName")}
+                                    />
+                                </div>
+
                                 <FormInput
-                                    label="表示名"
-                                    placeholder="例：田中 太郎"
-                                    error={errors.displayName?.message}
-                                    {...register("displayName")}
+                                    label="所属 / 専門"
+                                    placeholder="例：〇〇大学 3年 / 経営情報学"
+                                    error={errors.affiliation?.message}
+                                    {...register("affiliation")}
                                 />
+
+                                <div>
+                                    <label className="block text-[11px] font-black text-gray-400 uppercase tracking-widest mb-2 ml-1">スキル・興味のあるタグ</label>
+                                    {/* タグ機能は別途実装 */}
+                                    <div className="flex flex-wrap gap-2 mb-3">
+                                        <span className="tag-chip px-3 py-1.5 rounded-lg text-xs font-bold">Python</span>
+                                        <span className="tag-chip px-3 py-1.5 rounded-lg text-xs font-bold">マーケティング</span>
+                                    </div>
+                                    <div className="flex gap-2">
+                                        <input type="text" id="custom-tag" placeholder="タグを追加" className="flex-1 input-minimal text-xs" />
+                                        <button type="button" className="btn btn-ghost btn-sm border-gray-200 rounded-lg text-xs font-bold">追加</button>
+                                    </div>
+                                </div>
+
                                 <AuthButton
                                     type="button"
                                     onClick={() => handleNextStep(2)}
@@ -135,40 +164,39 @@ export default function InitialSetup() {
                     {/* Step 2: スペース選択 */}
                     {currentStep === 2 && (
                         <div>
-                            <h1 className="text-base font-black text-neutral mb-2">スペースの準備</h1>
-                            <p className="text-[12px] text-gray-500 mb-6 font-bold">プランを選ぶか、招待コードを入力してください</p>
+                            <h1 className="font-black text-neutral mb-2">スペースの準備</h1>
+                            <p className="text-xs text-gray-500 mb-6 font-bold">活動の拠点となる場所を選びましょう</p>
 
                             <div className="space-y-3">
                                 {/* 個人スペース */}
                                 <div
-                                    className={`p-4 rounded-xl border-2 flex items-start gap-3 cursor-pointer transition-all ${selectedMode === "personal"
+                                    className={`p-4 rounded-xl border-2 flex items-start gap-3 cursor-pointer transition-all ${selectedSpaceMode === "personal"
                                         ? "border-primary bg-primary/5"
                                         : "border-gray-200 hover:border-primary/30 hover:bg-primary/[0.02]"
                                         }`}
-                                    onClick={() => handleSelectPlan("personal")}
+                                    onClick={() => handleSelectSpaceMode("personal")}
                                 >
-                                    <div className="mt-1 text-primary">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                                    <div className="w-9 h-9 rounded-xl bg-primary/10 text-primary flex items-center justify-center shrink-0">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                                             <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
                                             <circle cx="12" cy="7" r="4" />
                                         </svg>
                                     </div>
                                     <div>
-                                        <div className="text-[13px] font-black text-neutral">個人スペース</div>
-                                        <div className="text-[11px] text-gray-500 font-bold">自分専用の無料ワークスペース</div>
+                                        <div className="text-sm font-black text-neutral">個人スペースのみ作成</div>
+                                        <div className="text-xs text-gray-500 font-bold mt-1">まずは自分だけでタスクや学習を管理したい場合に。</div>
                                     </div>
                                 </div>
 
-                                {/* 無料共有スペース */}
                                 <div
-                                    className={`p-4 rounded-xl border-2 flex items-start gap-3 cursor-pointer transition-all ${selectedMode === "shared-free"
+                                    className={`p-4 rounded-xl border-2 flex items-start gap-3 cursor-pointer transition-all ${selectedSpaceMode === "shared"
                                         ? "border-primary bg-primary/5"
                                         : "border-gray-200 hover:border-primary/30 hover:bg-primary/[0.02]"
                                         }`}
-                                    onClick={() => handleSelectPlan("shared-free")}
+                                    onClick={() => handleSelectSpaceMode("shared")}
                                 >
-                                    <div className="mt-1 text-primary">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                                    <div className="w-9 h-9 rounded-xl bg-blue-100 text-blue-600 flex items-center justify-center shrink-0">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                                             <path d="M17 21v-2a4 4 0 0 0-3-3.87" />
                                             <path d="M12 21v-2a4 4 0 0 0-3-3.87" />
                                             <circle cx="12" cy="7" r="4" />
@@ -177,55 +205,28 @@ export default function InitialSetup() {
                                         </svg>
                                     </div>
                                     <div>
-                                        <div className="text-[13px] font-black text-neutral">無料共有スペース</div>
-                                        <div className="text-[11px] text-gray-500 font-bold">ゼミ・サークル向け (最大10人)</div>
+                                        <div className="text-sm font-black text-neutral">共有スペースも作成</div>
+                                        <div className="text-xs text-gray-500 font-bold mt-1">ゼミや研究室、プロジェクトメンバーを招待したい場合に。</div>
                                     </div>
                                 </div>
 
-                                {/* 有料共有スペース */}
-                                <div
-                                    className={`p-4 rounded-xl border-2 flex items-start gap-3 cursor-pointer transition-all ${selectedMode === "shared-pro"
-                                        ? "border-primary bg-primary/5"
-                                        : "border-gray-200 hover:border-primary/30 hover:bg-primary/[0.02]"
-                                        }`}
-                                    onClick={() => handleSelectPlan("shared-pro")}
-                                >
-                                    <div className="mt-1 text-yellow-500">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                                            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
-                                        </svg>
+                                {selectedSpaceMode === 'shared' && (
+                                    <div className="pt-1 fade-in">
+                                        <FormInput
+                                            label="共有スペースの名前"
+                                            placeholder="例：佐藤ゼミ / Web開発プロジェクト"
+                                            error={errors.workspaceName?.message}
+                                            {...register("workspaceName")}
+                                        />
                                     </div>
-                                    <div>
-                                        <div className="text-[13px] font-black text-neutral">有料共有スペース</div>
-                                        <div className="text-[11px] text-gray-500 font-bold">高度な管理と無制限のメンバー (Pro)</div>
-                                    </div>
-                                </div>
+                                )}
 
-                                <div className="divider text-[10px] font-black text-secondary my-4 uppercase tracking-widest">または</div>
-
-                                {/* 招待コード入力 */}
-                                <div className="p-4 rounded-xl border-2 border-dashed border-gray-200 bg-gray-50/50">
-                                    <label className="block text-[10px] font-black text-gray-500 uppercase tracking-widest mb-2">
-                                        招待コードを入力して合流
-                                    </label>
-                                    <input
-                                        type="text"
-                                        placeholder="例：ABC-123"
-                                        className="w-full input-minimal text-[12px] uppercase placeholder:text-secondary"
-                                        value={inviteCodeValue}
-                                        onChange={(e) => handleInviteInput(e.target.value)}
-                                    />
-                                    {errors.inviteCode && (
-                                        <p className="text-[10px] font-bold text-error mt-1 ml-1">{errors.inviteCode.message}</p>
-                                    )}
-                                </div>
-
-                                <div className="flex gap-3 mt-6">
+                                <div className="flex gap-2 mt-10">
                                     <AuthButton
                                         type="button"
                                         onClick={() => handleNextStep(1)}
                                         variant="outline"
-                                        className="flex-1"
+                                        className="flex-1 normal-case"
                                     >
                                         戻る
                                     </AuthButton>
@@ -233,9 +234,9 @@ export default function InitialSetup() {
                                         type="button"
                                         onClick={() => handleNextStep(3)}
                                         variant="primary"
-                                        className="flex-[2]"
+                                        className="flex-[1.5] normal-case"
                                     >
-                                        次へ進む
+                                        内容を確認する
                                     </AuthButton>
                                 </div>
                             </div>
@@ -245,88 +246,54 @@ export default function InitialSetup() {
                     {/* Step 3: 最終確認 */}
                     {currentStep === 3 && (
                         <div>
-                            <h1 className="text-base font-black text-neutral mb-2">
-                                {selectedMode === "shared-free" || selectedMode === "shared-pro"
-                                    ? "スペースの作成"
-                                    : selectedMode === "invite"
-                                        ? "招待の確認"
-                                        : "セットアップの完了"}
-                            </h1>
-                            <p className="text-[12px] text-gray-500 mb-8 font-bold">
-                                {selectedMode === "shared-free" || selectedMode === "shared-pro"
-                                    ? "スペースの名前とURLを決めてください"
-                                    : selectedMode === "invite"
-                                        ? "既存のゼミへの合流準備が整いました"
-                                        : "自分だけのスペースを作成します"}
-                            </p>
+                            <h1 className="font-black text-neutral mb-2">これでよろしいですか？</h1>
+                            <p className="text-xs text-gray-500 mb-6 font-bold">入力内容に間違いがないかご確認ください</p>
 
                             <div className="space-y-4">
-                                {/* 共有スペース作成UI */}
-                                {(selectedMode === "shared-free" || selectedMode === "shared-pro") && (
-                                    <div className="space-y-5">
-                                        <div className="flex flex-col items-center gap-4 py-2">
-                                            <div className="avatar">
-                                                <div className="w-20 rounded-2xl ring ring-primary ring-offset-base-100 ring-offset-2">
-                                                    <img src="https://api.dicebear.com/7.x/identicon/svg?seed=Workspace" alt="Workspace Icon" />
-                                                </div>
-                                            </div>
-                                            <button type="button" className="text-[12px] font-black text-primary hover:underline">
-                                                アイコンを変更
-                                            </button>
+                                <div className="bg-gray-50 rounded-2xl p-6 border border-gray-200">
+                                    <div className="flex items-center gap-4 mb-6">
+                                        <img src={watch("avatarUrl")} className="w-14 h-14 rounded-full bg-white ring-2 ring-white shadow-sm" alt="Avatar Preview" />
+                                        <div>
+                                            <div className="font-black text-neutral">{watch("displayName") || "未設定"}</div>
+                                            <div className="text-xs text-secondary font-bold">@{watch("userId") || "id"}</div>
                                         </div>
-                                        <FormInput
-                                            label="スペース名"
-                                            placeholder="例：〇〇大学 佐藤ゼミ"
-                                            error={errors.workspaceName?.message}
-                                            {...register("workspaceName")}
-                                        />
-
                                     </div>
-                                )}
 
-                                {/* 招待コード確認UI */}
-                                {selectedMode === "invite" && (
-                                    <div className="p-4 bg-green-50 rounded-xl border border-green-100 flex items-center gap-3">
-                                        <div className="text-green-500">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-                                                <polyline points="20 6 9 17 4 12" />
-                                            </svg>
+                                    <div className="space-y-4 text-left border-t border-gray-200 pt-4">
+                                        <div>
+                                            <span className="text-xs font-black text-secondary uppercase tracking-widest block mb-1">所属</span>
+                                            <div className="text-sm font-bold text-neutral">{watch("affiliation") || "未設定"}</div>
                                         </div>
                                         <div>
-                                            <div className="text-[13px] font-black text-green-800">招待コードを認識しました</div>
-                                            <div className="text-[11px] font-bold text-green-600">登録完了後、自動的に参加します。</div>
+                                            <span className="text-xs font-black text-secondary uppercase tracking-widest block mb-1">開始するスペース</span>
+                                            <div className="flex items-center gap-2">
+                                                <span className="text-[13.5px] badge badge-primary badge-outline font-black py-2.5 px-3">個人用</span>
+                                                {selectedSpaceMode === 'shared' && (
+                                                    <span className="text-[13.5px] badge badge-info badge-outline font-black py-2.5 px-3">共有: {watch("workspaceName") || "名称未定"}</span>
+                                                )}
+                                            </div>
                                         </div>
                                     </div>
-                                )}
-
-                                {/* 個人スペースUI */}
-                                {selectedMode === "personal" && (
-                                    <div className="p-5 bg-gray-50 rounded-xl border border-gray-200 flex flex-col items-center text-center gap-3">
-                                        <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-sm text-primary">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                                                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-                                            </svg>
-                                        </div>
-                                        <div className="text-[12px] font-bold text-gray-500 leading-relaxed">
-                                            あなた専用プライベート空間を作成します。<br />
-                                            後からいつでもゼミ用スペースを追加できます。
-                                        </div>
-                                    </div>
-                                )}
+                                </div>
+                                <div className="p-4 bg-primary/5 rounded-xl text-center">
+                                    <p className="text-xs font-bold text-primary leading-relaxed">
+                                        「はじめる」ボタンを押すと、あなただけの<br />素晴らしいワークスペースが用意されます！
+                                    </p>
+                                </div>
 
                                 <div className="flex gap-3">
                                     <AuthButton
                                         type="button"
                                         onClick={() => handleNextStep(2)}
                                         variant="outline"
-                                        className="flex-1"
+                                        className="flex-1 normal-case"
                                     >
-                                        戻る
+                                        修正する
                                     </AuthButton>
                                     <AuthButton
                                         type="submit"
                                         variant="primary"
-                                        className="flex-[2]"
+                                        className="flex-[1.5] normal-case"
                                         isLoading={isLoading}
                                         disabled={isLoading}
                                     >
@@ -338,10 +305,6 @@ export default function InitialSetup() {
                     )}
                 </form>
             </AuthCard>
-
-            {/* <p className="mt-8 text-center text-[10px] font-bold text-secondary uppercase tracking-widest">
-                Unimoa Setup Wizard
-            </p> */}
         </>
     );
 }
