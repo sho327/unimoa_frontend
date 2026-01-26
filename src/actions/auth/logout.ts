@@ -37,3 +37,39 @@ export async function logout() {
     // ----------------------------------------------------
     redirect(pageRoutes.AUTH.LOGIN)
 }
+
+
+// ログイン・新規登録・データ取得は「サーバーサイドで `Service Role`（管理者）」が行い、
+// **ログアウトや現在のセッション維持だけは「`Anon Key`」に任せる
+
+// ログアウトに `Anon Key` が必要なのか
+// ログアウトの本質は、DBの操作ではなく「ブラウザ（またはサーバー）にある認証クッキーを安全に破棄すること」
+
+// * **Service Role:** クッキーを無視して動く「特権」なので、ブラウザのセッションを消すのが苦手。
+// * **Anon Key:** 常にクッキー（セッション）とセットで動くので、`signOut()` を呼ぶだけでブラウザのクッキーを掃除してくれる。
+
+// 1. **RLSが全拒否なので安全**: `Anon Key` は公開されますが、
+// すべてのテーブルに RLS をかけてポリシーを空（または自分のみ）にしているため、万が一キーが漏れても第三者がデータを抜くことは不可能。
+// 2. **管理権限の局所化**: `Service Role` を使うコードは `loginAction` や `signupAction` 
+// などの「サーバーサイド限定」に閉じ込めることで、クライアント側に特権が漏れるリスクをゼロにできる。
+
+// | クライアント | キー | 主な役割 |
+// | --- | --- | --- |
+// | **`supabaseServer` (Admin)** | `Service Role` | ログイン、新規登録、管理者としてのデータ操作（RLSバイパス） |
+// | **`supabaseBrowser` (Standard)** | `Anon Key` | **ログアウト**、現在のログインユーザー情報の取得、セッション維持 |
+
+// 'use server'
+// import { createClient } from '@/lib/supabase/server' // Anon Key版のクライアント
+// import { redirect } from 'next/navigation'
+
+// export async function logout() {
+//     // Anon Key版はブラウザのCookieを読み取れるので、
+//     // 実行すると対象ユーザーのセッションをサーバー・ブラウザ両方で破棄します
+//     const supabase = createClient() 
+//     await supabase.auth.signOut()
+
+//     // 業務用のCookieも忘れず削除
+//     await deleteAppCookie(selectedSpaceIdCookieKey)
+    
+//     redirect('/login')
+// }

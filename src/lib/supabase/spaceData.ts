@@ -40,17 +40,18 @@ export async function getSpacesByUserId(supabase: SupabaseClient, userId: string
 }
 
 /**
- * ユーザーIDを基に個人スペースを取得
+ * ユーザーIDを基に個人スペースを取得(自身がオーナーかつis_personalがtrue)
  * @args
  * @createdBy KatoShogo
  * @createdAt 2026/01/26
  */
 export async function getPersonalSpaceByUserId(supabase: SupabaseClient, userId: string) {
     return await supabase
-        .from('r_space')
+        .from('t_space')
         .select('*')
-        .eq('profile_id', userId)
-        .eq('is_personal', true);
+        .eq('owner_id', userId)
+        .eq('is_personal', true)
+        .single();
 }
 
 // ----------------------------------------------------
@@ -65,7 +66,10 @@ export async function getPersonalSpaceByUserId(supabase: SupabaseClient, userId:
 export async function createSpace(supabase: SupabaseClient, name: string, ownerId: string) {
     return await supabase
         .from('t_space')
-        .insert({ name, owner_id: ownerId })
+        .insert({
+            name: name,
+            owner_id: ownerId
+        })
         .select()
         .single();
 }

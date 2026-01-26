@@ -1,3 +1,4 @@
+'use server'
 // Layout/Components
 import ClientMainLayout from "@/components/layout/clientMainLayout";
 // Libs/ServerUtils

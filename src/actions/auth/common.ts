@@ -3,6 +3,8 @@
 import { supabaseServer } from '@/lib/supabase/server'
 // Server-Utils
 import { setAppCookie, deleteAppCookie } from '@/lib/server-utils/cookie'
+// Constants
+import { selectedSpaceIdCookieKey } from '@/components/constants'
 
 /**
  * ログインユーザーの個人スペースIDを取得し、Cookieに設定する
@@ -44,11 +46,11 @@ export async function getAndSetDefaultSpaceId(userId: string) {
     }
 
     if (personalSpaceId) {
-        // 3. 取得したIDをCookieに設定(処理を分割: Cookie設定は teamActions に任せる)
-        await setSelectedSpaceCookie(personalSpaceId)
+        // 3. 取得したIDをCookieに設定
+        await setAppCookie(selectedSpaceIdCookieKey, personalSpaceId)
     } else {
         // 個人スペースが見つからない場合は、Cookieをクリア
-        await setSelectedSpaceCookie('')
+        await deleteAppCookie(selectedSpaceIdCookieKey)
         throw new Error('No personal space found for the user.')
     }
 }

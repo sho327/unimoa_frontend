@@ -5,7 +5,7 @@ import { getPersonalSpaceByUserId } from '@/lib/supabase/spaceData'
 // ServerUtils
 import { setAppCookie, deleteAppCookie } from '@/lib/server-utils/cookie'
 // Schema
-import { signupSchema } from "@/lib/schema/auth";
+import { signupSchema, SignupFormValues } from "@/lib/schema/auth";
 // Constants
 import { selectedSpaceIdCookieKey } from "@/components/constants";
 
@@ -16,11 +16,11 @@ import { selectedSpaceIdCookieKey } from "@/components/constants";
  * @createdBy KatoShogo
  * @createdAt 2026/01/26
  */
-export async function signupAction(formData: FormData) {
+export async function signupAction(formData: SignupFormValues) {
     // ----------------------------------------------------
     // 1. 入力値バリデーション(Zod)
     // ----------------------------------------------------
-    const result = signupSchema.safeParse(Object.fromEntries(formData));
+    const result = signupSchema.safeParse(formData);
     // バリデーション失敗（フロントを突き抜けてきた場合）
     if (!result.success) {
         return { error: "入力内容が正しくありません。" };
@@ -29,11 +29,11 @@ export async function signupAction(formData: FormData) {
     // ----------------------------------------------------
     // 2. Supabaseクライアントの初期化
     // ----------------------------------------------------
-    const supabase = await supabaseServer()
+    const authClient = await supabaseServer();
     // ----------------------------------------------------
     // 3. 新規登録処理(ユーザ新規登録/アクティベーション用メール送信)
     // ----------------------------------------------------
-    const { data, error } = await supabase.auth.signUp({
+    const { data, error } = await authClient.auth.signUp({
         email: email,
         password: password,
     })
@@ -56,29 +56,29 @@ export async function signupAction(formData: FormData) {
         // ----------------------------------------------------
         // 4-1. ユーザIDを基に個人スペースIDの取得
         // ----------------------------------------------------
-        const { data: spacesData, error: fetchError } = await getPersonalSpaceByUserId(supabase, data.user.id)
+        const adminClient = await supabaseServer();
+        const { data: spacesData, error: fetchError } = await getPersonalSpaceByUserId(adminClient, data.user.id)
         // 個人スペースの取得失敗
         if (fetchError) {
+            if (fetchError.code === 'PGRST116') {
+                // 整合性のためサインアウト
+                await authClient.auth.signOut()
+                // Cookieの削除
+                await deleteAppCookie(selectedSpaceIdCookieKey)
+                return { error: '個人スペースが見つかりませんでした。' }
+            }
             // 整合性のためサインアウト
-            await supabase.auth.signOut()
+            await authClient.auth.signOut()
             // Cookieの削除
-            deleteAppCookie(selectedSpaceIdCookieKey)
+            await deleteAppCookie(selectedSpaceIdCookieKey)
             return { error: 'ログイン後の初期設定に失敗しました。' }
-        }
-        // 個人スペースの取得失敗（個人スペースが存在しない）
-        if (!spacesData || spacesData.length === 0) {
-            // 整合性のためサインアウト
-            await supabase.auth.signOut()
-            // Cookieの削除
-            deleteAppCookie(selectedSpaceIdCookieKey)
-            return { error: '個人スペースが見つかりませんでした。' }
         }
         // ----------------------------------------------------
         // 4-2. 個人スペースIDをCookieに設定
         // ----------------------------------------------------
-        const personalSpaceId = spacesData[0].id
+        const personalSpaceId = spacesData.id
         // Cookieの設定
-        setAppCookie(selectedSpaceIdCookieKey, personalSpaceId)
+        await setAppCookie(selectedSpaceIdCookieKey, personalSpaceId)
         // ----------------------------------------------------
         // 5. ログイン成功
         // ----------------------------------------------------

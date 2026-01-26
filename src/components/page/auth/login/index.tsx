@@ -14,7 +14,7 @@ import { SocialLoginButtons } from "@/components/page/auth/socialLoginButtons";
 // Store
 import { useAppStore } from "@/store";
 // Actions
-import { loginAction } from "@/actions/authActions";
+import { loginAction } from "@/actions/auth/login";
 // Constants
 import { pageRoutes } from "@/components/constants";
 // Schema
@@ -59,11 +59,12 @@ export default function Login() {
     const onSubmit = async (inputData: LoginFormValues) => {
         setError(null);
         setGlobalLoading(true);
+
         // === Server Action ログイン ===
         const result = await loginAction(inputData)
 
         if (!result.success) {
-            setError(result.errorMessage || 'ログインに失敗しました。')
+            setError(result.error || 'ログインに失敗しました。')
             setGlobalLoading(false)
             return
         }
@@ -73,9 +74,6 @@ export default function Login() {
         startTransition(() => {
             router.push(pageRoutes.MAIN.DASHBOARD)
         })
-
-        // トランジションとは独立してローディング解除
-        setGlobalLoading(false);
     };
 
     // ============================================================================

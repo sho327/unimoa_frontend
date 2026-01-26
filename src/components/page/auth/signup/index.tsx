@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 // Actions
-import { signupAction } from "@/actions/authActions";
+import { signupAction } from "@/actions/auth/signup";
 // UI/Components
 import { FormInput } from "@/components/ui/formInput";
 // Components
@@ -64,7 +64,7 @@ export default function Signup() {
         const result = await signupAction(inputData)
 
         if (!result.success) {
-            setError(result.errorMessage || 'ユーザー登録中にエラーが発生しました。')
+            setError(result.error || 'ユーザー登録中にエラーが発生しました。')
             setGlobalLoading(false)
             return
         }
@@ -87,8 +87,6 @@ export default function Signup() {
             // ローディングはトランジションとは独立して解除
             setGlobalLoading(false)
         }
-
-
     };
 
     return (
