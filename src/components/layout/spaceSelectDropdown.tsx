@@ -77,7 +77,7 @@ export function SpaceSelectDropdown({
                 <div className={`absolute top-full left-0 mt-2 ${dropdownWidth} bg-white border border-gray-100 rounded-xl shadow-2xl z-[150] overflow-hidden animate-in fade-in zoom-in-95 duration-100`}>
                     {/* ヘッダー */}
                     <div className="px-4 py-3 border-b border-gray-200">
-                        <span className="text-[13px] font-black text-secondary uppercase tracking-widest">スペースを選択</span>
+                        <span className="text-sm font-black text-neutral uppercase tracking-widest">スペースを選択</span>
                     </div>
 
                     <div className="py-1 max-h-80 overflow-y-auto no-scrollbar">
@@ -92,7 +92,7 @@ export function SpaceSelectDropdown({
                             >
                                 <div className="flex items-center gap-3 min-w-0">
                                     <div className={`w-2 h-2 rounded-full shrink-0 ${space.id === activeSpace.id ? "bg-primary" : "bg-gray-200"}`} />
-                                    <span className="text-[14.5px] truncate">{space.name}</span>
+                                    <span className="text-sm truncate">{space.name}</span>
                                 </div>
                                 {space.id === activeSpace.id && (
                                     <Check className="h-4 w-4 shrink-0" />
@@ -109,7 +109,7 @@ export function SpaceSelectDropdown({
                             <div className="w-5 h-5 rounded-md bg-gray-100 group-hover:bg-primary group-hover:text-primary-content flex items-center justify-center transition-colors">
                                 <Plus className="h-3 w-3" />
                             </div>
-                            <span className="text-[14.5px]">新しいスペースを作成</span>
+                            <span className="text-sm">新しいスペースを作成</span>
                         </button>
                     </div>
                 </div>
