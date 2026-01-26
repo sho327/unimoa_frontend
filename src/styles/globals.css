@@ -113,6 +113,16 @@ body {
   }
 }
 
+/* --- Selection Style --- */
+::selection {
+  /* background-color: #bae6fd; */
+  /* light blue (sky-200) */
+  background-color: #bfdbfe;
+  /* blue (blue-200) */
+  color: #0f172a;
+  /* slate-900 */
+}
+
 /* --- Autofill Styles Reset --- */
 /* ブラウザの自動入力(Autofill)による背景色・文字色の変化を防止 */
 input:-webkit-autofill,
@@ -128,4 +138,6 @@ select:-webkit-autofill:focus {
   /* text-neutral相当のグレー */
   -webkit-box-shadow: 0 0 0px 1000px #ffffff inset !important;
   transition: background-color 5000s ease-in-out 0s !important;
+  caret-color: #1f2937 !important;
+  /* カーソルを強制的に表示 */
 }
