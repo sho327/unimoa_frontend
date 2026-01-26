@@ -1,19 +1,30 @@
-import { createClient } from '@supabase/supabase-js'
+// Modules
+import { cookies } from 'next/headers'
+import { createServerClient } from '@supabase/ssr'
 import { Database } from '@/types/supabase/database.types'
 
-// サーバーサイド専用：Service Role Keyを使用してRLSをバイパスする設定
-export const supabaseServer = () => {
-    const supabaseUrl = process.env.SUPABASE_URL
-    const supabaseServiceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY
+export const supabaseServer = async () => {
+    const cookieStore = await cookies()
 
-    if (!supabaseUrl || !supabaseServiceRoleKey) {
-        throw new Error('Supabaseの環境変数が設定されていません')
-    }
-
-    return createClient<Database>(supabaseUrl, supabaseServiceRoleKey, {
-        auth: {
-            persistSession: false,   // サーバー側なのでセッション保存不要
-            autoRefreshToken: false, // サーバー側なので自動更新不要
+    return createServerClient<Database>(
+        process.env.NEXT_PUBLIC_SUPABASE_URL!,
+        process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+        {
+            cookies: {
+                get(name) {
+                    return cookieStore.get(name)?.value
+                },
+                set(name, value, options) {
+                    try {
+                        cookieStore.set({ name, value, ...options })
+                    } catch { }
+                },
+                remove(name, options) {
+                    try {
+                        cookieStore.set({ name, value: '', ...options })
+                    } catch { }
+                },
+            },
         }
-    })
+    )
 }
