@@ -41,6 +41,7 @@ export const commonRepository = {
 
     /**
      * 現在のユーザー情報を取得(プロフィール、所属スペース、お知らせ件数)
+     * ※共通レイアウトで使用される、セッション取得とセットになる関数なのでcommonで定義する
      * @args
      * @createdBy KatoShogo
      * @createdAt 2026/01/26
