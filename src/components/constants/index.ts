@@ -17,6 +17,7 @@ export const appInfo = {
 /** ページルート一覧 */
 export const pageRoutes = {
     TOP: `/`,
+    // auth系はそのまま静的パス
     AUTH: {
         LOGIN: `/login`,
         SIGNUP: `/signup`,
@@ -27,6 +28,27 @@ export const pageRoutes = {
         USER_ACTIVATE_REQUEST: `/user_activate_request`,
         USER_ACTIVATE: `/user_activate`,
     },
+    // space系は引数を受け取ってパスを返す関数にする
+    SPACE: {
+        DASHBOARD: (spaceId: string) => `/space/${spaceId}/dashboard`,
+        PROJECT_LIST: (spaceId: string) => `/project/list`,
+        PROJECT_DETAIL: (spaceId: string) => `/project/detail`,
+        PROJECT_SAVE: (spaceId: string) => `/project/save`,
+        PROJECT_MEMBER_LIST: (spaceId: string) => `/project/member/list`,
+        // project系は引数を受け取ってパスを返す関数にする
+        PROJECT: {
+            DASHBOARD: (projectId: string) => `/project/${projectId}/dashboard`,
+            TASK: {
+                LIST: (projectId: string) => `/project/${projectId}/task/list`,
+                DETAIL: (projectId: string) => `/project/${projectId}/task/detail`,
+                SAVE: (projectId: string) => `/project/${projectId}/task/save`,
+            },
+            MEMBER: {
+                LIST: (projectId: string) => `/project/${projectId}/member/list`,
+            }
+        }
+    },
+    // main系はそのまま静的パス
     MAIN: {
         DASHBOARD: `/dashboard`,
         PROJECT_LIST: `/project/list`,
