@@ -63,9 +63,7 @@ export const spaceRepository = {
             .is('t_space.deleted_at', null)
 
         if (error) return []
-        // データの整形（ネストを平坦化して spaces: M_ProfileSkillTagRow[] の形にする）
-        const formattedData = data?.map((s: any) => s.t_space) || []
-        return formattedData as unknown as T_SpaceRow[]
+        return data as unknown as T_SpaceRow[]
     },
 
     /**

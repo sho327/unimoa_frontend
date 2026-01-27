@@ -50,10 +50,10 @@ export const commonRepository = {
             .from('t_profile')
             .select(`
                 *, 
-                spaces: r_space!profile_id (
-                    ...t_space!space_id (*)
+                spaces: r_space!r_space_profile_id_fkey (
+                    t_space!space_id (*)
                 ),
-                notifications: t_notification!target_profile_id (*)
+                notifications: t_notification!t_notification_target_profile_id_fkey (*)
             `)
             .eq('id', id)
             .is('deleted_at', null)
