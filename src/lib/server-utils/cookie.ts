@@ -34,6 +34,10 @@ export async function setAppCookie(key: string, value: string, maxAge = 60 * 60 
  * クッキー削除関数
  */
 export async function deleteAppCookie(key: string) {
-    const cookieStore = await cookies()
-    cookieStore.delete(key)
+    // クッキーの削除(既に存在しない場合は何もしない)
+    const cookieValue = await getAppCookie(key)
+    if (cookieValue) {
+        const cookieStore = await cookies()
+        cookieStore.delete(key)
+    }
 }

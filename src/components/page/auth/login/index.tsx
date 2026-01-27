@@ -5,16 +5,16 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-// UI/Components
-import { FormInput } from "@/components/ui/formInput";
 // Components
+import { supabaseClient } from "@/lib/supabase/client"
+import { FormInput } from "@/components/ui/formInput";
 import AuthCard from "@/components/page/auth/authCard";
 import { AuthButton } from "@/components/page/auth/authButton";
 import { SocialLoginButtons } from "@/components/page/auth/socialLoginButtons";
 // Store
 import { useAppStore } from "@/store";
 // Actions
-import { loginAction } from "@/actions/auth/login";
+import { syncSpaceSelection } from "@/actions/auth/syncSpaceSelection";
 // Constants
 import { pageRoutes } from "@/components/constants";
 // Schema
@@ -60,20 +60,45 @@ export default function Login() {
         setError(null);
         setGlobalLoading(true);
 
-        // === Server Action ログイン ===
-        const result = await loginAction(inputData)
-
-        if (!result.success) {
-            setError(result.error || 'ログインに失敗しました。')
+        // === Supabase Auth ログイン ===
+        const { data, error } = await supabaseClient.auth.signInWithPassword({
+            email: inputData.email,
+            password: inputData.password,
+        })
+        if (error) {
+            setError('メールアドレスまたはパスワードが正しくありません。')
             setGlobalLoading(false)
             return
         }
-
-        // === ログイン完了後 ===
-        // トランジション発火（ページ遷移）
-        startTransition(() => {
-            router.push(pageRoutes.MAIN.DASHBOARD)
-        })
+        // ログイン後
+        if (data.session) {
+            // Supabaseのセッション確立を軽く待機
+            for (let i = 0; i < 5; i++) {
+                const { data: userCheck } = await supabaseClient.auth.getUser()
+                if (userCheck.user) break
+                await new Promise((r) => setTimeout(r, 200))
+            }
+            // ユーザの全メンバーシップから個人チームIDを取得し、Cookieへセット
+            try {
+                // === Server Action ===
+                // サーバーアクションを実行して、Cookie設定とチームID取得をサーバー側で完結させる
+                const result = await syncSpaceSelection(data.user!.id)
+                if ('error' in result) {
+                    setError(result.error)
+                    setGlobalLoading(false)
+                    return
+                }
+                // === ログイン完了後 ===
+                // トランジション発火（ページ遷移）
+                startTransition(() => {
+                    router.push(pageRoutes.MAIN.DASHBOARD)
+                })
+            } catch (e) {
+                // エラー処理
+                setError('ログイン後の初期設定に失敗しました。')
+                setGlobalLoading(false)
+            }
+        }
     };
 
     // ============================================================================

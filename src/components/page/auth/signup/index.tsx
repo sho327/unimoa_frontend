@@ -7,9 +7,8 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 // Actions
 import { signupAction } from "@/actions/auth/signup";
-// UI/Components
-import { FormInput } from "@/components/ui/formInput";
 // Components
+import { FormInput } from "@/components/ui/formInput";
 import AuthCard from "@/components/page/auth/authCard";
 import { SocialLoginButtons } from "@/components/page/auth/socialLoginButtons";
 import { AuthButton } from "@/components/page/auth/authButton";

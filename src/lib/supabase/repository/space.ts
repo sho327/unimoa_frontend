@@ -54,7 +54,7 @@ export const spaceRepository = {
         const { data, error } = await supabase
             .from('r_space')
             .select(`
-                ...t_space!inner (
+                ...t_space!space_id (
                     *
                 )
             `)

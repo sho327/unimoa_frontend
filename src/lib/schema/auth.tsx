@@ -108,9 +108,16 @@ export const initialSetupSchema = z
         }
     });
 
+export const getSpaceSelectionSchema = z.object({
+    userId: z
+        .string()
+        .min(1, { message: "ユーザーIDを入力してください" })
+});
+
 export type LoginFormValues = z.infer<typeof loginSchema>;
 export type SignupFormValues = z.infer<typeof signupSchema>;
 export type PasswordResetRequestFormValues = z.infer<typeof passwordResetRequestSchema>;
 export type PasswordResetFormValues = z.infer<typeof passwordResetSchema>;
 export type QuickSetupFormValues = z.infer<typeof quickSetupSchema>;
 export type InitialSetupFormValues = z.infer<typeof initialSetupSchema>;
+export type GetSpaceSelectionFormValues = z.infer<typeof getSpaceSelectionSchema>;
