@@ -8,6 +8,7 @@
 #### 1. マスタデータ（M）
 
 システム全体、またはプロジェクト内で「共通の選択肢」や「設定」として使われるデータです。
+※タグやカテゴリ、ステータスなども履歴としては意味は持たず参照される関係なのでソフトマスタとしてマスタ分類で定義します。
 
 * **特徴:** データの追加・変更頻度が低く、他のテーブルから参照（FK）される側になります。
 * **メリット:** 表記揺れを防ぎ、統計（どのカテゴリが何件あるか等）を正確に出せるようになります。
@@ -31,20 +32,16 @@
 | **2. スペース** | `t_space` | スペース | 組織・コミュニティの実体 |
 |  | `r_space` | スペースリレーション | スペース参加者と権限の管理 |
 | **3. プロジェクト** | `t_project` | プロジェクト | プロジェクトの実体 |
-|  | `m_project_category` | プロジェクトカテゴリ | プロジェクト種別の定義 |
+|  | `m_project_category` | プロジェクトカテゴリ | プロジェクト種別の定義(プロジェクト作成時に選択肢として表示) |
 |  | `r_project_member` | メンバーリレーション | プロジェクト参加者と権限の管理 |
-|  | `m_project_tool` | ツールマスタ | プロジェクトで使用するツールの定義 |
+|  | `m_project_tool` | ツールマスタ | プロジェクトで使用するツールの定義(プロジェクト作成時に選択肢として表示) |
 |  | `r_project_tool` | ツールリレーション | プロジェクトとツールの紐付け |
 |  | `t_project_requirement` | 募集要項 | 募集条件の内容（箇条書き実体） |
-|  | `r_project_requirement` | 募集要項リレーション | プロジェクトと募集条件の紐付け |
-| **4. タスク設定** | `m_project_task_category` | タスクカテゴリ | 開発・設計等の種別定義 |
-|  | `r_project_task_category` | カテゴリリレーション | プロジェクトへのカテゴリ割り当て |
-|  | `m_project_task_status` | タスクステータス | 未対応・完了等の状態定義 |
-|  | `r_project_task_status` | ステータスリレーション | プロジェクトへの状態フロー割り当て |
+| **4. タスク設定** | `m_project_task_category` | タスクカテゴリ | 開発・設計等の種別定義(タスク作成時に選択肢として表示) |
+|  | `m_project_task_status` | タスクステータス | 未対応・完了等の状態定義(タスク作成時に選択肢として表示) |
 | **5. タスク実体** | `t_task` | タスク | タスクのメインデータ |
 |  | `r_task_assignee` | 担当者リレーション | タスクと担当者の紐付け |
-|  | `t_task_attachment` | 添付ファイル | アップロードされたファイル情報 |
-|  | `r_task_attachment` | ファイルリレーション | タスクとファイルの紐付け |
+|  | `t_task_attachment` | 添付ファイル | タスクへアップロードされたファイル情報 |
 | **6. 通知** | `t_notification` | 通知 | 発生したお知らせの履歴 |
 |  | `t_notification_read` | 通知既読 | ユーザーごとの既読管理 |
 
@@ -70,10 +67,10 @@
 | avatar_url | text |  | アイコンURL |
 | is_setup_completed | boolean |  | 初回セットアップ完了フラグ |
 | created_at | timestamp |  | 作成日(DEFAULT now()) |
-| created_by | uuid | PK, FK | `auth.users.id` 参照 |
+| created_by | uuid | FK | `auth.users.id` 参照 |
 | created_kino_id | text |  | 作成機能ID |
 | updated_at | timestamp |  | 更新日(DEFAULT now()) |
-| updated_by | uuid | PK, FK | `auth.users.id` 参照 |
+| updated_by | uuid | FK | `auth.users.id` 参照 |
 | updated_kino_id | text |  | 更新機能ID |
 | deleted_at | timestamp |  | 削除日 |
 
@@ -84,10 +81,10 @@
 | id | uuid | PK | タグID |
 | name | varchar | NOT NULL, Unique | タグ名 |
 | created_at | timestamp |  | 作成日(DEFAULT now()) |
-| created_by | uuid | PK, FK | `t_profile.id` 参照 |
+| created_by | uuid | FK | `t_profile.id` 参照 |
 | created_kino_id | text |  | 作成機能ID |
 | updated_at | timestamp |  | 更新日(DEFAULT now()) |
-| updated_by | uuid | PK, FK | `t_profile.id` 参照 |
+| updated_by | uuid | FK | `t_profile.id` 参照 |
 | updated_kino_id | text |  | 更新機能ID |
 | deleted_at | timestamp |  | 削除日 |
 
@@ -98,10 +95,10 @@
 | profile_id | uuid | PK, FK | `t_profile.id` 参照 |
 | skill_tag_id | uuid | PK, FK | `m_profile_skill_tag.id` 参照 |
 | created_at | timestamp |  | 作成日(DEFAULT now()) |
-| created_by | uuid | PK, FK | `t_profile.id` 参照 |
+| created_by | uuid | FK | `t_profile.id` 参照 |
 | created_kino_id | text |  | 作成機能ID |
 | updated_at | timestamp |  | 更新日(DEFAULT now()) |
-| updated_by | uuid | PK, FK | `t_profile.id` 参照 |
+| updated_by | uuid | FK | `t_profile.id` 参照 |
 | updated_kino_id | text |  | 更新機能ID |
 | deleted_at | timestamp |  | 削除日 |
 
@@ -122,10 +119,10 @@
 | is_personal | boolean | DEFAULT false | 個人スペースフラグ |
 | avatar_url | text |  | アイコンURL |
 | created_at | timestamp |  | 作成日(DEFAULT now()) |
-| created_by | uuid | PK, FK | `t_profile.id` 参照 |
+| created_by | uuid | FK | `t_profile.id` 参照 |
 | created_kino_id | text |  | 作成機能ID |
 | updated_at | timestamp |  | 更新日(DEFAULT now()) |
-| updated_by | uuid | PK, FK | `t_profile.id` 参照 |
+| updated_by | uuid | FK | `t_profile.id` 参照 |
 | updated_kino_id | text |  | 更新機能ID |
 | deleted_at | timestamp |  | 削除日 |
 
@@ -138,16 +135,41 @@
 | role | varchar | NOT NULL | 権限 (owner, admin, member) |
 | status | varchar | NOT NULL | 状態 (active, inviting, left) |
 | created_at | timestamp |  | 作成日(DEFAULT now()) |
-| created_by | uuid | PK, FK | `t_profile.id` 参照 |
+| created_by | uuid | FK | `t_profile.id` 参照 |
 | created_kino_id | text |  | 作成機能ID |
 | updated_at | timestamp |  | 更新日(DEFAULT now()) |
-| updated_by | uuid | PK, FK | `t_profile.id` 参照 |
+| updated_by | uuid | FK | `t_profile.id` 参照 |
 | updated_kino_id | text |  | 更新機能ID |
 | deleted_at | timestamp |  | 削除日 |
 
 ---
 
-### 3. プロジェクト系
+### 3. プロジェクト設定系
+
+#### ■ m_space_project_category (スペースプロジェクトカテゴリ)
+
+※RLSで制御は行わないが、スペース内で選択できるマスタとする。  
+=>スペースIDを設定し、スペース内で設定した範囲の中から選択してもらうようにしておく
+
+| カラム名 | 型 | 制約 | 説明 |
+| --- | --- | --- | --- |
+| id | uuid | PK | カテゴリID |
+| space_id | uuid | FK | `t_space.id` 参照 |
+| name | varchar | NOT NULL | カテゴリ名 (Web開発等) |
+| start_date | date |  | 開始予定日 |
+| end_date | date |  | 終了予定日 |
+| icon_url | text |  | アイコンURL |
+| created_at | timestamp |  | 作成日(DEFAULT now()) |
+| created_by | uuid | FK | `t_profile.id` 参照 |
+| created_kino_id | text |  | 作成機能ID |
+| updated_at | timestamp |  | 更新日(DEFAULT now()) |
+| updated_by | uuid | FK | `t_profile.id` 参照 |
+| updated_kino_id | text |  | 更新機能ID |
+| deleted_at | timestamp |  | 削除日 |
+
+---
+
+### 4. プロジェクト系
 
 スペース内に作成されるプロジェクト単位です。
 
@@ -168,31 +190,10 @@
 | end_date | date |  | 終了予定日 |
 | icon_url | text |  | アイコンURL |
 | created_at | timestamp |  | 作成日(DEFAULT now()) |
-| created_by | uuid | PK, FK | `t_profile.id` 参照 |
+| created_by | uuid | FK | `t_profile.id` 参照 |
 | created_kino_id | text |  | 作成機能ID |
 | updated_at | timestamp |  | 更新日(DEFAULT now()) |
-| updated_by | uuid | PK, FK | `t_profile.id` 参照 |
-| updated_kino_id | text |  | 更新機能ID |
-| deleted_at | timestamp |  | 削除日 |
-
-#### ■ m_project_category (プロジェクトカテゴリマスタ)
-
-※RLSで制御は行わないが、スペース内で選択できるマスタとする。  
-=>スペースIDを設定し、スペース内で設定した範囲の中から選択してもらうようにしておく
-
-| カラム名 | 型 | 制約 | 説明 |
-| --- | --- | --- | --- |
-| id | uuid | PK | カテゴリID |
-| space_id | uuid | FK | `t_space.id` 参照 |
-| name | varchar | NOT NULL | カテゴリ名 (Web開発等) |
-| start_date | date |  | 開始予定日 |
-| end_date | date |  | 終了予定日 |
-| icon_url | text |  | アイコンURL |
-| created_at | timestamp |  | 作成日(DEFAULT now()) |
-| created_by | uuid | PK, FK | `t_profile.id` 参照 |
-| created_kino_id | text |  | 作成機能ID |
-| updated_at | timestamp |  | 更新日(DEFAULT now()) |
-| updated_by | uuid | PK, FK | `t_profile.id` 参照 |
+| updated_by | uuid | FK | `t_profile.id` 参照 |
 | updated_kino_id | text |  | 更新機能ID |
 | deleted_at | timestamp |  | 削除日 |
 
@@ -204,10 +205,10 @@
 | profile_id | uuid | PK, FK | `t_profile.id` 参照 |
 | role | varchar | NOT NULL | 権限 (owner, admin, member, viewer) |
 | created_at | timestamp |  | 作成日(DEFAULT now()) |
-| created_by | uuid | PK, FK | `t_profile.id` 参照 |
+| created_by | uuid | FK | `t_profile.id` 参照 |
 | created_kino_id | text |  | 作成機能ID |
 | updated_at | timestamp |  | 更新日(DEFAULT now()) |
-| updated_by | uuid | PK, FK | `t_profile.id` 参照 |
+| updated_by | uuid | FK | `t_profile.id` 参照 |
 | updated_kino_id | text |  | 更新機能ID |
 | deleted_at | timestamp |  | 削除日 |
 
@@ -218,28 +219,15 @@
 | カラム名 | 型 | 制約 | 説明 |
 | --- | --- | --- | --- |
 | id | uuid | PK | 要項ID |
+| project_id | uuid | PK, FK | `t_project.id` 参照 |
 | content | text | NOT NULL | 要項内容 |
 | is_required | boolean |  | 必須フラグ |
 | sort_order | integer |  | 並び順 |
 | created_at | timestamp |  | 作成日(DEFAULT now()) |
-| created_by | uuid | PK, FK | `t_profile.id` 参照 |
+| created_by | uuid | FK | `t_profile.id` 参照 |
 | created_kino_id | text |  | 作成機能ID |
 | updated_at | timestamp |  | 更新日(DEFAULT now()) |
-| updated_by | uuid | PK, FK | `t_profile.id` 参照 |
-| updated_kino_id | text |  | 更新機能ID |
-| deleted_at | timestamp |  | 削除日 |
-
-#### ■ r_project_requirement (プロジェクト募集要項リレーション)
-
-| カラム名 | 型 | 制約 | 説明 |
-| --- | --- | --- | --- |
-| project_id | uuid | PK, FK | `t_project.id` 参照 |
-| requirement_id | uuid | PK, FK | `t_project_requirement.id` 参照 |
-| created_at | timestamp |  | 作成日(DEFAULT now()) |
-| created_by | uuid | PK, FK | `t_profile.id` 参照 |
-| created_kino_id | text |  | 作成機能ID |
-| updated_at | timestamp |  | 更新日(DEFAULT now()) |
-| updated_by | uuid | PK, FK | `t_profile.id` 参照 |
+| updated_by | uuid | FK | `t_profile.id` 参照 |
 | updated_kino_id | text |  | 更新機能ID |
 | deleted_at | timestamp |  | 削除日 |
 
@@ -254,10 +242,10 @@
 | space_id | uuid | FK | `t_space.id` 参照 |
 | name | varchar | NOT NULL | ツール名 |
 | created_at | timestamp |  | 作成日(DEFAULT now()) |
-| created_by | uuid | PK, FK | `t_profile.id` 参照 |
+| created_by | uuid | FK | `t_profile.id` 参照 |
 | created_kino_id | text |  | 作成機能ID |
 | updated_at | timestamp |  | 更新日(DEFAULT now()) |
-| updated_by | uuid | PK, FK | `t_profile.id` 参照 |
+| updated_by | uuid | FK | `t_profile.id` 参照 |
 | updated_kino_id | text |  | 更新機能ID |
 | deleted_at | timestamp |  | 削除日 |
 
@@ -268,16 +256,16 @@
 | project_id | uuid | PK, FK | `t_project.id` 参照 |
 | tool_id | uuid | PK, FK | `m_project_tool.id` 参照 |
 | created_at | timestamp |  | 作成日(DEFAULT now()) |
-| created_by | uuid | PK, FK | `t_profile.id` 参照 |
+| created_by | uuid | FK | `t_profile.id` 参照 |
 | created_kino_id | text |  | 作成機能ID |
 | updated_at | timestamp |  | 更新日(DEFAULT now()) |
-| updated_by | uuid | PK, FK | `t_profile.id` 参照 |
+| updated_by | uuid | FK | `t_profile.id` 参照 |
 | updated_kino_id | text |  | 更新機能ID |
 | deleted_at | timestamp |  | 削除日 |
 
 ---
 
-### 4. タスク・ステータス設定系
+### 5. タスク・ステータス設定系
 
 プロジェクトごとにカスタマイズ可能なタスク設定です。
 
@@ -293,24 +281,10 @@
 | name | varchar | NOT NULL | カテゴリ名 (開発、設計等) |
 | sort_order | integer |  | 並び順 |
 | created_at | timestamp |  | 作成日(DEFAULT now()) |
-| created_by | uuid | PK, FK | `t_profile.id` 参照 |
+| created_by | uuid | FK | `t_profile.id` 参照 |
 | created_kino_id | text |  | 作成機能ID |
 | updated_at | timestamp |  | 更新日(DEFAULT now()) |
-| updated_by | uuid | PK, FK | `t_profile.id` 参照 |
-| updated_kino_id | text |  | 更新機能ID |
-| deleted_at | timestamp |  | 削除日 |
-
-#### ■ r_project_task_category (プロジェクトタスクカテゴリリレーション)
-
-| カラム名 | 型 | 制約 | 説明 |
-| --- | --- | --- | --- |
-| project_id | uuid | PK, FK | `t_project.id` 参照 |
-| category_id | uuid | PK, FK | `m_project_task_category.id` 参照 |
-| created_at | timestamp |  | 作成日(DEFAULT now()) |
-| created_by | uuid | PK, FK | `t_profile.id` 参照 |
-| created_kino_id | text |  | 作成機能ID |
-| updated_at | timestamp |  | 更新日(DEFAULT now()) |
-| updated_by | uuid | PK, FK | `t_profile.id` 参照 |
+| updated_by | uuid | FK | `t_profile.id` 参照 |
 | updated_kino_id | text |  | 更新機能ID |
 | deleted_at | timestamp |  | 削除日 |
 
@@ -322,33 +296,20 @@
 | カラム名 | 型 | 制約 | 説明 |
 | --- | --- | --- | --- |
 | id | uuid | PK | ステータスID |
+| project_id | uuid | FK | `t_project.id` 参照 |
 | name | varchar | NOT NULL | 状態名 (未対応、着手中等) |
 | sort_order | integer |  | 並び順 |
 | created_at | timestamp |  | 作成日(DEFAULT now()) |
-| created_by | uuid | PK, FK | `t_profile.id` 参照 |
+| created_by | uuid | FK | `t_profile.id` 参照 |
 | created_kino_id | text |  | 作成機能ID |
 | updated_at | timestamp |  | 更新日(DEFAULT now()) |
-| updated_by | uuid | PK, FK | `t_profile.id` 参照 |
-| updated_kino_id | text |  | 更新機能ID |
-| deleted_at | timestamp |  | 削除日 |
-
-#### ■ r_project_task_status (プロジェクトタスクステータスリレーション)
-
-| カラム名 | 型 | 制約 | 説明 |
-| --- | --- | --- | --- |
-| project_id | uuid | PK, FK | `t_project.id` 参照 |
-| status_id | uuid | PK, FK | `m_project_task_status.id` 参照 |
-| created_at | timestamp |  | 作成日(DEFAULT now()) |
-| created_by | uuid | PK, FK | `t_profile.id` 参照 |
-| created_kino_id | text |  | 作成機能ID |
-| updated_at | timestamp |  | 更新日(DEFAULT now()) |
-| updated_by | uuid | PK, FK | `t_profile.id` 参照 |
+| updated_by | uuid | FK | `t_profile.id` 参照 |
 | updated_kino_id | text |  | 更新機能ID |
 | deleted_at | timestamp |  | 削除日 |
 
 ---
 
-### 5. タスク本体(添付ファイル)
+### 6. タスク本体(添付ファイル)
 
 #### ■ t_task (タスクトラン)
 
@@ -361,8 +322,8 @@
 | priority | varchar |  | 優先度 (low, medium, high) |
 | main_assignee_id | uuid | FK | 主担当者 (`t_profile.id`) |
 | reviewer_id | uuid | FK | レビュアー (`t_profile.id`) |
-| category_rel_id | uuid | FK | `r_project_task_category.id` |
-| status_rel_id | uuid | FK | `r_project_task_status.id` |
+| category_id | uuid | FK | `m_project_task_category.id` |
+| status_id | uuid | FK | `m_project_task_status.id` |
 | plan_start_at | timestamp |  | 作業開始予定日 |
 | plan_end_at | timestamp |  | 作業終了予定日 |
 | actual_start_at | timestamp |  | 作業開始実績日 |
@@ -371,10 +332,10 @@
 | actual_hours | numeric |  | 実績工数 |
 | sort_order | integer |  | 同一カテゴリ内の並び順 |
 | created_at | timestamp |  | 作成日(DEFAULT now()) |
-| created_by | uuid | PK, FK | `t_profile.id` 参照 |
+| created_by | uuid | FK | `t_profile.id` 参照 |
 | created_kino_id | text |  | 作成機能ID |
 | updated_at | timestamp |  | 更新日(DEFAULT now()) |
-| updated_by | uuid | PK, FK | `t_profile.id` 参照 |
+| updated_by | uuid | FK | `t_profile.id` 参照 |
 | updated_kino_id | text |  | 更新機能ID |
 | deleted_at | timestamp |  | 削除日 |
 
@@ -385,10 +346,10 @@
 | task_id | uuid | PK, FK | `t_task.id` 参照 |
 | profile_id | uuid | PK, FK | `t_profile.id` 参照 |
 | created_at | timestamp |  | 作成日(DEFAULT now()) |
-| created_by | uuid | PK, FK | `t_profile.id` 参照 |
+| created_by | uuid | FK | `t_profile.id` 参照 |
 | created_kino_id | text |  | 作成機能ID |
 | updated_at | timestamp |  | 更新日(DEFAULT now()) |
-| updated_by | uuid | PK, FK | `t_profile.id` 参照 |
+| updated_by | uuid | FK | `t_profile.id` 参照 |
 | updated_kino_id | text |  | 更新機能ID |
 | deleted_at | timestamp |  | 削除日 |
 
@@ -399,32 +360,19 @@
 | カラム名 | 型 | 制約 | 説明 |
 | --- | --- | --- | --- |
 | id | uuid | PK | ファイルID |
+| task_id | uuid | PK, FK | `t_task.id` 参照 |
 | file_url | text | NOT NULL | 添付ファイルURL |
 | created_at | timestamp |  | 作成日(DEFAULT now()) |
-| created_by | uuid | PK, FK | `t_profile.id` 参照 |
+| created_by | uuid | FK | `t_profile.id` 参照 |
 | created_kino_id | text |  | 作成機能ID |
 | updated_at | timestamp |  | 更新日(DEFAULT now()) |
-| updated_by | uuid | PK, FK | `t_profile.id` 参照 |
-| updated_kino_id | text |  | 更新機能ID |
-| deleted_at | timestamp |  | 削除日 |
-
-#### ■ r_task_attachment (タスク添付ファイルリレーション)
-
-| カラム名 | 型 | 制約 | 説明 |
-| --- | --- | --- | --- |
-| task_id | uuid | PK, FK | `t_task.id` 参照 |
-| attachment_id | uuid | PK, FK | `t_task_attachment.id` 参照 |
-| created_at | timestamp |  | 作成日(DEFAULT now()) |
-| created_by | uuid | PK, FK | `t_profile.id` 参照 |
-| created_kino_id | text |  | 作成機能ID |
-| updated_at | timestamp |  | 更新日(DEFAULT now()) |
-| updated_by | uuid | PK, FK | `t_profile.id` 参照 |
+| updated_by | uuid | FK | `t_profile.id` 参照 |
 | updated_kino_id | text |  | 更新機能ID |
 | deleted_at | timestamp |  | 削除日 |
 
 ---
 
-### 6. お知らせ/通知系
+### 7. お知らせ/通知系
 
 スペース/プロジェクト毎に作成されるお知らせ情報の管理トランです。
 
@@ -444,10 +392,10 @@ target_(space/project/profile)_idの値によってどのスペース、プロ�
 | target_profile_id | uuid | FK | `t_profile.id` 参照 または null |
 | parameters | jsonb |  | パラメータ (遷移先ID/パス等) |
 | created_at | timestamp |  | 作成日(DEFAULT now()) |
-| created_by | uuid | PK, FK | `t_profile.id` 参照 |
+| created_by | uuid | FK | `t_profile.id` 参照 |
 | created_kino_id | text |  | 作成機能ID |
 | updated_at | timestamp |  | 更新日(DEFAULT now()) |
-| updated_by | uuid | PK, FK | `t_profile.id` 参照 |
+| updated_by | uuid | FK | `t_profile.id` 参照 |
 | updated_kino_id | text |  | 更新機能ID |
 | deleted_at | timestamp |  | 削除日 |
 
@@ -456,10 +404,11 @@ target_(space/project/profile)_idの値によってどのスペース、プロ�
 | カラム名 | 型 | 制約 | 説明 |
 | --- | --- | --- | --- |
 | notification_id | uuid | PK, FK | `t_notification.id` 参照 |
+| profile_id | uuid | PK, FK | `t_profile.id` 参照 |
 | created_at | timestamp |  | 作成日(DEFAULT now()) |
-| created_by | uuid | PK, FK | `t_profile.id` 参照 |
+| created_by | uuid | FK | `t_profile.id` 参照 |
 | created_kino_id | text |  | 作成機能ID |
 | updated_at | timestamp |  | 更新日(DEFAULT now()) |
-| updated_by | uuid | PK, FK | `t_profile.id` 参照 |
+| updated_by | uuid | FK | `t_profile.id` 参照 |
 | updated_kino_id | text |  | 更新機能ID |
 | deleted_at | timestamp |  | 削除日 |

@@ -30,17 +30,13 @@ DROP VIEW IF EXISTS public.v_profile CASCADE;
 -- ※ CASCADEにより、各テーブルの updated_at トリガーや外部キー制約もまとめて削除されます。
 DROP TABLE IF EXISTS public.t_notification_read CASCADE;
 DROP TABLE IF EXISTS public.t_notification CASCADE;
-DROP TABLE IF EXISTS public.r_task_attachment CASCADE;
 DROP TABLE IF EXISTS public.t_task_attachment CASCADE;
 DROP TABLE IF EXISTS public.r_task_assignee CASCADE;
 DROP TABLE IF EXISTS public.t_task CASCADE;
-DROP TABLE IF EXISTS public.r_project_task_status CASCADE;
 DROP TABLE IF EXISTS public.m_project_task_status CASCADE;
-DROP TABLE IF EXISTS public.r_project_task_category CASCADE;
 DROP TABLE IF EXISTS public.m_project_task_category CASCADE;
 DROP TABLE IF EXISTS public.r_project_tool CASCADE;
 DROP TABLE IF EXISTS public.m_project_tool CASCADE;
-DROP TABLE IF EXISTS public.r_project_requirement CASCADE;
 DROP TABLE IF EXISTS public.t_project_requirement CASCADE;
 DROP TABLE IF EXISTS public.r_project_member CASCADE;
 DROP TABLE IF EXISTS public.t_project CASCADE;

@@ -68,6 +68,6 @@ CREATE TRIGGER trg_r_profile_skill_tag_updated_at BEFORE UPDATE ON public.r_prof
 -- =========================================
 -- 4. ビューの構築 (論理削除フィルタリング済)
 -- =========================================
-CREATE VIEW public.v_profile AS SELECT * FROM public.t_profile WHERE deleted_at IS NULL;
-CREATE VIEW public.v_profile_skill_tag AS SELECT * FROM public.m_profile_skill_tag WHERE deleted_at IS NULL;
-CREATE VIEW public.v_profile_skill_relation AS SELECT * FROM public.r_profile_skill_tag WHERE deleted_at IS NULL;
+-- CREATE VIEW public.v_profile AS SELECT * FROM public.t_profile WHERE deleted_at IS NULL;
+-- CREATE VIEW public.v_profile_skill_tag AS SELECT * FROM public.m_profile_skill_tag WHERE deleted_at IS NULL;
+-- CREATE VIEW public.v_profile_skill_relation AS SELECT * FROM public.r_profile_skill_tag WHERE deleted_at IS NULL;

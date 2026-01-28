@@ -24,14 +24,15 @@ CREATE TABLE public.t_notification (
 -- 通知既読トラン (t_notification_read)
 CREATE TABLE public.t_notification_read (
     notification_id uuid REFERENCES public.t_notification(id) ON DELETE CASCADE,
+    profile_id uuid REFERENCES public.t_profile(id) ON DELETE CASCADE,
     created_at timestamp DEFAULT now(),
-    created_by uuid NOT NULL REFERENCES public.t_profile(id), -- 既読したユーザー
+    created_by uuid NOT NULL REFERENCES public.t_profile(id),
     created_kino_id text,
     updated_at timestamp DEFAULT now(),
     updated_by uuid REFERENCES public.t_profile(id),
     updated_kino_id text,
     deleted_at timestamp,
-    PRIMARY KEY (notification_id, created_by)
+    PRIMARY KEY (notification_id, profile_id)
 );
 
 -- =========================================
@@ -48,8 +49,8 @@ CREATE TRIGGER trg_t_notification_read_updated_at
 -- =========================================
 -- 3. ビューの構築 (論理削除フィルタリング済)
 -- =========================================
-CREATE VIEW public.v_notification AS 
-    SELECT * FROM public.t_notification WHERE deleted_at IS NULL;
+-- CREATE VIEW public.v_notification AS 
+--     SELECT * FROM public.t_notification WHERE deleted_at IS NULL;
 
-CREATE VIEW public.v_notification_read AS 
-    SELECT * FROM public.t_notification_read WHERE deleted_at IS NULL;
+-- CREATE VIEW public.v_notification_read AS 
+--     SELECT * FROM public.t_notification_read WHERE deleted_at IS NULL;

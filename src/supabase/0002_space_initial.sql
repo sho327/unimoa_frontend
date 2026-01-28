@@ -49,11 +49,11 @@ CREATE TRIGGER trg_r_space_updated_at
 -- =========================================
 -- 3. ビューの構築 (論理削除フィルタリング済)
 -- =========================================
-CREATE VIEW public.v_space AS 
-    SELECT * FROM public.t_space WHERE deleted_at IS NULL;
+-- CREATE VIEW public.v_space AS 
+--     SELECT * FROM public.t_space WHERE deleted_at IS NULL;
 
-CREATE VIEW public.v_space_relation AS 
-    SELECT * FROM public.r_space WHERE deleted_at IS NULL;
+-- CREATE VIEW public.v_space_relation AS 
+--     SELECT * FROM public.r_space WHERE deleted_at IS NULL;
 
 -- =========================================
 -- 4. 個人スペース削除防止ロジック
