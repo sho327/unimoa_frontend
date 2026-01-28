@@ -6,16 +6,24 @@ import { useClickOutside } from "@/hooks/useClickOutside";
 import { NotificationDropdown, Notification } from "./notificationDropdown";
 import { SpaceSelectDropdown } from "./spaceSelectDropdown";
 import { UserMenuDropdown } from "./userMenuDropdown";
+// Types
+import { T_SpaceRow } from '@/types/supabase/space'
 
-export default function AppHeader() {
+export default function AppHeader({
+    activeSpace,
+    spaces,
+}: {
+    activeSpace: T_SpaceRow | null
+    spaces: T_SpaceRow[]
+}) {
     const {
         sidebarExpanded,
         setSidebarExpanded,
         mobileMenuOpen,
         setMobileMenuOpen,
-        activeSpace,
-        setActiveSpace,
-        spaces
+        // activeSpace,
+        // setActiveSpace,
+        // spaces
     } = useAppStore();
 
     return (
@@ -74,7 +82,6 @@ export default function AppHeader() {
                     <SpaceSelectDropdown
                         activeSpace={activeSpace}
                         spaces={spaces}
-                        onSelectSpace={setActiveSpace}
                     />
                 </div>
             </div>

@@ -7,18 +7,27 @@ import { pageRoutes } from "@/components/constants";
 import { SpaceSelectDropdown } from "@/components/layout/spaceSelectDropdown";
 import { ChevronLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
+// Types
+import { T_SpaceRow } from "@/types/supabase/space";
+import { T_ProjectRow } from "@/types/supabase/project";
 
-export default function Sidebar() {
+interface SidebarProps {
+    activeSpace: T_SpaceRow | null
+    spaces: T_SpaceRow[];
+    activeProject: T_ProjectRow | null;
+}
+
+export default function Sidebar({
+    activeSpace,
+    spaces,
+    activeProject,
+}: SidebarProps) {
     const pathname = usePathname();
     const {
         sidebarExpanded,
         mobileMenuOpen,
         setMobileMenuOpen,
-        activeSpace,
-        spaces,
-        setActiveSpace,
     } = useAppStore();
-
     const isProjectArea = pathname.startsWith("/project/xxx");
 
     const projectMenuItems = [
@@ -69,7 +78,7 @@ export default function Sidebar() {
     const menuItems = [
         {
             label: "ダッシュボード",
-            href: pageRoutes.MAIN.DASHBOARD,
+            href: pageRoutes.SPACES.DEFAULT.DASHBOARD(activeSpace?.id || ""),
             icon: (
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path
@@ -83,7 +92,7 @@ export default function Sidebar() {
         },
         {
             label: "プロジェクト",
-            href: pageRoutes.MAIN.PROJECT_LIST,
+            href: pageRoutes.SPACES.DEFAULT.PROJECTS(activeSpace?.id || ""),
             icon: (
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path
@@ -177,10 +186,10 @@ export default function Sidebar() {
                                     <SpaceSelectDropdown
                                         activeSpace={activeSpace}
                                         spaces={spaces}
-                                        onSelectSpace={(space) => {
-                                            setActiveSpace(space);
-                                            setMobileMenuOpen(false);
-                                        }}
+                                        // onSelectSpace={(space) => {
+                                        //     setActiveSpace(space);
+                                        //     setMobileMenuOpen(false);
+                                        // }}
                                         triggerWidthClassName="w-full"
                                         dropdownWidthClassName="w-full"
                                     />
@@ -197,10 +206,7 @@ export default function Sidebar() {
                                     )}
 
                                     {projectMenuItems.map((item) => {
-                                        const currentPath = pathname.endsWith("/") && pathname !== "/" ? pathname.slice(0, -1) : pathname;
-                                        const isActive =
-                                            currentPath === item.href ||
-                                            currentPath.startsWith(`${item.href}/`);
+                                        const isActive = pathname.startsWith(item.href);
                                         return (
                                             <Link
                                                 key={item.href}
@@ -233,12 +239,7 @@ export default function Sidebar() {
                                     )}
 
                                     {menuItems.map((item) => {
-                                        // パスの末尾スラッシュ有無やネスト配下もハイライト対象にする
-                                        const currentPath = pathname.endsWith("/") && pathname !== "/" ? pathname.slice(0, -1) : pathname;
-                                        const isActive =
-                                            currentPath === item.href ||
-                                            currentPath.startsWith(`${item.href}/`) ||
-                                            (currentPath === "/" && item.href === pageRoutes.MAIN.DASHBOARD);
+                                        const isActive = pathname.startsWith(item.href);
                                         return (
                                             <Link
                                                 key={item.href}

@@ -6,10 +6,10 @@ export type Space = {
     projects?: any[]; // 必要に応じて詳細化
 };
 
-const DEFAULT_SPACES: Space[] = [
-    { id: "s1", name: "田中AIデザインゼミ", projects: [] },
-    { id: "s2", name: "写真部 公式", projects: [] },
-];
+// const DEFAULT_SPACES: Space[] = [
+//     { id: "s1", name: "田中AIデザインゼミ", projects: [] },
+//     { id: "s2", name: "写真部 公式", projects: [] },
+// ];
 
 type AppState = {
     // UI State
@@ -19,8 +19,8 @@ type AppState = {
     searchQuery: string;
 
     // Data State
-    activeSpace: Space;
-    spaces: Space[];
+    // activeSpace: Space;
+    // spaces: Space[];
 
     // Global UI State
     isLoading: boolean;
@@ -30,7 +30,7 @@ type AppState = {
     setMobileMenuOpen: (open: boolean) => void;
     setSearchOpen: (open: boolean) => void;
     setSearchQuery: (query: string) => void;
-    setActiveSpace: (space: Space) => void;
+    // setActiveSpace: (space: Space) => void;
     setIsLoading: (isLoading: boolean) => void;
 };
 
@@ -40,8 +40,8 @@ export const useAppStore = create<AppState>((set) => ({
     mobileMenuOpen: false,
     searchOpen: false,
     searchQuery: "",
-    activeSpace: DEFAULT_SPACES[0],
-    spaces: DEFAULT_SPACES,
+    // activeSpace: DEFAULT_SPACES[0],
+    // spaces: DEFAULT_SPACES,
     isLoading: false,
 
     // Actions
@@ -49,6 +49,6 @@ export const useAppStore = create<AppState>((set) => ({
     setMobileMenuOpen: (open) => set({ mobileMenuOpen: open }),
     setSearchOpen: (open) => set({ searchOpen: open }),
     setSearchQuery: (query) => set({ searchQuery: query }),
-    setActiveSpace: (space) => set({ activeSpace: space }),
+    // setActiveSpace: (space) => set({ activeSpace: space }),
     setIsLoading: (loading) => set({ isLoading: loading }),
 }));

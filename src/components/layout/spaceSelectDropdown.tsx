@@ -4,12 +4,14 @@ import React, { useState, useRef } from "react";
 import { ChevronDown, Plus, Check } from "lucide-react";
 import { useClickOutside } from "@/hooks/useClickOutside";
 import { useMobile } from "@/hooks/useMobile";
-import type { Space } from "@/store";
+// Types
+import { T_SpaceRow } from '@/types/supabase/space'
+// Store
+import { useAppStore } from "@/store";
 
 interface SpaceSelectDropdownProps {
-    activeSpace: Space;
-    spaces: Space[];
-    onSelectSpace: (space: Space) => void;
+    activeSpace: T_SpaceRow | null;
+    spaces: T_SpaceRow[];
     /**
      * トリガーボタンの幅を上書きしたい場合に指定します（例: "w-full"）
      */
@@ -28,24 +30,30 @@ interface SpaceSelectDropdownProps {
 export function SpaceSelectDropdown({
     activeSpace,
     spaces,
-    onSelectSpace,
     triggerWidthClassName,
     dropdownWidthClassName,
 }: SpaceSelectDropdownProps) {
+    const {
+        setMobileMenuOpen,
+    } = useAppStore();
     const isMobile = useMobile();
     const [isOpen, setIsOpen] = useState(false);
     const containerRef = useRef<HTMLDivElement>(null);
 
     useClickOutside(containerRef, () => setIsOpen(false), isOpen);
 
-    const handleSelectSpace = (space: Space) => {
-        onSelectSpace(space);
+    const handleSelectSpace = (space: T_SpaceRow) => {
+        // onSelectSpace(space);
+        console.log(space)
         setIsOpen(false);
+        setMobileMenuOpen(false);
     };
 
     const onClickCreateSpace = (e: React.MouseEvent) => {
         e.stopPropagation();
         console.log("スペース新規作成ボタンが押下されました");
+        setIsOpen(false);
+        setMobileMenuOpen(false);
     };
 
     const triggerWidth = triggerWidthClassName ?? (isMobile ? "w-40" : "w-56");
@@ -66,7 +74,7 @@ export function SpaceSelectDropdown({
                         <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
                     </svg>
                     <span className={`truncate text-[15px] font-bold text-left ${isOpen ? "text-neutral" : ""}`}>
-                        {activeSpace.name}
+                        {activeSpace?.display_name}
                     </span>
                 </div>
                 <ChevronDown className={`h-4 w-4 shrink-0 transition-transform duration-200 text-secondary ${isOpen ? "rotate-180 text-primary" : ""}`} />
@@ -85,16 +93,16 @@ export function SpaceSelectDropdown({
                             <button
                                 key={space.id}
                                 onClick={() => handleSelectSpace(space)}
-                                className={`w-full flex items-center justify-between px-4 py-3 text-[15px] transition-colors ${space.id === activeSpace.id
+                                className={`w-full flex items-center justify-between px-4 py-3 text-[15px] transition-colors ${space.id === activeSpace?.id
                                     ? "bg-primary/10 text-primary font-bold"
                                     : "hover:bg-gray-50"
                                     }`}
                             >
                                 <div className="flex items-center gap-3 min-w-0">
-                                    <div className={`w-2 h-2 rounded-full shrink-0 ${space.id === activeSpace.id ? "bg-primary" : "bg-gray-200"}`} />
-                                    <span className="text-sm truncate">{space.name}</span>
+                                    <div className={`w-2 h-2 rounded-full shrink-0 ${space.id === activeSpace?.id ? "bg-primary" : "bg-gray-200"}`} />
+                                    <span className="text-sm truncate">{space.display_name}</span>
                                 </div>
-                                {space.id === activeSpace.id && (
+                                {space.id === activeSpace?.id && (
                                     <Check className="h-4 w-4 shrink-0" />
                                 )}
                             </button>

@@ -1,11 +1,10 @@
 // Modules
-import { supabaseServer } from '@/lib/supabase/server'
+import { cache } from 'react'
 import { SupabaseClient } from '@supabase/supabase-js';
+import { supabaseServer } from '@/lib/supabase/server'
 import type { User } from '@supabase/supabase-js'
 // Types
-import { T_ProfileRow } from '@/types/supabase/profile'
-import { T_SpaceRow } from '@/types/supabase/space'
-import { T_NotificationRow } from '@/types/supabase/notification'
+import { currentUser } from '@/types/repository/common'
 
 // ==========================================
 // 規約（Naming & Structure Conventions）
@@ -19,25 +18,21 @@ import { T_NotificationRow } from '@/types/supabase/notification'
 // 4. 中間テーブル: 呼び出し側に中間テーブルを意識させない。メソッド名に r_ 等を入れず、ビジネス的な目的（listSkillsByProfileId 等）で命名する。
 // 5. 戻り値: PostgrestResponse を直接返さず、データの生値（T[] または T | null）を返す。
 
-// プロフィールの Row に、関連する Space のリスト（spaces）をネストして追加
-export type currentUser = T_ProfileRow & {
-    spaces: T_SpaceRow[]
-    notifications: T_NotificationRow[]
-}
 export const commonRepository = {
     /**
      * 現在ログインしているユーザーセッション情報を取得
+     * ※キャッシュする
      * @args
      * @createdBy KatoShogo
      * @createdAt 2026/01/26
      */
-    async getSessionUser(): Promise<User | null> {
+    getSessionUser: cache(async (): Promise<User | null> => {
         const supabase = await supabaseServer()
         const { data, error } = await supabase.auth.getUser()
 
         if (error || !data.user) return null
         return data.user
-    },
+    }),
 
     /**
      * 現在のユーザー情報を取得(プロフィール、所属スペース、お知らせ件数)
