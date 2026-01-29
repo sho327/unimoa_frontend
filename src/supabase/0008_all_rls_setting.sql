@@ -16,8 +16,8 @@ ALTER TABLE public.m_space_project_category ENABLE ROW LEVEL SECURITY;
 -- 4. プロジェクト系
 ALTER TABLE public.t_project ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.r_project_member ENABLE ROW LEVEL SECURITY;
-ALTER TABLE public.m_project_tool ENABLE ROW LEVEL SECURITY;
-ALTER TABLE public.r_project_tool ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.m_space_project_tag ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.r_space_project_tag ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.t_project_requirement ENABLE ROW LEVEL SECURITY;
 
 -- 5. タスク設定系

@@ -7,7 +7,6 @@ CREATE TABLE public.t_space (
     id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
     display_name varchar NOT NULL,
     description text,
-    owner_id uuid NOT NULL REFERENCES public.t_profile(id),
     is_personal boolean DEFAULT false,
     avatar_url text,
     created_at timestamp DEFAULT now(),
@@ -23,7 +22,7 @@ CREATE TABLE public.t_space (
 CREATE TABLE public.r_space (
     profile_id uuid REFERENCES public.t_profile(id) ON DELETE CASCADE,
     space_id uuid REFERENCES public.t_space(id) ON DELETE CASCADE,
-    role varchar NOT NULL CHECK (role IN ('admin', 'member')),
+    role varchar NOT NULL CHECK (role IN ('owner', 'admin', 'member')),
     status varchar NOT NULL CHECK (status IN ('active', 'inviting', 'left')),
     created_at timestamp DEFAULT now(),
     created_by uuid REFERENCES public.t_profile(id),
@@ -167,3 +166,16 @@ $$ LANGUAGE plpgsql SECURITY DEFINER;
 CREATE TRIGGER on_auth_user_created
 AFTER INSERT ON auth.users
 FOR EACH ROW EXECUTE FUNCTION public.handle_new_user();
+
+-- =========================================
+-- 6. UNIQUE制約
+-- =========================================
+-- Ownerは一人だけ
+CREATE UNIQUE INDEX idx_unique_owner_per_space 
+ON public.r_space (space_id)
+WHERE role = 'owner' AND deleted_at IS NULL;
+
+-- 参加メンバー重複参加の防止
+CREATE UNIQUE INDEX idx_unique_member_per_space 
+ON public.r_space (space_id, profile_id)
+WHERE deleted_at IS NULL;
