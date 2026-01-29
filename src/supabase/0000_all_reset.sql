@@ -1,28 +1,28 @@
 -- =========================================
 -- 1. ビューの削除 (依存関係の最上位)
 -- =========================================
-DROP VIEW IF EXISTS public.v_notification_read CASCADE;
-DROP VIEW IF EXISTS public.v_notification CASCADE;
-DROP VIEW IF EXISTS public.v_task_attachment_relation CASCADE;
-DROP VIEW IF EXISTS public.v_task_attachment CASCADE;
-DROP VIEW IF EXISTS public.v_task_assignee CASCADE;
-DROP VIEW IF EXISTS public.v_task CASCADE;
-DROP VIEW IF EXISTS public.v_project_task_status_relation CASCADE;
-DROP VIEW IF EXISTS public.v_project_task_status CASCADE;
-DROP VIEW IF EXISTS public.v_project_task_category_relation CASCADE;
-DROP VIEW IF EXISTS public.v_project_task_category CASCADE;
-DROP VIEW IF EXISTS public.v_project_tool_relation CASCADE;
-DROP VIEW IF EXISTS public.v_project_tool CASCADE;
-DROP VIEW IF EXISTS public.v_project_requirement_relation CASCADE;
-DROP VIEW IF EXISTS public.v_project_requirement CASCADE;
-DROP VIEW IF EXISTS public.v_project_member CASCADE;
-DROP VIEW IF EXISTS public.v_project CASCADE;
-DROP VIEW IF EXISTS public.v_space_project_category CASCADE;
-DROP VIEW IF EXISTS public.v_space_relation CASCADE;
-DROP VIEW IF EXISTS public.v_space CASCADE;
-DROP VIEW IF EXISTS public.v_profile_skill_relation CASCADE;
-DROP VIEW IF EXISTS public.v_profile_skill_tag CASCADE;
-DROP VIEW IF EXISTS public.v_profile CASCADE;
+-- DROP VIEW IF EXISTS public.v_notification_read CASCADE;
+-- DROP VIEW IF EXISTS public.v_notification CASCADE;
+-- DROP VIEW IF EXISTS public.v_task_attachment_relation CASCADE;
+-- DROP VIEW IF EXISTS public.v_task_attachment CASCADE;
+-- DROP VIEW IF EXISTS public.v_task_assignee CASCADE;
+-- DROP VIEW IF EXISTS public.v_task CASCADE;
+-- DROP VIEW IF EXISTS public.v_project_task_status_relation CASCADE;
+-- DROP VIEW IF EXISTS public.v_project_task_status CASCADE;
+-- DROP VIEW IF EXISTS public.v_project_task_category_relation CASCADE;
+-- DROP VIEW IF EXISTS public.v_project_task_category CASCADE;
+-- DROP VIEW IF EXISTS public.v_project_tool_relation CASCADE;
+-- DROP VIEW IF EXISTS public.v_project_tool CASCADE;
+-- DROP VIEW IF EXISTS public.v_project_requirement_relation CASCADE;
+-- DROP VIEW IF EXISTS public.v_project_requirement CASCADE;
+-- DROP VIEW IF EXISTS public.v_project_member CASCADE;
+-- DROP VIEW IF EXISTS public.v_project CASCADE;
+-- DROP VIEW IF EXISTS public.v_space_project_category CASCADE;
+-- DROP VIEW IF EXISTS public.v_space_relation CASCADE;
+-- DROP VIEW IF EXISTS public.v_space CASCADE;
+-- DROP VIEW IF EXISTS public.v_profile_skill_relation CASCADE;
+-- DROP VIEW IF EXISTS public.v_profile_skill_tag CASCADE;
+-- DROP VIEW IF EXISTS public.v_profile CASCADE;
 
 -- =========================================
 -- 2. テーブルの削除 (CASCADEにより紐づくトリガーも自動消滅)
@@ -35,8 +35,8 @@ DROP TABLE IF EXISTS public.r_task_assignee CASCADE;
 DROP TABLE IF EXISTS public.t_task CASCADE;
 DROP TABLE IF EXISTS public.m_project_task_status CASCADE;
 DROP TABLE IF EXISTS public.m_project_task_category CASCADE;
-DROP TABLE IF EXISTS public.r_project_tool CASCADE;
-DROP TABLE IF EXISTS public.m_project_tool CASCADE;
+DROP TABLE IF EXISTS public.r_space_project_tag CASCADE;
+DROP TABLE IF EXISTS public.m_space_project_tag CASCADE;
 DROP TABLE IF EXISTS public.t_project_requirement CASCADE;
 DROP TABLE IF EXISTS public.r_project_member CASCADE;
 DROP TABLE IF EXISTS public.t_project CASCADE;

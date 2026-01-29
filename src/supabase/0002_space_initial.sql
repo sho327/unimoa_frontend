@@ -117,7 +117,6 @@ BEGIN
   INSERT INTO public.t_space (
     display_name, 
     description, 
-    owner_id, 
     is_personal, 
     created_by, 
     updated_by,
@@ -127,7 +126,6 @@ BEGIN
   VALUES (
     base_name || 'の個人スペース', 
     base_name || 'さんの個人的なスペースです。', 
-    NEW.id, 
     TRUE, 
     NEW.id, 
     NEW.id,
@@ -150,7 +148,7 @@ BEGIN
   VALUES (
     NEW.id, 
     personal_space_id, 
-    'admin', 
+    'owner', 
     'active', 
     NEW.id, 
     NEW.id,
