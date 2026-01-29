@@ -36,11 +36,17 @@ export const spaceRepository = {
      */
     async getPersonalSpaceByOwnerId(supabase: SupabaseClient, ownerId: string): Promise<T_SpaceRow | null> {
         const { data, error } = await supabase
-            .from('t_space')
-            .select('*')
-            .eq('owner_id', ownerId)
-            .eq('is_personal', true)
+            .from('r_space')
+            .select(`
+                ...t_space!space_id (
+                    *
+                )
+            `)
+            .eq('profile_id', ownerId)
+            .eq('role', 'owner')
             .is('deleted_at', null)
+            .eq('t_space.is_personal', true)
+            .is('t_space.deleted_at', null)
             .single()
 
         if (error) return null

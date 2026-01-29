@@ -14,8 +14,3 @@ export type R_TaskAssigneeRow = Database['public']['Tables']['r_task_assignee'][
  * t_task_attachment テーブルの単一行のデータ型
  */
 export type T_TaskAttachmentRow = Database['public']['Tables']['t_task_attachment']['Row']
-
-/**
- * r_task_attachment テーブルの単一行のデータ型
- */
-export type R_TaskAttachmentRow = Database['public']['Tables']['r_task_attachment']['Row']

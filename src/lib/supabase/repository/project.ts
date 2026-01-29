@@ -2,6 +2,7 @@
 import { SupabaseClient } from '@supabase/supabase-js';
 // Types
 import { T_ProjectRow } from '@/types/supabase/project'
+import { T_ProjectWithDetail } from '@/types/repository/project'
 
 // ==========================================
 // 規約（Naming & Structure Conventions）
@@ -58,7 +59,7 @@ export const projectRepository = {
      * @createdBy KatoShogo
      * @createdAt 2026/01/29
      */
-    async listJoinedByProfileId(supabase: SupabaseClient, profileId: string): Promise<T_ProjectRow[]> {
+    async listJoinedByProfileId(supabase: SupabaseClient, profileId: string): Promise<T_ProjectWithDetail[]> {
         // r_project_member から t_profile への外部キーが複数あるため !profile_id を明示
         // t_project への結合も名示的に !project_id を指定
         const { data, error } = await supabase
@@ -66,7 +67,7 @@ export const projectRepository = {
             .select(`
                 ...t_project!project_id (
                     *,
-                    category_name: m_project_category!category_id (name)
+                    category_name: m_space_project_category!category_id (name)
                 )
             `)
             .eq('profile_id', profileId)
@@ -78,7 +79,7 @@ export const projectRepository = {
             return []
         }
 
-        return data as unknown as T_ProjectRow[]
+        return data as unknown as T_ProjectWithDetail[]
     },
 
     /**
