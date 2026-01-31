@@ -37,19 +37,13 @@ export async function fetchAuthenticatedUserData(): Promise<ProfileWithSpaces | 
     if (!user) {
         return null
     }
-
     const supabase = await supabaseServer()
-
     const { data: profileData, error } = await supabase
         .from('t_profile')
-        .select(
-            `
-				*,
-                spaces: r_space (
-                    ...t_space (*)
-                )
-			`
-        )
+        .select(`
+            *, 
+            spaces: r_space (...t_space (*))
+        `)
         .eq('id', user.id)
         .single()
 

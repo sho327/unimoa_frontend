@@ -56,7 +56,7 @@ export function UserMenuDropdown({
                 <div className="absolute top-full right-0 mt-2 w-56 bg-white border border-gray-100 rounded-2xl shadow-2xl z-[150] overflow-hidden animate-in fade-in zoom-in-95 duration-100">
                     {/* ユーザー名ヘッダー */}
                     <div className="px-4 pt-4 pb-3 border-b border-gray-200">
-                        <p className="text-base font-black text-neutral truncate leading-none mb-1">{displayUserName}</p>
+                        <p className="font-black text-neutral truncate leading-none mb-1">{displayUserName}</p>
                         <p className="text-xs mt-2 font-bold text-secondary uppercase tracking-widest leading-none">管理者</p>
                     </div>
 
@@ -64,7 +64,7 @@ export function UserMenuDropdown({
                         <Link
                             href="/profile"
                             onClick={() => setIsOpen(false)}
-                            className="flex items-center gap-2.5 px-3 py-2.5 text-[14.5px] font-bold hover:bg-gray-50 hover:text-neutral rounded-xl transition-all group"
+                            className="flex items-center gap-2.5 px-3 py-2.5 text-sm font-bold hover:bg-gray-50 hover:text-neutral rounded-xl transition-all group"
                         >
                             <User className="h-4 w-4 text-secondary group-hover:text-primary transition-colors" />
                             <span>プロフィール</span>
@@ -72,7 +72,7 @@ export function UserMenuDropdown({
                         <Link
                             href="/setting"
                             onClick={() => setIsOpen(false)}
-                            className="flex items-center gap-2.5 px-3 py-2.5 text-[14.5px] font-bold hover:bg-gray-50 hover:text-neutral rounded-xl transition-all group"
+                            className="flex items-center gap-2.5 px-3 py-2.5 text-sm font-bold hover:bg-gray-50 hover:text-neutral rounded-xl transition-all group"
                         >
                             <Settings className="h-4 w-4 text-secondary group-hover:text-primary transition-colors" />
                             <span>アプリ設定</span>
@@ -82,7 +82,7 @@ export function UserMenuDropdown({
                     <div className="border-t border-gray-100 py-1.5 px-1.5">
                         <button
                             onClick={onClickLogout}
-                            className="w-full flex items-center gap-2.5 px-3 py-2.5 text-[14.5px] font-bold text-error hover:bg-error/10 rounded-xl transition-all"
+                            className="w-full flex items-center gap-2.5 px-3 py-2.5 text-sm font-bold text-error hover:bg-error/10 rounded-xl transition-all"
                         >
                             <LogOut className="h-4 w-4" />
                             <span>ログアウト</span>

@@ -30,7 +30,7 @@ export default function ClientProjectLayout({
                     <div className="bg-white border-b border-gray-100 px-4 py-2 shrink-0 z-[100] flex items-center justify-between min-h-[56px] shadow-sm">
                         <div className="flex items-center gap-1.5 min-w-0">
                             <div className="flex flex-col min-w-0 min-h-[40px] justify-center">
-                                <span className="text-[12px] font-black text-primary/70 uppercase tracking-widest leading-none mb-1">
+                                <span className="text-[12px] font-black text-primary uppercase tracking-widest leading-none mb-1">
                                     {activeSpace.name}
                                 </span>
                                 <h2 className="text-[15px] font-black truncate text-neutral max-w-[150px] sm:max-w-xs">

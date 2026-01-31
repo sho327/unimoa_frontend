@@ -27,7 +27,7 @@ export default function ClientMainLayout({
                     <div className="bg-white border-b border-gray-100 px-4 py-2 shrink-0 z-[100] flex items-center justify-between min-h-[56px] shadow-sm">
                         <div className="flex items-center gap-3">
                             <div className="flex flex-col min-w-0 min-h-[40px] justify-center px-1">
-                                <span className="text-[12px] font-black uppercase tracking-widest leading-none mb-1">
+                                <span className="text-primary text-[12px] font-black uppercase tracking-widest leading-none mb-1">
                                     スペース
                                 </span>
                                 <h2 className="text-[15px] font-black truncate text-neutral max-w-[150px] sm:max-w-xs">

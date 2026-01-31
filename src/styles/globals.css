@@ -60,6 +60,7 @@
 
 body {
   font-family: 'Inter', 'Noto Sans JP', sans-serif;
+  background-color: var(--b1);
 }
 
 /* Auth specific styles */
@@ -95,7 +96,9 @@ body {
   animation: dropdown-pop 0.2s ease-out;
 }
 
-.table tr.active, .table tr.active:nth-child(2n), .table-zebra tbody tr:nth-child(2n) {
+.table tr.active,
+.table tr.active:nth-child(2n),
+.table-zebra tbody tr:nth-child(2n) {
   background-color: #f6f6f6;
 }
 
@@ -109,4 +112,33 @@ body {
     opacity: 1;
     transform: scale(1);
   }
+}
+
+/* --- Selection Style --- */
+::selection {
+  /* background-color: #bae6fd; */
+  /* light blue (sky-200) */
+  background-color: #bfdbfe;
+  /* blue (blue-200) */
+  color: #0f172a;
+  /* slate-900 */
+}
+
+/* --- Autofill Styles Reset --- */
+/* ブラウザの自動入力(Autofill)による背景色・文字色の変化を防止 */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
+  -webkit-text-fill-color: #1f2937 !important;
+  /* text-neutral相当のグレー */
+  -webkit-box-shadow: 0 0 0px 1000px #ffffff inset !important;
+  transition: background-color 5000s ease-in-out 0s !important;
+  caret-color: #1f2937 !important;
+  /* カーソルを強制的に表示 */
 }

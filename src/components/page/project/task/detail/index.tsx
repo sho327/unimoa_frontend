@@ -87,12 +87,15 @@ export default function TaskDetail({ projectId, taskId }: { projectId: string, t
                 </div>
                 <div className="flex items-center gap-2">
                     <Button
-                        variant="ghost"
-                        className="btn-sm text-error hover:bg-error/10 font-bold gap-1 px-3 rounded-lg transition-all"
+                        variant="error"
+                        className="flex-1 sm:flex-none !h-11 !min-h-11"
                     >
                         削除
                     </Button>
-                    <Button variant="primary" className="flex-1 sm:flex-none !h-11 !min-h-11">
+                    <Button 
+                        variant="primary" 
+                        className="flex-1 sm:flex-none !h-11 !min-h-11"
+                        >
                         編集する
                     </Button>
                 </div>
@@ -100,7 +103,7 @@ export default function TaskDetail({ projectId, taskId }: { projectId: string, t
 
             <Card>
                 <CardBody className="p-6 sm:p-8">
-                    <div className="space-y-8">
+                    <div className="space-y-6">
                         {/* ステータス・優先度 */}
                         <div className="flex items-center gap-2">
                             <span className={`text-xs font-black px-2 py-0.5 rounded-md uppercase ${getStatusClass(task.status)}`}>
@@ -109,7 +112,7 @@ export default function TaskDetail({ projectId, taskId }: { projectId: string, t
                             <span className={`text-xs font-black px-2 py-0.5 rounded-md uppercase ${getPriorityClass(task.priority)}`}>
                                 優先度:{task.priority_label}
                             </span>
-                            <span className="ml-auto text-xs font-black text-secondary tracking-tighter uppercase">
+                            <span className="ml-auto text-sm font-black text-secondary tracking-tighter uppercase">
                                 #{task.id}
                             </span>
                         </div>
