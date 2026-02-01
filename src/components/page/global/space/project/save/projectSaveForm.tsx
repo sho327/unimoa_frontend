@@ -20,11 +20,11 @@ import { formatTimestamp } from "@/utils/date"
 // Types
 import { T_ProjectWithDetail } from "@/types/repository/project"
 
-interface ProjectListCardProps {
+interface ProjectSaveFormProps {
     project: T_ProjectWithDetail;
 }
 
-export default function ProjectListCard({ project }: ProjectListCardProps) {
+export default function ProjectSaveForm({ project }: ProjectSaveFormProps) {
     const router = useRouter();
     return (
         <Card

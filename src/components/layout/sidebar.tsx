@@ -280,7 +280,7 @@ export default function Sidebar({
                                             key={item.href}
                                             href={item.href}
                                             onClick={() => setMobileMenuOpen(false)}
-                                            className={`flex items-center gap-3 w-full p-2.5 rounded-xl transition-all ${isActive
+                                            className={`flex items-center gap-3 w-full p-2.5 rounded-xl transition-all relative ${isActive
                                                 ? "bg-primary text-primary-content shadow-md shadow-primary/30"
                                                 : "text-gray-500 hover:bg-gray-50 hover:text-neutral"
                                                 } ${!sidebarExpanded && !mobileMenuOpen ? "md:justify-center md:px-0" : ""}`}
@@ -291,6 +291,9 @@ export default function Sidebar({
                                             {(sidebarExpanded || mobileMenuOpen) && (
                                                 <span className="font-bold text-[14.25px] whitespace-nowrap">{item.label}</span>
                                             )}
+                                            <span className={`absolute ${sidebarExpanded || mobileMenuOpen ? 'right-2' : 'top-1 right-1'} min-w-[18px] h-[18px] flex items-center justify-center bg-error text-error-content text-[10px] font-bold rounded-full border-2 border-white`}>
+                                                9
+                                            </span>
                                         </Link>
                                     );
                                 })}
@@ -315,7 +318,7 @@ export default function Sidebar({
                                 key={item.href}
                                 href={item.href}
                                 onClick={() => setMobileMenuOpen(false)}
-                                className={`flex items-center gap-3 w-full p-2.5 rounded-xl transition-all ${isActive
+                                className={`flex items-center gap-3 w-full p-2.5 rounded-xl transition-all relative ${isActive
                                     ? "bg-primary text-primary-content shadow-md shadow-primary/30"
                                     : "text-gray-500 hover:bg-gray-50 hover:text-neutral"
                                     } ${!sidebarExpanded && !mobileMenuOpen ? "md:justify-center md:px-0" : ""}`}
@@ -326,6 +329,9 @@ export default function Sidebar({
                                 {(sidebarExpanded || mobileMenuOpen) && (
                                     <span className="font-bold text-[14.25px] whitespace-nowrap">{item.label}</span>
                                 )}
+                                <span className={`absolute ${sidebarExpanded || mobileMenuOpen ? 'right-2' : 'top-1 right-1'} min-w-[18px] h-[18px] flex items-center justify-center bg-red-500 text-white text-[10px] font-bold rounded-full border-2 border-white`}>
+                                    10
+                                </span>
                             </Link>
                         );
                     })}

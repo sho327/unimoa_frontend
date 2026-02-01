@@ -6,8 +6,11 @@ import 'dayjs/locale/ja'; // dayjsの日本語ロケールを読み込む
 
 export function MantineProviderWrap({ children }: { children: React.ReactNode }) {
     const theme = createTheme({
-        // Mantineのコンポーネント全体のメインカラーを指定したパレット名にする
+        black: 'oklch(0.193 0.042 265.8)',
+        white: '#ffffff',
+
         primaryColor: 'brand',
+        primaryShade: 6,
         colors: {
             // 10段階のカラーパレット（薄い色 -> 濃い色）。
             // 面倒な場合、使いたい色(真ん中あたり)以外は適当に近い色でも動作はします

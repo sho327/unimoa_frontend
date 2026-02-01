@@ -10,76 +10,21 @@ export default function SpaceProjectList({
 }: {
     projects: T_ProjectWithDetail[]
 }) {
-    // const router = useRouter();
-    // const [openMenuId, setOpenMenuId] = useState<string | null>(null);
-    // const menuRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
-
-    // // メニュー外をクリックしたら閉じる
-    // useEffect(() => {
-    //     if (openMenuId && menuRefs.current[openMenuId]) {
-    //         const handleClickOutside = (event: MouseEvent) => {
-    //             if (menuRefs.current[openMenuId] && !menuRefs.current[openMenuId]?.contains(event.target as Node)) {
-    //                 setOpenMenuId(null);
-    //             }
-    //         };
-    //         document.addEventListener("mousedown", handleClickOutside);
-    //         return () => {
-    //             document.removeEventListener("mousedown", handleClickOutside);
-    //         };
-    //     }
-    // }, [openMenuId]);
-
-    // // 本来は activeSpace に基づいて取得するが、モック用に spaces から検索
-    // const currentLocalSpace = spaces.find(s => s.id === activeSpace.id) || spaces[0];
-
-    // // ダミーのプロジェクトリスト（activeSpaceに紐づくものが無い場合のフォールバック）
-    // const displayProjects = (currentLocalSpace && currentLocalSpace.projects && currentLocalSpace.projects.length > 0)
-    //     ? currentLocalSpace.projects
-    //     : [
-    //         {
-    //             id: "p1",
-    //             title: "卒業研究中間発表の準備",
-    //             category: "リサーチ",
-    //             desc: "卒業研究の中間発表に向けて、スライド作成と資料整理を進めています。デザイン面でのサポートも募集中です。",
-    //             tags: ["研究", "プレゼン", "デザイン"],
-    //             tasks: [1, 2, 3]
-    //         },
-    //         {
-    //             id: "p2",
-    //             title: "ゼミ合宿の計画",
-    //             category: "イベント",
-    //             desc: "来月のゼミ合宿の企画・運営を担当します。予算管理や会場手配など、一緒に進めてくれる方を募集しています。",
-    //             tags: ["イベント", "企画", "運営"],
-    //             tasks: [1]
-    //         },
-    //         {
-    //             id: "p3",
-    //             title: "2025年度 工学部学祭 公式サイト制作",
-    //             category: "Web制作",
-    //             desc: "今年の学祭サイトをReact+Next.jsで作り直します。エンジニアだけでなくデザイナーも募集中です！",
-    //             tags: ["React", "Figma", "TypeScript"],
-    //             tasks: []
-    //         },
-    //     ];
-
     return (
         <Stack gap="lg">
             {/* ページヘッダー */}
             <Group justify="space-between" align="flex-end">
                 <Stack gap={4}>
-                    <Group gap="xs">
-                        {/* <LayoutDashboard size={28} color="var(--mantine-color-brand-6)" strokeWidth={2.5} /> */}
-                        <h1
-                            // order={1} // HTML上は<h1>になる
-                            // size="h3" // 見た目のサイズ
-                            // c="dark"  // 色
-                            // fw={800}  // 太さ
-                            // style={{ letterSpacing: rem(-0.5) }}
-                            className="text-xl sm:text-2xl font-black text-neutral tracking-tight"
-                        >
-                            プロジェクト
-                        </h1>
-                    </Group>
+                    <h1
+                        // order={1} // HTML上は<h1>になる
+                        // size="h3" // 見た目のサイズ
+                        // c="dark"  // 色
+                        // fw={800}  // 太さ
+                        // style={{ letterSpacing: rem(-0.5) }}
+                        className="text-xl sm:text-2xl font-black text-neutral tracking-tight"
+                    >
+                        プロジェクト
+                    </h1>
                     <Text
                         size="sm"
                         // c="dimmed"
@@ -95,7 +40,7 @@ export default function SpaceProjectList({
                     // size="md"
                     // radius="md"
                     leftSection={<Plus size={18} strokeWidth={3} />}
-                    className="btn normal-case font-bold transition-all btn-primary text-primary-content border-none shadow-md shadow-primary/10 flex-1 sm:flex-none !h-11 !min-h-11"
+                    className="btn normal-case font-bold transition-all btn-primary text-primary-content border-none shadow-md shadow-primary/10 flex-1 sm:flex-none !h-11 !min-h-11 max-w-[125px]"
                 // onClick={() => router.push(`/spaces/${params.spaceId}/projects/save`)}
                 >
                     新規作成

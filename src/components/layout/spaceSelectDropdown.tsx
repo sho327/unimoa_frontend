@@ -85,7 +85,7 @@ export function SpaceSelectDropdown({
                 <div className={`absolute top-full left-0 mt-2 ${dropdownWidth} bg-white border border-gray-100 rounded-xl shadow-2xl z-[150] overflow-hidden animate-in fade-in zoom-in-95 duration-100`}>
                     {/* ヘッダー */}
                     <div className="px-4 py-3 border-b border-gray-200">
-                        <span className="text-sm font-black text-neutral uppercase tracking-widest">スペースを選択</span>
+                        <span className="text-sm font-black text-neutral uppercase tracking-widest">スペース切替</span>
                     </div>
 
                     <div className="py-1 max-h-80 overflow-y-auto no-scrollbar">
