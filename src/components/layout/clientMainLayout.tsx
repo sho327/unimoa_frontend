@@ -3,6 +3,8 @@
 import Sidebar from "@/components/layout/sidebar";
 import AppHeader from "./appHeader";
 import SearchBar from "./searchBar";
+import { useAppStore } from "@/store";
+import React, { useEffect } from "react";
 // Types
 import { currentUser } from '@/types/repository/common'
 import { T_SpaceRow } from '@/types/supabase/space'
@@ -29,12 +31,25 @@ export default function ClientMainLayout({
     // 変数（Constant）
     // ============================================================================
     const spaces = currentUser?.spaces || []
+    const { mobileMenuOpen } = useAppStore();
+
+    // モバイルメニューが開いている間、ボディのスクロールを禁止
+    useEffect(() => {
+        if (mobileMenuOpen) {
+            document.body.style.overflow = "hidden";
+        } else {
+            document.body.style.overflow = "";
+        }
+        return () => {
+            document.body.style.overflow = "";
+        };
+    }, [mobileMenuOpen]);
 
     // ============================================================================
     // テンプレート（Template）
     // ============================================================================
     return (
-        <div className="h-screen flex flex-col relative">
+        <div className="h-screen flex flex-col relative overflow-hidden">
             <AppHeader
                 activeSpace={activeSpace}
                 spaces={spaces}

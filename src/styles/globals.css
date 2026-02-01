@@ -61,6 +61,11 @@
 body {
   font-family: 'Inter', 'Noto Sans JP', sans-serif;
   background-color: var(--b1);
+  overscroll-behavior-y: none;
+}
+
+.overscroll-contain {
+  overscroll-behavior: contain;
 }
 
 /* Auth specific styles */
