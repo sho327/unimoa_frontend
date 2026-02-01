@@ -188,10 +188,11 @@ export default function Sidebar({
 
             {/* サイドメニュー */}
             <aside
-                className={`bg-white border-r border-gray-200 flex flex-col transition-transform duration-300 ease-in-out z-[120] fixed left-0 top-0 h-full overflow-y-auto overscroll-contain md:relative md:translate-x-0 ${mobileMenuOpen ? "translate-x-0 w-64 pt-16 px-3" : "-translate-x-full w-64 pt-16 px-3"
-                    } ${sidebarExpanded ? "md:w-64 md:translate-x-0 md:pt-0 md:px-3" : "md:w-[72px] md:translate-x-0 md:pt-0 md:px-2 md:items-center"}`}
+                className={`bg-white border-r border-gray-200 flex flex-col transition-transform duration-300 ease-in-out z-[120] fixed left-0 top-0 h-full overflow-y-auto overscroll-contain md:relative md:translate-x-0 
+                    ${mobileMenuOpen ? "translate-x-0 w-64 pt-16 px-3" : "-translate-x-full w-64 pt-16 px-3"} 
+                    ${sidebarExpanded ? "md:w-64 md:translate-x-0 md:pt-0 md:px-3" : "md:w-[72px] md:translate-x-0 md:pt-0 md:px-3 md:items-center"}`}
             >
-                <div className="flex flex-col gap-1 w-full py-6">
+                <div className="flex flex-col gap-1 w-full py-3 md:py-6">
                     <div className="space-y-1 px-1">
                         {/* プロジェクト配下の時だけ：プロジェクト用メニューを表示 */}
                         {isProjectArea && (
@@ -220,7 +221,7 @@ export default function Sidebar({
                                 </Link>
 
                                 {(sidebarExpanded || mobileMenuOpen) && (
-                                    <div className="text-xs font-black text-secondary uppercase tracking-widest px-3 mb-4 md:mb-3">
+                                    <div className="text-xs font-black text-secondary uppercase tracking-widest px-3 mb-4 md:mb-2.5">
                                         プロジェクトメニュー
                                     </div>
                                 )}
@@ -252,7 +253,7 @@ export default function Sidebar({
                         {/* スマホの時だけ：フッター付近にスペース選択を表示 */}
                         {mobileMenuOpen && (
                             <div className="pb-4 mb-4 border-b border-gray-200">
-                                <div className="text-xs font-black text-secondary uppercase tracking-widest px-3 mb-3">
+                                <div className="text-xs font-black text-secondary uppercase tracking-widest px-3 mb-2.5">
                                     スペース切替
                                 </div>
                                 <SpaceSelectDropdown
@@ -268,7 +269,7 @@ export default function Sidebar({
                         {!isProjectArea && (
                             <div>
                                 {(sidebarExpanded || mobileMenuOpen) && (
-                                    <div className="text-xs font-black text-secondary uppercase tracking-widest px-3 mb-3">
+                                    <div className="text-xs font-black text-secondary uppercase tracking-widest px-3 mb-2.5">
                                         スペースメニュー
                                     </div>
                                 )}
@@ -305,9 +306,9 @@ export default function Sidebar({
                 <div className="flex-1"></div>
 
                 {/* スマホの時だけ：フッター付近にスペース選択を表示 */}
-                <div className="py-6 border-t border-gray-200">
+                <div className="border-t border-gray-200 py-3 md:py-6">
                     {(sidebarExpanded || mobileMenuOpen) && (
-                        <div className="text-xs font-black text-secondary uppercase tracking-widest px-3 mb-3">
+                        <div className="text-xs font-black text-secondary uppercase tracking-widest px-3 mb-2.5">
                             グローバルメニュー
                         </div>
                     )}

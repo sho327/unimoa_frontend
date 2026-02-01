@@ -65,7 +65,7 @@ export default function ClientMainLayout({
 
                 <div className="flex-1 flex flex-col min-w-0 bg-transparent overflow-hidden">
                     {/* メインエリアの上部バー (各ページ共通) */}
-                    <div className="bg-white border-b border-gray-100 px-4 py-2 shrink-0 z-[100] flex items-center justify-between min-h-[56px] shadow-sm">
+                    <div className="bg-white border-b border-gray-100 px-4 shrink-0 z-[100] flex items-center justify-between min-h-[54px] shadow-sm">
                         <div className="flex items-center gap-3">
                             <div className="flex flex-col min-w-0 min-h-[40px] justify-center px-1">
                                 <span className="text-primary text-[12px] font-black uppercase tracking-widest leading-none mb-1">

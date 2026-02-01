@@ -27,7 +27,7 @@ export default function AppHeader({
     } = useAppStore();
 
     return (
-        <header className="bg-white border-b border-gray-100 h-16 px-5 shrink-0 z-[150] flex items-center justify-between relative">
+        <header className="bg-white border-b border-gray-100 h-[60px] px-5 shrink-0 z-[150] flex items-center justify-between relative">
             <div className="flex items-center gap-2 flex-1">
                 {/* サイドバートグルボタン */}
                 <button
