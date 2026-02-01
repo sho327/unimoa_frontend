@@ -92,6 +92,7 @@ export default function Login() {
                 // トランジション発火（ページ遷移）
                 startTransition(() => {
                     router.push(pageRoutes.SPACES.DEFAULT.DASHBOARD(result.spaceId))
+                    setGlobalLoading(false)
                 })
             } catch (e) {
                 // エラー処理

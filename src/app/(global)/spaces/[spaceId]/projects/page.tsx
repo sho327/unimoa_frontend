@@ -1,7 +1,7 @@
 // Modules
 import { redirect } from 'next/navigation'
 // Components
-import SpaceProjects from "@/components/page/spaces/default/projects";
+import SpaceProjectList from "@/components/page/global/space/project/list";
 // Libs/ServerUtils
 import { supabaseServerAdmin } from '@/lib/supabase/serverAdmin'
 // Repository
@@ -20,6 +20,7 @@ export default async function SpaceProjectsPage({
   // ----------------------------------------------------
   // 1. URLパラメータの取得
   // ----------------------------------------------------
+  // layoutで検証済のSpaceId
   const { spaceId: activeSpaceId } = await params;
   // ----------------------------------------------------
   // 2. セッションより認証済ユーザ情報の取得
@@ -32,14 +33,18 @@ export default async function SpaceProjectsPage({
     redirect(pageRoutes.AUTH.LOGIN)
   }
   // ----------------------------------------------------
-  // 3. 自身が所属するプロジェクト一覧を取得
+  // 3. 自身(かつ ログイン中スペース)が所属するプロジェクト一覧を取得
   // ----------------------------------------------------
   const adminClient = await supabaseServerAdmin()
-  const projects = await projectRepository.listJoinedByProfileId(adminClient, sessionUser.id)
-  console.log(projects)
+  const projects = await projectRepository.listJoinedByProfileId(adminClient, sessionUser.id, activeSpaceId)
+
+  // [DEBUG]
+  // console.log(projects)
+  // console.log(projects[0].memberships)
+  // console.log(projects[0].tags)
+
   // ============================================================================
   // テンプレート（Template）
   // ============================================================================
-  // return <SpaceProjects projects={projects} />;
-  return <p>test</p>
+  return <SpaceProjectList projects={projects} />;
 } 

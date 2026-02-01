@@ -4,7 +4,7 @@ import React, { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { Bell, Trophy, Megaphone, CheckCircle, FolderOpen, MoreHorizontal } from "lucide-react";
 import { useClickOutside } from "@/hooks/useClickOutside";
-import { formatTimestamp } from "@/utils/formatTimestamp";
+import { formatTimestamp } from "@/utils/date";
 import { pageRoutes } from "@/components/constants";
 
 export type Notification = {

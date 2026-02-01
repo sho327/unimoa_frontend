@@ -2,8 +2,13 @@ import type React from "react"
 import type { Metadata } from "next"
 import { Inter, Noto_Sans_JP } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
-import "@/styles/globals.css"
 import LoadingOverlay from "@/components/layout/loadingOverlay"
+// --- MantineUI設定 ---
+import { MantineProviderWrap } from "@/components/providers/mantineProvider"
+import '@mantine/core/styles.css'
+import '@mantine/dates/styles.css'
+// --- MantineUI設定 ---
+import "@/styles/globals.css"
 
 const inter = Inter({ subsets: ["latin"], weight: ["400", "700", "900"] })
 const notoSansJP = Noto_Sans_JP({ subsets: ["latin"], weight: ["400", "700", "900"] })
@@ -46,7 +51,11 @@ export default function RootLayout({
   return (
     <html lang="ja" data-theme="unimoa_light">
       <body className={`${inter.className} ${notoSansJP.className} antialiased`}>
-        {children}
+        {/* --- MantineUI設定 --- */}
+        <MantineProviderWrap>
+          {children}
+        </MantineProviderWrap>
+        {/* --- MantineUI設定 --- */}
         <LoadingOverlay />
         <Analytics />
       </body>

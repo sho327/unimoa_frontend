@@ -1,10 +1,15 @@
-"use client";
-
-import React, { useState, useRef } from "react";
-import Link from "next/link";
-import { User, Settings, LogOut } from "lucide-react";
-import { useClickOutside } from "@/hooks/useClickOutside";
-import { useMobile } from "@/hooks/useMobile";
+"use client"
+import React, { useState, useRef } from "react"
+import Link from "next/link"
+import { User, Settings, LogOut } from "lucide-react"
+import { useRouter } from "next/navigation";
+// Components
+import { supabaseClient } from "@/lib/supabase/client"
+// Constants
+import { pageRoutes } from "@/components/constants";
+// Hooks
+import { useMobile } from "@/hooks/useMobile"
+import { useClickOutside } from "@/hooks/useClickOutside"
 
 interface UserMenuDropdownProps {
     displayUserName: string;
@@ -20,14 +25,21 @@ export function UserMenuDropdown({
     displayUserName,
     userIconSrc,
 }: UserMenuDropdownProps) {
+    const router = useRouter()
     const isMobile = useMobile();
     const [isOpen, setIsOpen] = useState(false);
     const containerRef = useRef<HTMLDivElement>(null);
 
     useClickOutside(containerRef, () => setIsOpen(false), isOpen);
 
-    const onClickLogout = () => {
-        console.log("Logout clicked");
+    const onClickLogout = async () => {
+        // === Supabase Auth ログアウト ===
+        const { error } = await supabaseClient.auth.signOut()
+        if (error) {
+            console.error('Supabase sign out failed:', error)
+            // 失敗しても、Cookieクリアとリダイレクトは続行し、セキュリティを優先
+        }
+        router.push(pageRoutes.AUTH.LOGIN)
         setIsOpen(false);
     };
 

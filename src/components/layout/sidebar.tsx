@@ -234,7 +234,7 @@ export default function Sidebar({
                                 <div>
                                     {(sidebarExpanded || mobileMenuOpen) && (
                                         <div className="text-xs font-black text-secondary uppercase tracking-widest px-3 mb-4 md:mb-3">
-                                            メニュー
+                                            スペースメニュー
                                         </div>
                                     )}
 
