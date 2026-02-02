@@ -22,6 +22,7 @@ import Link from 'next/link';
 import { useRouter, useParams } from 'next/navigation';
 
 export default function SpaceProjectSave({
+    spaceId
 }: {
     }) {
     const router = useRouter();
